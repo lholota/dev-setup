@@ -1,0 +1,10 @@
+---
+all:
+  children:
+    wsl:
+      hosts:
+        # The localhost is registered as two different "hosts" because each needs a different type of connection
+        localhost-wsl
+    win:
+      hosts:
+        localhost-win

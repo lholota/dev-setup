@@ -1,0 +1,15 @@
+- Create a Powershell script to enable Windows Remoting
+- Add Windows packages
+- Test whole scenario on an Azure VM capable of nested virtualization (i.e. with enabled HyperV)
+- Desired goal
+    - Single init powershell script to run on Windows:
+        - Enable WSL2
+        - Download Ubuntu 20.04 LTS
+        - Create a WSL2 distro - interactively ask for user password (if required)
+        - Enable Windows Remoting
+    - Single init bash script
+        - Add ansible ppa repo
+        - Install ansible
+    - Single Ansible playbook (Windows and WSL registered as separate hosts and hence can each be a separate play in the same playbook)
+        - Run Windows stuff
+        - Run WSL2 stuff

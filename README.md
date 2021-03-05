@@ -1,1 +1,28 @@
-# dev-setup
+# Automated development workstation set up
+
+To avoid the hassle of re-installing all apps manually, I decided to maintain the development workstation set up using Ansible. Feel free to reuse :)
+
+The general idea is to install as many packages as possible with Chocolatey which allows easy updates. The Windows should only keep UI applications and utilities required for daily routines. With the release of WSL2, most non-interactive tools I use are in a Ubuntu 20.x based WSL2 distro.
+
+## Set up guide
+> Note: this repository assumes you are running Windows 10 1903 or later running on x64 architecture.
+
+1. Prepare Windows using the `Init-Windows.ps1` Powershell script. Run the script with admin privileges, computer restart may be required. The script:
+    - Enables Hyper-V
+    - Enables WSL
+    - Downloads and creates an Ubuntu 20.04 LTS distro
+    - Enables Windows Remoting (so that Ansible playbook used in subsequent steps can talk to Windows host)
+1. Prepare WSL distribution using the `Init-Ubuntu.sh` bash script. Run the script with sudo privileges. The script:
+    - Adds Ansible repository
+    - Installs latest version of Ansible
+1. Apply the Windows playbook using `ansible-playbook -i inventory.yml -u <username> -k setup-win.yml`
+    - Replace `<username>` for your Windows username. If it's a domain account, enter it in `user@domain` format.
+    - If you get error that ntlm credentials are not allowed, you need to use different authentication technology. Check [Ansible docs](https://docs.ansible.com/ansible/latest/user_guide/windows_winrm.html) for other options.
+1. Apply the Linux playbook using `ansible-playbook -i inventory.yml setup-wsl.yml`
+
+## Development
+
+Changes should be testing using an Azure VM which supports nested virtualization with Windows 10 Pro/Enterprise:
+- Provision VM
+- Copy repo/developed branch (e.g. download as zip from GitHub)
+- Follow the guide above
