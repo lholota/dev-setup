@@ -19,3 +19,8 @@
     regex: '(^enable-ssh-support)'
     line: 'enable-ssh-support'
     newline: windows
+
+- name: Configure gpg-agent to start on Windows startup
+  community.windows.win_shortcut:
+    src: '"C:\Program Files (x86)\GnuPG\bin\gpg-connect-agent.exe" /bye'
+    dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
