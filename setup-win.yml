@@ -1,5 +1,4 @@
 - name: "Configure Windows host"
   hosts: win
   tasks:
-  - name: Run an executable using win_command
-    win_command: cmd /c "mkdir C:\dummy"
+  - import_tasks: "./windows/packages.yml"
