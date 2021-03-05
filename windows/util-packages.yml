@@ -1,0 +1,8 @@
+- name: Install Foxit PDF Reader
+  win_chocolatey:
+    name: foxitreader
+    state: present
+
+# WinMerge
+# Notepad++
+# etc.

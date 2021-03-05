@@ -1,0 +1,4 @@
+- name: Install GPG4Win
+  win_chocolatey:
+    name: gpg4win
+    state: present

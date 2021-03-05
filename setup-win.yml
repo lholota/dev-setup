@@ -1,7 +1,15 @@
 - name: "Configure Windows host"
   hosts: win
   tasks:
-  - name: "Install Development tools"
-    import_tasks: "./windows/dev-packages.yml"
+  # - name: "Install basic utilities"
+  #   import_tasks: "./windows/util-packages.yml"
+
+  # - name: "Install Development tools"
+  #   import_tasks: "./windows/dev-packages.yml"
+  #   tags:
+  #   - dev
+
+  - name: "Install GPG packages"
+    import_tasks: "./windows/gpg-packages.yml"
     tags:
-    - dev
+    - yubikey
