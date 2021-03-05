@@ -10,6 +10,6 @@
   #   - dev
 
   - name: "Install GPG packages"
-    import_tasks: "./windows/gpg-packages.yml"
+    import_tasks: "./windows/yubikey.yml"
     tags:
     - yubikey
