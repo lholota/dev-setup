@@ -1,0 +1,14 @@
+- name: Install git
+  win_chocolatey:
+    name: git
+    state: present
+
+- name: Install VS Code
+  win_chocolatey:
+    name: vscode
+    state: present
+
+- name: Install GitKraken
+  win_chocolatey:
+    name: gitkraken
+    state: present
