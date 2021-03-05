@@ -26,3 +26,6 @@ Changes should be testing using an Azure VM which supports nested virtualization
 - Provision VM
 - Copy repo/developed branch (e.g. download as zip from GitHub)
 - Follow the guide above
+
+### Testing YubiKey set up
+To pass access to YubiKey to remote machine, don't forget to add passthrough to Plug'n'Play devices (the checkbox devices I plug in later) when connecting via RDP.

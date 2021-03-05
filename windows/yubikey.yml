@@ -1,0 +1,21 @@
+- name: Install GPG4Win
+  win_chocolatey:
+    name: gpg4win
+    version: 3.1.14
+    state: present
+
+- name: Enable Putty support
+  win_lineinfile:
+    path: '%APPDATA%\gnupg\gpg-agent.conf'
+    create: yes
+    regex: '(^enable-putty-support)'
+    line: 'enable-putty-support'
+    newline: windows
+
+- name: Enable SSH support
+  win_lineinfile:
+    path: '%APPDATA%\gnupg\gpg-agent.conf'
+    create: yes
+    regex: '(^enable-ssh-support)'
+    line: 'enable-ssh-support'
+    newline: windows

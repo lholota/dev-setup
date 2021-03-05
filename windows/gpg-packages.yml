@@ -1,5 +1,0 @@
-- name: Install GPG4Win
-  win_chocolatey:
-    name: gpg4win
-    version: 3.1.14
-    state: present
