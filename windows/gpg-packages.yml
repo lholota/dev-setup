@@ -1,5 +1,5 @@
 - name: Install GPG4Win
   win_chocolatey:
     name: gpg4win
-    state: absent
-    # version: 3.1.14
+    version: 3.1.14
+    state: present
