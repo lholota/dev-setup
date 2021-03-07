@@ -1,3 +1,6 @@
+######################
+### GPG4Win
+######################
 - name: Install GPG4Win
   win_chocolatey:
     name: gpg4win
@@ -25,3 +28,39 @@
     src: 'C:\Program Files (x86)\GnuPG\bin\gpg-connect-agent.exe'
     arguments: '/bye'
     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
+    windowstyle: minimized
+
+# TODO: Start immediately (?)
+
+######################
+### npiperelay
+######################
+- name: Create npiperelay directory
+  win_file:
+    path: "%PROGRAMFILES(X86)%\\npiperelay"
+    state: directory
+
+- name: Download executable
+  win_get_url:
+    url: https://github.com/NZSmartie/npiperelay/releases/download/v0.1/npiperelay.exe
+    dest: "%PROGRAMFILES(X86)%\\npiperelay\\npiperelay.exe"
+
+######################
+### WSL SSH pageant
+######################
+- name: Create wsl-ssh-pageant directory
+  win_file:
+    path: "%PROGRAMFILES(X86)%\\wsl-ssh-pageant"
+    state: directory
+
+- name: Download executable
+  win_get_url:
+    url: https://github.com/benpye/wsl-ssh-pageant/releases/download/20201121.2/wsl-ssh-pageant-amd64.exe
+    dest: "%PROGRAMFILES(X86)%\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe"
+
+- name: Configure wsl-ssh-pageant to start on Windows startup
+  win_shortcut:
+    src: "powershell" # TBA
+    arguments: "Start-Process -NoNewWindow $env:PROGRAMFILES(X86)\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe --winssh ssh-pageant"
+    dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
+    windowstyle: minimized
