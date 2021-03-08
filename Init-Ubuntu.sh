@@ -9,11 +9,10 @@ fi
 echo "Updating apt..."
 apt update
 
-echo "Installing deps to add Ansible ppa..."
-apt install -y software-properties-common
+echo "Installing pip..."
+apt install -y python3-pip
 
-echo "Adding Ansible ppa"
-apt-add-repository --yes --update ppa:ansible/ansible
+echo "Installing Ansible via pip..."
+python -m pip install ansible
 
-echo "Installing ansible"
-apt install -y ansible
+echo "Done :)"
