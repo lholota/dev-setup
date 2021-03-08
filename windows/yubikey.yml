@@ -31,7 +31,7 @@
     windowstyle: minimized
 
 - name: Start gpg-agent
-  win_shell: '"%PROGRAMFILES(X86)%\GnuPG\bin\gpg-connect-agent.exe" /bye'
+  win_shell: '"C:\Program files (x86)\GnuPG\bin\gpg-connect-agent.exe" /bye'
   args:
     executable: cmd
 
