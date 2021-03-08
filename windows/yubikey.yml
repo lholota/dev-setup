@@ -31,7 +31,9 @@
     windowstyle: minimized
 
 - name: Start gpg-agent
-  win_command: cmd /c \"%PROGRAMFILES(X86)%\GnuPG\bin\gpg-connect-agent.exe\" /bye
+  win_command: .\gpg-connect-agent.exe /bye
+  args:
+    chdir: "%PROGRAMFILES(X86)%\\GnuPG\\bin"
 
 ######################
 ### npiperelay
