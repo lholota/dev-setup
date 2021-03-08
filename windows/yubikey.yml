@@ -28,7 +28,7 @@
     name: gpg-agent
     display_name: GPG Agent (GPG4Win)
     path: '"C:\Program Files (x86)\\GnuPG\\bin\\gpg-agent.exe" --enable-putty-support --enable-ssh-support --no-detach --server'
-    start_mode: automatic
+    start_mode: auto
     state: started
 
 # - name: Configure gpg-agent to start on Windows startup
