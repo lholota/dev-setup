@@ -31,7 +31,7 @@
     windowstyle: minimized
 
 - name: Start gpg-agent
-  win_command: cmd /c \"%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk\"
+  win_command: cmd /c \"START %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk\"
 
 ######################
 ### npiperelay
