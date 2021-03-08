@@ -30,7 +30,8 @@
     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
     windowstyle: minimized
 
-# TODO: Start immediately (?)
+- name: Start gpg-agent
+  win_command: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
 
 ######################
 ### npiperelay
@@ -64,3 +65,6 @@
     arguments: "-c \"Start-Process -NoNewWindow \\\"${Env:ProgramFiles(x86)}\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe\\\" \\\"--winssh ssh-pageant\\\""
     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
     windowstyle: minimized
+
+- name: Start wsl-ssh-pageant
+  win_command: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
