@@ -1,9 +1,7 @@
 - name: "Configure WSL Linux distro"
   hosts: wsl
   tasks:
-  - name: Creating a file with content
-    copy:
-      dest: "/tmp/some-file"
-      content: |
-        line 01
-        line 02
+  - name: "Configure Yubikey passthrough to WSL"
+    import_tasks: "./wsl/yubikey.yml"
+    tags:
+    - yubikey

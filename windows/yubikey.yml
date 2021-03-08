@@ -58,9 +58,9 @@
     url: https://github.com/benpye/wsl-ssh-pageant/releases/download/20201121.2/wsl-ssh-pageant-amd64.exe
     dest: "%PROGRAMFILES(X86)%\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe"
 
-- name: Configure wsl-ssh-pageant to start on Windows startup
-  win_shortcut:
-    src: "powershell" # TBA
-    arguments: "Start-Process -NoNewWindow $env:PROGRAMFILES(X86)\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe --winssh ssh-pageant"
-    dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
-    windowstyle: minimized
+# - name: Configure wsl-ssh-pageant to start on Windows startup
+#   win_shortcut:
+#     src: "powershell" # TBA
+#     arguments: "Start-Process -NoNewWindow $env:PROGRAMFILES(X86)\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe --winssh ssh-pageant"
+#     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
+#     windowstyle: minimized
