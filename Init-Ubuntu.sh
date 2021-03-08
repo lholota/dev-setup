@@ -16,3 +16,4 @@ echo "Installing Ansible via pip..."
 python3 -m pip install ansible
 
 echo "Done :)"
+echo "Please don't forget to re-open shell to allow the change of PATH variable to take effect (otherwise ansible will not be in PATH)"

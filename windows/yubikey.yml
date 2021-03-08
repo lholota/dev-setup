@@ -32,7 +32,7 @@
   community.windows.win_nssm:
     name: gpg-agent
     display_name: GPG Agent (GPG4Win)
-    application: "C:\Program Files (x86)\\GnuPG\\bin\\gpg-agent.exe"
+    application: "C:\\Program Files (x86)\\GnuPG\\bin\\gpg-agent.exe"
     start_mode: auto
     state: started
     arguments:
