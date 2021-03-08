@@ -28,7 +28,7 @@
     name: nssm
     state: present
 
-- name: Create GPG Agent service
+- name: "Create GPG Agent service"
   community.windows.win_nssm:
     name: gpg-agent
     display_name: GPG Agent (GPG4Win)

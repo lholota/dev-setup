@@ -1,3 +1,4 @@
 ---
 collections:
-- community.windows
+- name: community.windows
+  source: https://galaxy.ansible.com
