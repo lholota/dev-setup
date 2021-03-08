@@ -61,6 +61,6 @@
 - name: Configure wsl-ssh-pageant to start on Windows startup
   win_shortcut:
     src: "powershell"
-    arguments: "-c Start-Process -NoNewWindow \"${Env:ProgramFiles(x86)}\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe\" \"--winssh ssh-pageant\""
+    arguments: "-c \"Start-Process -NoNewWindow \\\"${Env:ProgramFiles(x86)}\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe\\\" \\\"--winssh ssh-pageant\\\""
     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
     windowstyle: minimized
