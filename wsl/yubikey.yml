@@ -4,17 +4,26 @@
     name: socat
     state: present
 
-- name: Configure WSL2 SSH bridge
-  blockinfile:
-    path: ~/.profile
-    block: |
-      SOCAT_SSH_PID_FILE=$HOME/.misc/socat-ssh.pid
+- name: Create the ~/.local/bin/ directory
+  file:
+    path: ~/.local/bin
+    mode: 700
+    state: directory
 
-      if [[ -f $SOCAT_SSH_PID_FILE ]] && kill -0 $(cat $SOCAT_SSH_PID_FILE); then
-        : # already running
-      else
-          rm -f "$HOME/.gnupg/S.gpg-agent"
-          (trap "rm $SOCAT_SSH_PID_FILE" EXIT; socat UNIX-LISTEN:"$HOME/.misc/wsl2-ssh-agent.sock,fork,unlink-close,unlink-early" EXEC:"/mnt/c/Program files (x86)/npiperelay/npiperelay.exe /\/\./\pipe/\ssh-pageant",nofork </dev/null &>/dev/null) &
-          echo $! >$SOCAT_SSH_PID_FILE
-      fi
-      export SSH_AUTH_SOCK=$HOME/.misc/wsl2-ssh-agent.sock
+- name: Create GPG relay agent script
+  copy:
+    dest: ~/.local/bin/gpg-relay-agent
+    mode: 100
+    content: "{{ lookup('file', 'gpg-relay-agent.sh') }}"
+
+- name: Update ~/.bashrc - start relay agent
+  lineinfile:
+    path: ~/.bashrc
+    line: "$HOME/.local/bin/gpg-agent-relay start"
+    insertbefore: '^export SSH_AUTH_SOCK'
+
+- name: Update ~/.bashrc - ssh authentication socket
+  lineinfile:
+    path: ~/.bashrc
+    line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
+    insertafter: '^\$HOME/.local/bin/gpg-agent-relay'
