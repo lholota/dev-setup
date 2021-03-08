@@ -13,6 +13,6 @@ echo "Installing pip..."
 apt install -y python3-pip
 
 echo "Installing Ansible via pip..."
-python -m pip install ansible
+python3 -m pip install ansible
 
 echo "Done :)"
