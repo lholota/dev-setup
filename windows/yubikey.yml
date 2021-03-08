@@ -31,7 +31,7 @@
     windowstyle: minimized
 
 - name: Start GPG Agent
-  raw: "Start-Process -FilePath \"C:\\Program Files (x86)\\GnuPG\\bin\\gpg-connect-agent.exe\" -ArgumentList \"/bye\""
+  win_command: "Start-Process -FilePath \"C:\\Program Files (x86)\\GnuPG\\bin\\gpg-connect-agent.exe\" -ArgumentList \"/bye\""
   async: 10
   poll: 0
   args:
