@@ -35,6 +35,9 @@
 #   args:
 #     executable: cmd
 
+- name: Who am i
+  win_shell: whoami
+
 - name: Start gpg-agent
   win_shell: 'gpg-connect-agent.exe /bye'
   args:
