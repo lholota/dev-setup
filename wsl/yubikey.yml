@@ -1,0 +1,14 @@
+- name: Configure WSL2 SSH bridge
+  blockinfile:
+    path: ~/.profile
+    block: |
+      SOCAT_SSH_PID_FILE=$HOME/.misc/socat-ssh.pid
+
+      if [[ -f $SOCAT_SSH_PID_FILE ]] && kill -0 $(cat $SOCAT_SSH_PID_FILE); then
+        : # already running
+      else
+          rm -f "$HOME/.gnupg/S.gpg-agent"
+          (trap "rm $SOCAT_SSH_PID_FILE" EXIT; socat UNIX-LISTEN:"$HOME/.misc/wsl2-ssh-agent.sock,fork,unlink-close,unlink-early" EXEC:"/mnt/c/Program files (x86)/npiperelay/npiperelay.exe /\/\./\pipe/\ssh-pageant",nofork </dev/null &>/dev/null) &
+          echo $! >$SOCAT_SSH_PID_FILE
+      fi
+      export SSH_AUTH_SOCK=$HOME/.misc/wsl2-ssh-agent.sock
