@@ -30,21 +30,15 @@
     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
     windowstyle: minimized
 
-# - name: Start gpg-agent
-#   win_shell: '"%PROGRAMFILES(X86)%\GnuPG\bin\gpg-connect-agent.exe" /bye'
-#   args:
-#     executable: cmd
-
-- name: Check my user name
-  win_whoami:
-  become: yes
-
 - name: Start gpg-agent
-  become: yes
-  win_shell: 'gpg-connect-agent.exe /bye'
-  args:
-    chdir: "%PROGRAMFILES(X86)%\\GnuPG\\bin"
-    executable: cmd
+  win_command: gpgconf --launch gpg-agent
+
+# - name: Start gpg-agent
+#   # become: yes
+#   win_shell: 'gpg-connect-agent.exe /bye'
+#   args:
+#     chdir: "%PROGRAMFILES(X86)%\\GnuPG\\bin"
+#     executable: cmd
 
 # ######################
 # ### npiperelay
