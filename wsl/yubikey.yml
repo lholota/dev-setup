@@ -1,3 +1,9 @@
+---
+- name: Install socat
+  package:
+    name: socat
+    state: present
+
 - name: Configure WSL2 SSH bridge
   blockinfile:
     path: ~/.profile
