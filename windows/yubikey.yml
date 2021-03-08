@@ -24,7 +24,7 @@
     newline: windows
 
 - name: Start GPG Agent
-  raw: "powershell /c 'Start-Process -FilePath \"C:\\Program Files (x86)\\GnuPG\\bin\\gpg-connect-agent.exe\" -ArgumentList \"/bye\"'"
+  win_command: "powershell /c 'Start-Process -FilePath \"C:\\Program Files (x86)\\GnuPG\\bin\\gpg-connect-agent.exe\" -ArgumentList \"/bye\"'"
 
 # - name: Install NSSM
 #   win_chocolatey:
