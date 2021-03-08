@@ -24,7 +24,7 @@
     newline: windows
 
 - name: Start GPG Agent
-  win_command: "powershell -c \"Start-Process -NoNewWindow gpgconf --launch gpg-agent"
+  win_command: "powershell -c \"Start-Process -NoNewWindow gpgconf --launch gpg-agent\""
 
 
 # - name: Create GPG Agent service
