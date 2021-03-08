@@ -23,23 +23,26 @@
     line: 'enable-ssh-support'
     newline: windows
 
-- name: Install NSSM
-  win_chocolatey:
-    name: nssm
-    state: present
+- name: Start GPG Agent
+  win_shell: "Start-Process -FilePath \"C:\\Program Files (x86)\\GnuPG\\bin\\gpg-connect-agent.exe\" -ArgumentList \"/bye\""
 
-- name: "Create GPG Agent service"
-  community.windows.win_nssm:
-    name: gpg-agent
-    display_name: GPG Agent (GPG4Win)
-    application: "C:\\Program Files (x86)\\GnuPG\\bin\\gpg-agent.exe"
-    start_mode: auto
-    state: started
-    arguments:
-      - "--enable-putty-support"
-      - "--enable-ssh-support"
-      - "--no-detach"
-      - "--server"
+# - name: Install NSSM
+#   win_chocolatey:
+#     name: nssm
+#     state: present
+
+# - name: "Create GPG Agent service"
+#   community.windows.win_nssm:
+#     name: gpg-agent
+#     display_name: GPG Agent (GPG4Win)
+#     application: "C:\\Program Files (x86)\\GnuPG\\bin\\gpg-agent.exe"
+#     start_mode: auto
+#     state: started
+#     arguments:
+#       - "--enable-putty-support"
+#       - "--enable-ssh-support"
+#       - "--no-detach"
+#       - "--server"
 
 # - name: Start GPG Agent
 #   win_command: "powershell -c \"Start-Process -NoNewWindow -FilePath gpgconf -ArgumentList '--launch gpg-agent'\""
