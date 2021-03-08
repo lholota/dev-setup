@@ -31,7 +31,7 @@
     windowstyle: minimized
 
 - name: Start gpg-agent
-  win_command: gpgconf --launch gpg-agent
+  win_shell: gpgconf --launch gpg-agent
 
 # - name: Start gpg-agent
 #   # become: yes
