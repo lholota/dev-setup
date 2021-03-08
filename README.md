@@ -7,7 +7,7 @@ The general idea is to install as many packages as possible with Chocolatey whic
 ## Set up guide
 > Note: this repository assumes you are running Windows 10 1903 or later running on x64 architecture.
 
-1. Prepare Windows using the `Init-Windows.ps1` Powershell script. Run the script with admin privileges, computer restart may be required. The script:
+1. Prepare Windows using the `Set-ExecutionPolicy Bypass -Scope Process; .\Init-Windows.ps1` Powershell command. Run the script with admin privileges. Some of the features require computer restart, keep rerunning the script after each restart until you see a message saying the script is finished. The script:
     - Enables Hyper-V
     - Enables WSL
     - Downloads and creates an Ubuntu 20.04 LTS distro
