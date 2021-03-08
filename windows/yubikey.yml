@@ -56,11 +56,11 @@
 - name: Download wsl-ssh-pageant executable
   win_get_url: # Gui version is used because at time of writing the playbook, the non-gui version was falsely detected as virus by win defender
     url: https://github.com/benpye/wsl-ssh-pageant/releases/download/20201121.2/wsl-ssh-pageant-amd64-gui.exe
-    dest: "%PROGRAMFILES(X86)%\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe"
+    dest: "%PROGRAMFILES(X86)%\\wsl-ssh-pageant\\wsl-ssh-pageant.exe"
 
 - name: Configure wsl-ssh-pageant to start on Windows startup
   win_shortcut:
     src: "powershell"
-    arguments: "Start-Process -NoNewWindow $env:PROGRAMFILES(X86)\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe --winssh ssh-pageant"
+    arguments: "Start-Process -NoNewWindow \"${Env:ProgramFiles(x86)}\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe\" \"--winssh ssh-pageant\""
     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
     windowstyle: minimized
