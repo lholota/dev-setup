@@ -31,7 +31,7 @@
     windowstyle: minimized
 
 - name: Start gpg-agent
-  win_command: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
+  win_command: cmd /c '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
 
 ######################
 ### npiperelay
@@ -67,4 +67,4 @@
     windowstyle: minimized
 
 - name: Start wsl-ssh-pageant
-  win_command: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
+  win_command: cmd /c '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
