@@ -1,4 +1,5 @@
 ansible_host: "{{ lookup('file', '/etc/resolv.conf').split() | last }}"
+ansible_become_method: runas
 ansible_connection: winrm
 ansible_winrm_transport: ntlm
 
