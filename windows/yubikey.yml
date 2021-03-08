@@ -23,8 +23,17 @@
     line: 'enable-ssh-support'
     newline: windows
 
+- name: Configure gpg-agent to start on Windows startup
+  win_shortcut:
+    src: '%PROGRAMFILES(X86)%\GnuPG\bin\gpg-connect-agent.exe'
+    arguments: '/bye'
+    dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
+    windowstyle: minimized
+
 - name: Start GPG Agent
   raw: "Start-Process -FilePath \"C:\\Program Files (x86)\\GnuPG\\bin\\gpg-connect-agent.exe\" -ArgumentList \"/bye\""
+  async: 10
+  poll: 0
   args:
     executable: powershell
 
@@ -58,12 +67,7 @@
 #     start_mode: auto
 #     state: started
 
-# - name: Configure gpg-agent to start on Windows startup
-#   win_shortcut:
-#     src: '%PROGRAMFILES(X86)%\GnuPG\bin\gpg-connect-agent.exe'
-#     arguments: '/bye'
-#     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
-#     windowstyle: minimized
+
 
 # - name: Start gpg-agent
 #   win_shell: gpgconf --launch gpg-agent
