@@ -13,7 +13,7 @@
 - name: Create GPG relay agent script
   copy:
     dest: ~/.local/bin/gpg-relay-agent
-    mode: 0100
+    mode: 0500
     content: "{{ lookup('file', 'gpg-relay-agent.sh') }}"
 
 - name: Update ~/.bashrc - start relay agent
