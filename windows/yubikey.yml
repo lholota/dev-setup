@@ -7,6 +7,11 @@
     version: 3.1.14
     state: present
 
+- name: Create gnupg directory if it doesn't exist
+  win_file:
+    path: '%APPDATA%\gnupg'
+    state: directory
+
 - name: Enable Putty support
   win_lineinfile:
     path: '%APPDATA%\gnupg\gpg-agent.conf'
