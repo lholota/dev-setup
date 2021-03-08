@@ -30,87 +30,35 @@
     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
     windowstyle: minimized
 
-- name: Start GPG Agent
-  win_command: powershell
-  args:
-    stdin: "Start-Process -FilePath \"C:\\Program Files (x86)\\GnuPG\\bin\\gpg-connect-agent.exe\" -ArgumentList \"/bye\""
-  async: 10
-  poll: 0
+######################
+### npiperelay
+######################
+- name: Create npiperelay directory
+  win_file:
+    path: "%PROGRAMFILES(X86)%\\npiperelay"
+    state: directory
 
-# - name: Install NSSM
-#   win_chocolatey:
-#     name: nssm
-#     state: present
+- name: Download npiperelay executable
+  win_get_url:
+    url: https://github.com/NZSmartie/npiperelay/releases/download/v0.1/npiperelay.exe
+    dest: "%PROGRAMFILES(X86)%\\npiperelay\\npiperelay.exe"
 
-# - name: "Create GPG Agent service"
-#   community.windows.win_nssm:
-#     name: gpg-agent
-#     display_name: GPG Agent (GPG4Win)
-#     application: "C:\\Program Files (x86)\\GnuPG\\bin\\gpg-agent.exe"
-#     start_mode: auto
-#     state: started
-#     arguments:
-#       - "--enable-putty-support"
-#       - "--enable-ssh-support"
-#       - "--no-detach"
-#       - "--server"
+######################
+### WSL SSH pageant
+######################
+- name: Create wsl-ssh-pageant directory
+  win_file:
+    path: "%PROGRAMFILES(X86)%\\wsl-ssh-pageant"
+    state: directory
 
-# - name: Start GPG Agent
-#   win_command: "powershell -c \"Start-Process -NoNewWindow -FilePath gpgconf -ArgumentList '--launch gpg-agent'\""
+- name: Download wsl-ssh-pageant executable
+  win_get_url: # Gui version is used because at time of writing the playbook, the non-gui version was falsely detected as virus by win defender
+    url: https://github.com/benpye/wsl-ssh-pageant/releases/download/20201121.2/wsl-ssh-pageant-amd64-gui.exe
+    dest: "%PROGRAMFILES(X86)%\\wsl-ssh-pageant\\wsl-ssh-pageant.exe"
 
-
-# - name: Create GPG Agent service
-#   win_service:
-#     name: gpg-agent
-#     display_name: GPG Agent (GPG4Win)
-#     path: 'sc . "C:\Program Files (x86)\\GnuPG\\bin\\gpg-agent.exe" --enable-putty-support --enable-ssh-support --no-detach --server'
-#     start_mode: auto
-#     state: started
-
-
-
-# - name: Start gpg-agent
-#   win_shell: gpgconf --launch gpg-agent
-
-# - name: Start gpg-agent
-#   # become: yes
-#   win_shell: 'gpg-connect-agent.exe /bye'
-#   args:
-#     chdir: "%PROGRAMFILES(X86)%\\GnuPG\\bin"
-#     executable: cmd
-
-# ######################
-# ### npiperelay
-# ######################
-# - name: Create npiperelay directory
-#   win_file:
-#     path: "%PROGRAMFILES(X86)%\\npiperelay"
-#     state: directory
-
-# - name: Download npiperelay executable
-#   win_get_url:
-#     url: https://github.com/NZSmartie/npiperelay/releases/download/v0.1/npiperelay.exe
-#     dest: "%PROGRAMFILES(X86)%\\npiperelay\\npiperelay.exe"
-
-# ######################
-# ### WSL SSH pageant
-# ######################
-# - name: Create wsl-ssh-pageant directory
-#   win_file:
-#     path: "%PROGRAMFILES(X86)%\\wsl-ssh-pageant"
-#     state: directory
-
-# - name: Download wsl-ssh-pageant executable
-#   win_get_url: # Gui version is used because at time of writing the playbook, the non-gui version was falsely detected as virus by win defender
-#     url: https://github.com/benpye/wsl-ssh-pageant/releases/download/20201121.2/wsl-ssh-pageant-amd64-gui.exe
-#     dest: "%PROGRAMFILES(X86)%\\wsl-ssh-pageant\\wsl-ssh-pageant.exe"
-
-# - name: Configure wsl-ssh-pageant to start on Windows startup
-#   win_shortcut:
-#     src: "powershell"
-#     arguments: "-c \"Start-Process -NoNewWindow \\\"${Env:ProgramFiles(x86)}\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe\\\" \\\"--winssh ssh-pageant\\\""
-#     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
-#     windowstyle: minimized
-
-# - name: Start wsl-ssh-pageant
-#   win_command: cmd /c '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
+- name: Configure wsl-ssh-pageant to start on Windows startup
+  win_shortcut:
+    src: "powershell"
+    arguments: "-c \"Start-Process -NoNewWindow \\\"${Env:ProgramFiles(x86)}\\wsl-ssh-pageant\\wsl-ssh-pageant-amd64.exe\\\" \\\"--winssh ssh-pageant\\\""
+    dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
+    windowstyle: minimized
