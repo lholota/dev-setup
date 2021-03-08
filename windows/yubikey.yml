@@ -23,13 +23,17 @@
     line: 'enable-ssh-support'
     newline: windows
 
-- name: Create GPG Agent service
-  win_service:
-    name: gpg-agent
-    display_name: GPG Agent (GPG4Win)
-    path: 'sc . "C:\Program Files (x86)\\GnuPG\\bin\\gpg-agent.exe" --enable-putty-support --enable-ssh-support --no-detach --server'
-    start_mode: auto
-    state: started
+- name: Start GPG Agent
+  win_command: "powershell -c \"Start-Process -NoNewWindow gpgconf --launch gpg-agent"
+
+
+# - name: Create GPG Agent service
+#   win_service:
+#     name: gpg-agent
+#     display_name: GPG Agent (GPG4Win)
+#     path: 'sc . "C:\Program Files (x86)\\GnuPG\\bin\\gpg-agent.exe" --enable-putty-support --enable-ssh-support --no-detach --server'
+#     start_mode: auto
+#     state: started
 
 # - name: Configure gpg-agent to start on Windows startup
 #   win_shortcut:
