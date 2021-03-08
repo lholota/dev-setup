@@ -12,7 +12,7 @@ The general idea is to install as many packages as possible with Chocolatey whic
     - Enables WSL
     - Downloads and creates an Ubuntu 20.04 LTS distro
     - Enables Windows Remoting (so that Ansible playbook used in subsequent steps can talk to Windows host)
-1. Prepare WSL distribution using the `Init-Ubuntu.sh` bash script. Run the script with sudo privileges. The script:
+1. Prepare WSL distribution using the `sudo Init-Ubuntu.sh` bash command. The script must be run with sudo privileges. The script:
     - Adds Ansible repository
     - Installs latest version of Ansible
 1. Apply the Windows playbook using `ansible-playbook -i inventory.yml -u <username> -k setup-win.yml`
