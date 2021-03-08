@@ -1,8 +1,32 @@
-- name: Install Foxit PDF Reader
+- name: Install basic apps
   win_chocolatey:
-    name: foxitreader
+    name: 
+      - foxitreader
+      - 7zip
+      - windirstat
+      - winmerge
+      - notepadplusplus
+      - paint.net
+      - recuva
+      - vlc
+      - spotify
     state: present
 
-# WinMerge
-# Notepad++
-# etc.
+- name: Install collaboration apps
+  win_chocolatey:
+    name: 
+      - notion
+      - zoom
+    state: present
+
+- name: Install runtimes
+  win_chocolatey:
+    name: jre8
+    state: present
+
+- name: Install Yubikey related apps
+  win_chocolatey:
+    name:
+      - yubico-authenticator
+      - yubikey-manager
+    state: present
