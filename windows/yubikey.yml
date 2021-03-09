@@ -70,6 +70,6 @@
     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
     windowstyle: minimized
 
-- name: Require PC restart
+- name: Restart computer if required
   ansible.windows.win_reboot:
   when: wsl_ssh_pageant.changed or gpg_agent.changed
