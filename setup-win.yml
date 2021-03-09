@@ -16,11 +16,6 @@
     tags:
     - yubikey
 
-  - name: "Mount WSL home as network drive"
-    import_tasks: "./windows/wsl-mount.yml"
-    tags:
-    - wsl-mount
-
   - name: "Clean up context menu items"
     import_tasks: "./windows/context-menu.yml"
     tags:
