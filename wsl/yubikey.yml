@@ -21,11 +21,11 @@
 - name: Update ~/.bashrc - start relay agent
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
-    line: "$HOME/.local/bin/gpg-agent-relay start"
+    line: "$HOME/.local/bin/gpg-relay-agent start"
     insertbefore: '^export SSH_AUTH_SOCK'
 
 - name: Update ~/.bashrc - ssh authentication socket
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
     line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
-    insertafter: '^\$HOME/.local/bin/gpg-agent-relay'
+    insertafter: '^\$HOME/.local/bin/gpg-relay-agent'
