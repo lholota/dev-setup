@@ -18,6 +18,11 @@
     dest: "%PUBLIC%\\Public Desktop\\Recuva.lnk"
     state: absent
 
+- name: "Remove Edge icon"
+  win_shortcut:
+    dest: "%PUBLIC%\\Public Desktop\\Microsoft Edge.lnk"
+    state: absent
+    
 - name: "Remove Zoom icon"
   win_shortcut:
     dest: "%PUBLIC%\\Public Desktop\\Zoom.lnk"
@@ -46,9 +51,4 @@
 - name: "Remove Postman icon"
   win_shortcut:
     dest: "%USERPROFILE%\\Desktop\\Postman.lnk"
-    state: absent
-
-- name: "Remove Edge icon"
-  win_shortcut:
-    dest: "%USERPROFILE%\\Desktop\\Microsoft Edge.lnk"
     state: absent
