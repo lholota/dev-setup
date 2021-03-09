@@ -2,6 +2,7 @@
   get_url:
     url: https://dot.net/v1/dotnet-install.sh
     dest: /tmp/dotnet-install.sh
+    mode: 0700
 
 - name: Install .NET Core SDK
   shell: /tmp/dotnet-install.sh
