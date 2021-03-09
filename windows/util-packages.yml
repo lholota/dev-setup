@@ -11,17 +11,7 @@
       - vlc
       - spotify
     state: present
-
-- name: Remove VLC context menu item (Add to playlist)
-  win_regedit:
-    path: HKCR:\Directory\shell\AddToPlaylistVLC    
-    state: absent
-
-- name: Remove VLC context menu item (Play with VLC)
-  win_regedit:
-    path: HKCR\Directory\shell\PlayWithVLC
-    state: absent
-
+    
 - name: Install collaboration apps
   win_chocolatey:
     name: 

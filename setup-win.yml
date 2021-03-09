@@ -20,3 +20,17 @@
     import_tasks: "./windows/wsl-mount.yml"
     tags:
     - wsl-mount
+
+  - name: "Clean up context menu items"
+    import_tasks: "./windows/context-menu.yml"
+    tags:
+    - basic
+    - dev
+    - yubikey
+
+  - name: "Clean up desktop shortcuts"
+    import_tasks: "./windows/desktop-icons.yml"
+    tags:
+    - basic
+    - dev
+    - yubikey
