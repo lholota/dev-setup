@@ -72,4 +72,4 @@
 
 - name: Require PC restart
   ansible.windows.win_reboot:
-  when: wsl_ssh_pageant.changed || gpg_agent.changed
+  when: wsl_ssh_pageant.changed or gpg_agent.changed
