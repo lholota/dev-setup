@@ -1,54 +1,54 @@
 - name: "Remove WinDirStat icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\WinDirStat.lnk"
+    dest: "%USERPROFILE%\\Desktop\\WinDirStat.lnk"
     state: absent
 
 - name: "Remove Kleopatra icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\Kleopatra.lnk"
+    dest: "%USERPROFILE%\\Desktop\\Kleopatra.lnk"
     state: absent
 
 - name: "Remove Foxit Reader icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\Foxit Reader.lnk"
+    dest: "%USERPROFILE%\\Desktop\\Foxit Reader.lnk"
     state: absent
 
 - name: "Remove VLC icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\VLC media player.lnk"
+    dest: "%USERPROFILE%\\Desktop\\VLC media player.lnk"
     state: absent
 
 - name: "Remove Recuva icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\Recuva.lnk"
+    dest: "%USERPROFILE%\\Desktop\\Recuva.lnk"
     state: absent
 
 - name: "Remove Zoom icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\Recuva.lnk"
+    dest: "%USERPROFILE%\\Desktop\\Recuva.lnk"
     state: absent
 
 - name: "Remove Notion icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\\Notion.lnk"
+    dest: "%USERPROFILE%\\Desktop\\\Notion.lnk"
     state: absent
 
 - name: "Remove VS Code icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\Visual Studio Code.lnk"
+    dest: "%USERPROFILE%\\Desktop\\Visual Studio Code.lnk"
     state: absent
 
 - name: "Remove Docker Desktop icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\Docker Desktop.lnk"
+    dest: "%USERPROFILE%\\Desktop\\Docker Desktop.lnk"
     state: absent
 
 - name: "Remove Postman icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\Postman.lnk"
+    dest: "%USERPROFILE%\\Desktop\\Postman.lnk"
     state: absent
 
 - name: "Remove Edge icon"
   win_shortcut:
-    dest: "%USERPROFILE%\Desktop\Microsoft Edge.lnk"
+    dest: "%USERPROFILE%\\Desktop\\Microsoft Edge.lnk"
     state: absent
