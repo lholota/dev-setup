@@ -1,20 +1,20 @@
 - name: "Configure Windows host"
   hosts: win
   tasks:
-  - name: "Install basic utilities"
-    import_tasks: "./windows/util-packages.yml"
-    tags:
-    - basic
+  # - name: "Install basic utilities"
+  #   import_tasks: "./windows/util-packages.yml"
+  #   tags:
+  #   - basic
 
-  - name: "Install Development tools"
-    import_tasks: "./windows/dev-packages.yml"
-    tags:
-    - dev
+  # - name: "Install Development tools"
+  #   import_tasks: "./windows/dev-packages.yml"
+  #   tags:
+  #   - dev
 
-  - name: "Configure Yubikey passthrough to WSL"
-    import_tasks: "./windows/yubikey.yml"
-    tags:
-    - yubikey
+  # - name: "Configure Yubikey passthrough to WSL"
+  #   import_tasks: "./windows/yubikey.yml"
+  #   tags:
+  #   - yubikey
 
   - name: "Clean up context menu items"
     import_tasks: "./windows/context-menu.yml"

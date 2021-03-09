@@ -15,14 +15,14 @@
 
 - name: "Remove Recuva icon"
   win_shortcut:
-    dest: "%PUBLIC%\\Public Desktop\\Recuva.lnk"
+    dest: '%PUBLIC%\Public Desktop\Recuva.lnk'
     state: absent
 
 - name: "Remove Edge icon"
   win_shortcut:
-    dest: "%PUBLIC%\\Public Desktop\\Microsoft Edge.lnk"
+    dest: '%PUBLIC%\Public Desktop\Microsoft Edge.lnk'
     state: absent
-    
+
 - name: "Remove Zoom icon"
   win_shortcut:
     dest: "%PUBLIC%\\Public Desktop\\Zoom.lnk"
