@@ -1,0 +1,4 @@
+- name: Configure start directory to home
+  lineinfile:
+    line: "cd ~"
+    path: "~/.bashrc"

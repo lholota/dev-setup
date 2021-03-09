@@ -20,3 +20,6 @@
     import_tasks: "./wsl/dev-dotnetcore.yml"
     tags:
     - dotnetcore
+
+  - name: "Configure bash"
+    import_tasks: "./wsl/bash.yml"
