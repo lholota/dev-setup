@@ -38,7 +38,7 @@
 
 - name: Remove VLC context menu item (Play with VLC)
   win_regedit:
-    path: HKCR\Directory\shell\PlayWithVLC
+    path: HKCR:\Directory\shell\PlayWithVLC
     state: absent
 
 # GPG
