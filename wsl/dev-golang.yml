@@ -13,11 +13,6 @@
     dest: /etc/profile.d/golang.sh
     content: 'PATH=$PATH:/usr/local/go/bin'
 
-# - name: Add go to PATH variable
-#   lineinfile:
-#     path: "~/.profile"
-#     line: "export PATH=$PATH:/usr/local/go/bin"
-
 - name: Create ~/go directory
   file:
     path: ~/go
