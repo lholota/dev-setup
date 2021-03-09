@@ -6,4 +6,4 @@
     force: yes
 
 - name: Install .NET Core SDK
-  shell: /tmp/dotnet-install.sh
+  shell: /tmp/dotnet-install.sh --channel LTS --install-dir /usr/local/dotnet
