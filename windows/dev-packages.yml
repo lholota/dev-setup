@@ -5,6 +5,26 @@
       - gitkraken
     state: present
 
+- name: Remove git gui context menu item (background)
+  win_regedit:
+    path: HKCR:\Directory\Background\shell\git_gui
+    state: absent
+
+- name: Remove git bash context menu item (background)
+  win_regedit:
+    path: HKCR:\Directory\Background\shell\git_shell
+    state: absent
+
+- name: Remove git gui context menu item
+  win_regedit:
+    path: HKCR:\Directory\shell\git_gui
+    state: absent
+
+- name: Remove git bash context menu item
+  win_regedit:
+    path: HKCR:\Directory\shell\git_shell
+    state: absent
+
 - name: Install IDEs
   win_chocolatey:
     name:
