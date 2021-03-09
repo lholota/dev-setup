@@ -10,7 +10,7 @@
     cmd: /tmp/dotnet-install.sh --channel LTS --install-dir /usr/local/dotnet
     creates: /usr/local/dotnet/dotnet
 
-- name: Add dotnet $PATH.
+- name: Add dotnet to system-wide $PATH
   copy:
     dest: /etc/profile.d/dotnet.sh
     content: 'PATH=$PATH:/usr/local/dotnet'

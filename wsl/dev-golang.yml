@@ -15,5 +15,5 @@
 
 - name: Create ~/go directory
   file:
-    path: ~/go
+    path: "/home/{{ ansible_user }}/go"
     state: directory
