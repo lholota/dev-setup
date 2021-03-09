@@ -1,0 +1,4 @@
+- name: Mount wsl home directory as network drive
+  win_mapped_drive:
+    letter: H
+    path: "\\\\wsl$\\{{ wsl_distro | default('Ubuntu-20.04') }}\\home\\{{ wsl_username | default('lholota') }}"

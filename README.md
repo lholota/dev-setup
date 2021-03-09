@@ -18,7 +18,7 @@ The general idea is to install as many packages as possible with Chocolatey whic
 1. Apply the Windows playbook using `ansible-playbook -i inventory.yml -u <username> -k setup-win.yml`
     - Replace `<username>` for your Windows username. If it's a domain account, enter it in `user@domain` format.
     - If you get error that ntlm credentials are not allowed, you need to use different authentication technology. Check [Ansible docs](https://docs.ansible.com/ansible/latest/user_guide/windows_winrm.html) for other options.
-    - Restart your pc after applying this playbook to allow all start up processes to be started (e.g. gpg agent)
+    - The playbook may restart the pc. If it does, repeat applying this playbook after the restart is complete.
 1. Apply the Linux playbook using `sudo ansible-playbook -i inventory.yml setup-wsl.yml`
 
 ## Development
