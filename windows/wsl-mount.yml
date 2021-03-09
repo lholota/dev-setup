@@ -1,8 +1,8 @@
 - name: Debug
   debug:
-    msg: "\\wsl$\\{{ wsl_distro | default('Ubuntu-20.04') }}"
+    msg: '\\wsl$\{{ wsl_distro | default('Ubuntu-20.04') }}'
 
 - name: Mount wsl home directory as network drive
   win_mapped_drive:
     letter: 'H'
-    path: "\\wsl$\\{{ wsl_distro | default('Ubuntu-20.04') }}" # It's unfortunate not possible to mount a subdirectory within WSL2
+    path: '\\wsl$\\{{ wsl_distro | default('Ubuntu-20.04') }}' # It's unfortunately not possible to mount a subdirectory

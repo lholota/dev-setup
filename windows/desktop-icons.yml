@@ -30,7 +30,7 @@
 
 - name: "Remove Notion icon"
   win_shortcut:
-    dest: "%USERPROFILE%\\Desktop\\\Notion.lnk"
+    dest: "%USERPROFILE%\\Desktop\\Notion.lnk"
     state: absent
 
 - name: "Remove VS Code icon"
