@@ -1,4 +1,4 @@
 - name: Configure start directory to home
   lineinfile:
     line: "cd ~"
-    path: "~/.bashrc"
+    path: "/home/{{ lookup('env', 'USER') }}/.bashrc"

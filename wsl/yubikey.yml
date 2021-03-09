@@ -6,24 +6,24 @@
 
 - name: Create the ~/.local/bin/ directory
   file:
-    path: "/home/{{ ansible_user }}/.local/bin"
+    path: "/home/{{ lookup('env', 'USER') }}/.local/bin"
     mode: 0700
     state: directory
 
 - name: Create GPG relay agent script
   copy:
-    dest: "/home/{{ ansible_user }}/.local/bin/gpg-relay-agent"
+    dest: "/home/{{ lookup('env', 'USER') }}/.local/bin/gpg-relay-agent"
     mode: 0500
     content: "{{ lookup('file', 'gpg-relay-agent.sh') }}"
 
 - name: Update ~/.bashrc - start relay agent
   lineinfile:
-    path: "/home/{{ ansible_user }}/.bashrc"
+    path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
     line: "$HOME/.local/bin/gpg-agent-relay start"
     insertbefore: '^export SSH_AUTH_SOCK'
 
 - name: Update ~/.bashrc - ssh authentication socket
   lineinfile:
-    path: "/home/{{ ansible_user }}/.bashrc"
+    path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
     line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
     insertafter: '^\$HOME/.local/bin/gpg-agent-relay'
