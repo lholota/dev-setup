@@ -1,5 +1,8 @@
 - name: "Configure WSL Linux distro"
   hosts: wsl
+  become: yes
+  become_method: su
+  become_user: root
   tasks:
   - name: "Configure Yubikey passthrough to WSL"
     import_tasks: "./wsl/yubikey.yml"
