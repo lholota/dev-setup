@@ -7,14 +7,14 @@
 - name: Create the ~/.local/bin/ directory
   file:
     path: "/home/{{ lookup('env', 'USER') }}/.local/bin"
-    owner: lookup('env', 'USER')
+    owner: "{{ lookup('env', 'USER') }}"
     mode: 0700
     state: directory
 
 - name: Create GPG relay agent script
   copy:
     dest: "/home/{{ lookup('env', 'USER') }}/.local/bin/gpg-relay-agent"
-    owner: lookup('env', 'USER')
+    owner: "{{ lookup('env', 'USER') }}"
     mode: 0500
     content: "{{ lookup('file', 'gpg-relay-agent.sh') }}"
 

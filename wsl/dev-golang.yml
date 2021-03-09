@@ -16,6 +16,6 @@
 - name: Create ~/go directory
   file:
     path: "/home/{{ lookup('env', 'USER') }}/go"
-    owner: lookup('env', 'USER')
+    owner: "{{ lookup('env', 'USER') }}"
     mode: 0700
     state: directory
