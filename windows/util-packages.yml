@@ -10,6 +10,7 @@
       - recuva
       - vlc
       - spotify
+      - googlechrome
     state: present
     
 - name: Install collaboration apps
