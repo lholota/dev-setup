@@ -4,25 +4,29 @@
   become_method: sudo
   become_user: root
   tasks:
-  - name: "Configure Yubikey passthrough to WSL"
-    import_tasks: "./wsl/yubikey.yml"
-    tags:
-    - yubikey
+  - name: "Test"
+    debug:
+      msg: "{{ lookup('env', 'USER') }}"
 
-  - name: "Install NodeJS development tools"
-    import_tasks: "./wsl/dev-nodejs.yml"
-    tags:
-    - nodejs
+  # - name: "Configure Yubikey passthrough to WSL"
+  #   import_tasks: "./wsl/yubikey.yml"
+  #   tags:
+  #   - yubikey
 
-  - name: "Install Go development tools"
-    import_tasks: "./wsl/dev-golang.yml"
-    tags:
-    - golang
+  # - name: "Install NodeJS development tools"
+  #   import_tasks: "./wsl/dev-nodejs.yml"
+  #   tags:
+  #   - nodejs
 
-  - name: "Install .NET Core development tools"
-    import_tasks: "./wsl/dev-dotnetcore.yml"
-    tags:
-    - dotnetcore
+  # - name: "Install Go development tools"
+  #   import_tasks: "./wsl/dev-golang.yml"
+  #   tags:
+  #   - golang
 
-  - name: "Configure bash"
-    import_tasks: "./wsl/bash.yml"
+  # - name: "Install .NET Core development tools"
+  #   import_tasks: "./wsl/dev-dotnetcore.yml"
+  #   tags:
+  #   - dotnetcore
+
+  # - name: "Configure bash"
+  #   import_tasks: "./wsl/bash.yml"
