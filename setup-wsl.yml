@@ -1,7 +1,7 @@
 - name: "Configure WSL Linux distro"
   hosts: wsl
   become: yes
-  become_method: su
+  become_method: sudo
   become_user: root
   tasks:
   - name: "Configure Yubikey passthrough to WSL"
