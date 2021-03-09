@@ -1,31 +1,31 @@
 - name: "Remove Kleopatra icon"
   win_shortcut:
-    dest: "%PUBLIC%\\Public Desktop\\Kleopatra.lnk"
+    dest: "%PUBLIC%\\Desktop\\Kleopatra.lnk"
     state: absent
 
 - name: "Remove Foxit Reader icon"
   win_shortcut:
-    dest: "%PUBLIC%\\Public Desktop\\Foxit Reader.lnk"
+    dest: "%PUBLIC%\\Desktop\\Foxit Reader.lnk"
     state: absent
 
 - name: "Remove VLC icon"
   win_shortcut:
-    dest: "%PUBLIC%\\Public Desktop\\VLC media player.lnk"
+    dest: "%PUBLIC%\\Desktop\\VLC media player.lnk"
     state: absent
 
 - name: "Remove Recuva icon"
   win_shortcut:
-    dest: '%PUBLIC%\Public Desktop\Recuva.lnk'
+    dest: '%PUBLIC%\Desktop\Recuva.lnk'
     state: absent
 
 - name: "Remove Edge icon"
   win_shortcut:
-    dest: '%PUBLIC%\Public Desktop\Microsoft Edge.lnk'
+    dest: '%PUBLIC%\Desktop\Microsoft Edge.lnk'
     state: absent
 
 - name: "Remove Zoom icon"
   win_shortcut:
-    dest: "%PUBLIC%\\Public Desktop\\Zoom.lnk"
+    dest: "%PUBLIC%\\Desktop\\Zoom.lnk"
     state: absent
 
 - name: "Remove WinDirStat icon"
