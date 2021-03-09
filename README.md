@@ -19,7 +19,7 @@ The general idea is to install as many packages as possible with Chocolatey whic
     - Replace `<username>` for your Windows username. If it's a domain account, enter it in `user@domain` format.
     - If you get error that ntlm credentials are not allowed, you need to use different authentication technology. Check [Ansible docs](https://docs.ansible.com/ansible/latest/user_guide/windows_winrm.html) for other options.
     - The playbook may restart the pc. If it does, repeat applying this playbook after the restart is complete.
-1. Apply the Linux playbook using `sudo ansible-playbook -i inventory.yml setup-wsl.yml`
+1. Apply the Linux playbook using `sudo ansible-playbook -i inventory.yml -K setup-wsl.yml`
 
 ## Development
 
