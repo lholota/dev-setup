@@ -35,7 +35,7 @@
 - name: "Find Windows Terminal AppData Directory"
   register: terminal_appdata
   win_find:
-    paths: "%LOCALAPPDATA%\\Packages"
+    paths: "{{ ansible_env.LOCALAPPDATA }}\\Packages"
     patterns: "Microsoft.WindowsTerminal_*"
     file_type: "directory"
 
