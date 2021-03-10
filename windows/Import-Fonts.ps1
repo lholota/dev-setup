@@ -36,6 +36,6 @@ foreach ($fontFile in $fontFiles) {
             $shellApp = New-Object -ComObject shell.application
             $fonts = $shellApp.NameSpace(0x14)
         }
-        $fonts.CopyHere($fontFile.FullName, 0x14)
+        $fonts.CopyHere($fontFile.FullName, 16)
     }
 }
