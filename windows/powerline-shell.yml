@@ -44,15 +44,18 @@
     path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
     line: '"fontFace": "Inconsolata-dz for Powerline",'
     insert_after: ".*// Put settings here that you want to apply to all profiles.*"
+    newline: unix
 
 - name: "Set Terminal font size"
   win_lineinfile:
     path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
     line: '"fontSize": 10,'
     insert_after: ".*// Put settings here that you want to apply to all profiles.*"
+    newline: unix
 
 - name: "Set Terminal color scheme"
   win_lineinfile:
     path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
     line: '"colorScheme": "Campbell",'
     insert_after: ".*// Put settings here that you want to apply to all profiles.*"
+    newline: unix
