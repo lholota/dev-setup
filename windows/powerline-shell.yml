@@ -43,14 +43,14 @@
   debug:
     var: terminal_appdata.files[0].path
 
-# - name: Load settings
-#   slurp:
-#     src: "{{ terminal_appdata.path }}\\LocalState\\settings.json"
-#   register: imported_terminal_settings
+- name: Load settings
+  slurp:
+    src: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
+  register: imported_terminal_settings
 
-# - name: "Debug 2"
-#   debug:
-#     var: imported_terminal_settings
+- name: "Debug 2"
+  debug:
+    var: imported_terminal_settings
 
 
 # - debug:
