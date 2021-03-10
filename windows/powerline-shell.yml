@@ -50,7 +50,7 @@
 
 - name: "Debug 2"
   debug:
-    msg: "{{ imported_terminal_settings.content | b64decode }}"
+    msg: "{{ imported_terminal_settings.content | b64decode | from_json }}"
 
 
 # - debug:
