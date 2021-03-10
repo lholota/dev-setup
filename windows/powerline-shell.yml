@@ -16,9 +16,13 @@
     patterns: [ '*.otf', '*.ttf' ]
     recurse: yes
 
-- name: "Dump fonts"
+- name: "Copy fonts"
+  # win_copy:
+  #   src: "{{ item.path }}"
+  #   dest: "%SYSTEMROOT%\\fonts\\"
+  #   msg: 
   debug:
-    msg: "{{ item.path }}"
+    msg: "{{ item.path | win_basename }}"
   loop: "{{ powerline_fonts.files }}"
 
 
