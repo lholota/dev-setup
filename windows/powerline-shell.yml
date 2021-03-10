@@ -17,19 +17,19 @@
     patterns: [ '*.otf', '*.ttf' ]
     recurse: yes
 
-- name: "Copy fonts"
-  win_copy:
-    src: "{{ item.path }}"
-    remote_src: yes
-    dest: "%SYSTEMROOT%\\fonts\\{{ item.path | win_basename }}"
-  loop: "{{ powerline_fonts.files }}"
+# - name: "Copy fonts"
+#   win_copy:
+#     src: "{{ item.path }}"
+#     remote_src: yes
+#     dest: "%SYSTEMROOT%\\fonts\\{{ item.path | win_basename }}"
+#   loop: "{{ powerline_fonts.files }}"
 
-- name: "Create registry entries"
-  win_regedit:
-    path: "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
-    name: "{{ item.path | win_basename }}"
-    data: "{{ item.path | win_basename }}"
-  loop: "{{ powerline_fonts.files }}"
+# - name: "Create registry entries"
+#   win_regedit:
+#     path: "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
+#     name: "{{ item.path | win_basename }}"
+#     data: "{{ item.path | win_basename }}"
+#   loop: "{{ powerline_fonts.files }}"
 
 ## Windows Terminal Options
 - name: "Find Windows Terminal AppData Directory"
