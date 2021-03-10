@@ -1,3 +1,4 @@
+## Fonts
 - name: "Download Powerline fonts"
   win_get_url:
     url: https://github.com/powerline/fonts/archive/master.zip
@@ -7,7 +8,6 @@
   win_unzip:
     src: "%TEMP%\\PowerlineFonts.zip"
     dest: "%TEMP%"
-    creates: "{{ ansible_env.TEMP }}\\fonts-master"
 
 - name: "Find font files"
   register: powerline_fonts
@@ -30,3 +30,35 @@
     name: "{{ item.path | win_basename }}"
     data: "{{ item.path | win_basename }}"
   loop: "{{ powerline_fonts.files }}"
+
+## Windows Terminal Options
+- name: "Find Windows Terminal AppData Directory"
+  register: terminal_appdata
+  win_find:
+    paths: "%LOCALAPPDATA%\\Packages"
+    patterns: "Microsoft.WindowsTerminal_*"
+    file_type: "directory"
+
+- name: "Debug"
+  debug:
+    var: terminal_appdata
+
+# - name: Load settings
+#   slurp:
+#     src: /tmp/var.json
+#   register: imported_var
+
+# - debug:
+#     msg: "{{ imported_var.content|b64decode|from_json }}"
+
+# - name: append more key/values
+#   set_fact:
+#     imported_var: "{{ imported_var.content|b64decode|from_json | default([]) | combine({ 'hello': 'world' }) }}"
+
+# - debug:
+#     var: imported_var
+
+# - name: write var to file
+#   copy: 
+#     content: "{{ imported_var | to_nice_json }}" 
+#     dest: /tmp/final.json
