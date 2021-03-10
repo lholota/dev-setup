@@ -18,7 +18,7 @@
 
 - name: "Dump fonts"
   debug:
-    var: item.path
+    msg: "{{ item.path }}"
   loop: "{{ powerline_fonts.files }}"
 
 
