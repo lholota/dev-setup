@@ -39,23 +39,9 @@
     patterns: "Microsoft.WindowsTerminal_*"
     file_type: "directory"
 
-- name: "Set Terminal font"
+- name: "Configure terminal appearance"
   win_lineinfile:
     path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
-    line: '"fontFace": "Inconsolata-dz for Powerline",'
-    insertafter: ".*// Put settings here that you want to apply to all profiles.*"
-    newline: unix
-
-- name: "Set Terminal font size"
-  win_lineinfile:
-    path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
-    line: '"fontSize": 10,'
-    insertafter: ".*// Put settings here that you want to apply to all profiles.*"
-    newline: unix
-
-- name: "Set Terminal color scheme"
-  win_lineinfile:
-    path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
-    line: '"colorScheme": "Campbell",'
+    line: '"fontFace": "Inconsolata-dz for Powerline","fontSize": 10,"colorScheme": "Campbell"'
     insertafter: ".*// Put settings here that you want to apply to all profiles.*"
     newline: unix
