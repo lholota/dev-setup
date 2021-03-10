@@ -20,11 +20,11 @@
   win_copy:
     src: "{{ item.path }}"
     dest: "%SYSTEMROOT%\\fonts\\{{ item.path | win_basename }}"
-  loop: "{{ powerline_fonts.files | first }}"
+  loop: "{{ powerline_fonts.files }}"
 
 - name: "Create registry entries"
   win_regedit:
     path: "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
     name: "{{ item.path }}"
     data: "{{ item.path }}"
-  loop: "{{ powerline_fonts.files | first }}"
+  loop: "{{ powerline_fonts.files }}"
