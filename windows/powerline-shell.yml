@@ -41,7 +41,7 @@
 
 - name: "Debug 1"
   debug:
-    var: terminal_appdata
+    var: (terminal_appdata.files | first).path
 
 - name: Load settings
   slurp:
