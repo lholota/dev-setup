@@ -39,31 +39,20 @@
     patterns: "Microsoft.WindowsTerminal_*"
     file_type: "directory"
 
-- name: "Debug 1"
-  debug:
-    var: terminal_appdata.files[0].path
+- name: "Set Terminal font"
+  win_lineinfile:
+    path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
+    line: '"fontFace": "Inconsolata-dz for Powerline",'
+    insert_after: "// Put settings here that you want to apply to all profiles."
 
-- name: Load settings
-  slurp:
-    src: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
-  register: imported_terminal_settings
+- name: "Set Terminal font size"
+  win_lineinfile:
+    path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
+    line: '"fontSize": 10,'
+    insert_after: "// Put settings here that you want to apply to all profiles."
 
-- name: "Debug 2"
-  debug:
-    msg: "{{ imported_terminal_settings.content | b64decode | from_json }}"
-
-
-# - debug:
-#     msg: "{{ imported_var.content|b64decode|from_json }}"
-
-# - name: append more key/values
-#   set_fact:
-#     imported_var: "{{ imported_var.content|b64decode|from_json | default([]) | combine({ 'hello': 'world' }) }}"
-
-# - debug:
-#     var: imported_var
-
-# - name: write var to file
-#   copy: 
-#     content: "{{ imported_var | to_nice_json }}" 
-#     dest: /tmp/final.json
+- name: "Set Terminal color scheme"
+  win_lineinfile:
+    path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
+    line: '"colorScheme": "Campbell",'
+    insert_after: "// Put settings here that you want to apply to all profiles."
