@@ -39,14 +39,19 @@
     patterns: "Microsoft.WindowsTerminal_*"
     file_type: "directory"
 
-- name: "Debug"
+- name: "Debug 1"
   debug:
     var: terminal_appdata
 
-# - name: Load settings
-#   slurp:
-#     src: /tmp/var.json
-#   register: imported_var
+- name: Load settings
+  slurp:
+    src: "{{ terminal_appdata.path }}\\LocalState\\settings.json"
+  register: imported_terminal_settings
+
+- name: "Debug 2"
+  debug:
+    var: imported_terminal_settings
+
 
 # - debug:
 #     msg: "{{ imported_var.content|b64decode|from_json }}"
