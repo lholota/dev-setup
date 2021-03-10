@@ -7,6 +7,7 @@
   win_unzip:
     src: "%TEMP%\\PowerlineFonts.zip"
     dest: "%TEMP%"
+    creates: "{{ ansible_env.TEMP }}\\fonts-master"
 
 - name: "Find font files"
   register: powerline_fonts
