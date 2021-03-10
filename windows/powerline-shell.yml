@@ -8,20 +8,26 @@
     src: "%TEMP%\\PowerlineFonts.zip"
     dest: "%TEMP%"
 
-- name: "Overwrite the install script"
-  win_copy:
-    content: "{{ lookup('file', 'Import-Fonts.ps1') }}"
-    dest: "%TEMP%\\fonts-master\\install.ps1"
-    force: yes
+- name: "Find font files"
+  register: powerline_fonts
+  win_find:
+    paths: "%TEMP%\\fonts-master"
+    patterns: [ '*.otf', '*.ttf' ]
+    recurse: yes
 
-- name: "Import Powerline fonts"
-  ansible.windows.win_command: "powershell -"
-  args:
-    stdin: "Set-ExecutionPolicy ByPass -Scope Process -Force; .\\install.ps1"
-    chdir: "%TEMP%\\fonts-master"
+- name: "Dump fonts"
+  debug:
+    var: powerline_fonts.files
 
-- name: "Find Windows Terminal AppData directory"
-  ansible.windows.win_find:
-    paths: "%LOCALAPPDATA%\\Packages"
-    patterns: [ 'Microsoft.WindowsTerminal_*' ]
-    file_type: directory
+
+# - name: "Import Powerline fonts"
+#   ansible.windows.win_command: "powershell -"
+#   args:
+#     stdin: "Set-ExecutionPolicy ByPass -Scope Process -Force; .\\install.ps1"
+#     chdir: "%TEMP%\\fonts-master"
+
+# - name: "Find Windows Terminal AppData directory"
+#   ansible.windows.win_find:
+#     paths: "%LOCALAPPDATA%\\Packages"
+#     patterns: [ 'Microsoft.WindowsTerminal_*' ]
+#     file_type: directory
