@@ -28,4 +28,6 @@
     import_tasks: "./wsl/bash.yml"
 
   - name: "Install Powerline shell"
+    tags:
+    - powerline
     import_tasks: "./wsl/powerline-shell.yml"
