@@ -11,5 +11,11 @@
 - name: "Import Powerline fonts"
   ansible.windows.win_command: "powershell -"
   args:
-    stdin: "Set-ExecutionPolicy ByPass -Scope Process; .\\install.ps1"
+    stdin: "Set-ExecutionPolicy ByPass -Scope Process -Force; .\\install.ps1"
     chdir: "%TEMP%\\fonts-master"
+
+- name: "Find Windows Terminal AppData directory"
+  ansible.windows.win_find:
+    paths: "%LOCALAPPDATA%\\Packages"
+    patterns: [ 'Microsoft.WindowsTerminal_*' ]
+    file_type: directory
