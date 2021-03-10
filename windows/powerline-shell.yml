@@ -12,7 +12,7 @@
   register: powerline_fonts
   win_find:
     paths: 
-      - "{{ lookup('env', 'TEMP') }}\\fonts-master"
+      - "{{ ansible_env.TEMP }}\\fonts-master"
     patterns: [ '*.otf', '*.ttf' ]
     recurse: yes
 
