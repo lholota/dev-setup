@@ -8,6 +8,11 @@
     src: "%TEMP%\\PowerlineFonts.zip"
     dest: "%TEMP%"
 
+- name: "Overwrite the install script"
+  win_copy:
+    content: "{{ lookup('file', 'Import-Fonts.ps1') }}"
+    dest: "%TEMP%\\fonts-master\\install.ps1"
+
 - name: "Import Powerline fonts"
   ansible.windows.win_command: "powershell -"
   args:
