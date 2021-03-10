@@ -18,7 +18,8 @@
 
 - name: "Copy fonts"
   win_copy:
-    remote_src: "{{ item.path }}"
+    remote: "{{ item.path }}"
+    remote_src: yes
     dest: "%SYSTEMROOT%\\fonts\\{{ item.path | win_basename }}"
   loop: "{{ powerline_fonts.files }}"
 
