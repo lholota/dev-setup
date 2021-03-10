@@ -18,7 +18,8 @@
 
 - name: "Dump fonts"
   debug:
-    var: powerline_fonts.files
+    var: item.path
+  with_items: powerline_fonts.files
 
 
 # - name: "Import Powerline fonts"
