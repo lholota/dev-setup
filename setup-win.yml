@@ -29,3 +29,8 @@
     - basic
     - dev
     - yubikey
+
+  - name: "Set up Powerline shell dependencies"
+    import_tasks: "./windows/powerline-shell.yml"
+    tags:
+    - powerline

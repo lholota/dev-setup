@@ -1,0 +1,9 @@
+- name: "Download Powerline fonts"
+  win_get_url:
+    url: https://github.com/powerline/fonts/archive/master.zip
+    dest: "%TEMP%\\PowerlineFonts.zip"
+    
+- name: "Extract Powerline fonts"
+  win_unzip:
+    src: "%TEMP%\\PowerlineFonts.zip"
+    dest: "%TEMP%"
