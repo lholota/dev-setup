@@ -7,3 +7,9 @@
   win_unzip:
     src: "%TEMP%\\PowerlineFonts.zip"
     dest: "%TEMP%"
+
+- name: "Import Powerline fonts"
+  ansible.windows.win_command: "powershell -"
+  args:
+    stdin: "Set-ExecutionPolicy ByPass -Scope Process; .\\install.ps1"
+    chdir: "%TEMP%\\fonts-master"
