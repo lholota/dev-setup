@@ -26,6 +26,6 @@
 - name: "Create registry entries"
   win_regedit:
     path: "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
-    name: "{{ item.path }}"
-    data: "{{ item.path }}"
+    name: "{{ item.path | win_basename }}"
+    data: "{{ item.path | win_basename }}"
   loop: "{{ powerline_fonts.files }}"
