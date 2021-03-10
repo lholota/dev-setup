@@ -11,7 +11,8 @@
 - name: "Find font files"
   register: powerline_fonts
   win_find:
-    paths: "%TEMP%\\fonts-master"
+    paths: 
+      - "{{ lookup('env', 'TEMP') }}\\fonts-master"
     patterns: [ '*.otf', '*.ttf' ]
     recurse: yes
 
