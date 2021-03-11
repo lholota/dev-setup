@@ -36,6 +36,7 @@
   win_command: powershell.exe -
   args:
     stdin: |
+      $env:username
       $WT = Start-Process wt -PassThru
       $WT.WaitForExit()
       $ChildProcesses = (Get-WmiObject win32_process | where {$_.ParentProcessId -eq $WT.Id})
