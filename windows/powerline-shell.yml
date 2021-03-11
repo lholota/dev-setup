@@ -37,8 +37,8 @@
   args:
     elevated: yes
     stdin: |
-      $env:username
-      $WT = Start-Process wt -PassThru
+      $ErrorActionPreference="Stop"
+      $WT = (Start-Process C:\Program Files\WindowsApps\Microsoft.WindowsTerminal_1.6.10571.0_x64__8wekyb3d8bbwe\wt.exe -PassThru)
       $WT.WaitForExit()
       $ChildProcesses = (Get-WmiObject win32_process | where {$_.ParentProcessId -eq $WT.Id})
       $ChildProcesses | ForEach-Object { Stop-Process -Id $_.ProcessId }
