@@ -35,6 +35,7 @@
 - name: "Execute Windows Terminal to ensure settings.json got created"
   win_command: powershell.exe -
   args:
+    elevated: yes
     stdin: |
       $env:username
       $WT = Start-Process wt -PassThru
