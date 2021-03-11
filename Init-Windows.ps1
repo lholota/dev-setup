@@ -41,4 +41,4 @@ Add-AppxPackage "$env:Temp\Distro.appx"
 Write-Host "Enabling WinRM (if you don't need it, you can disable it after applying the playbooks)"
 winrm quickconfig -transport:http -force
 
-Write-Host "Finished! Now start the Linux Distro (this is unfortunately an interactive process...)"
+Write-Host "Finished! Now start the Linux Distro from the start menu"

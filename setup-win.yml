@@ -11,11 +11,6 @@
     tags:
     - dev
 
-  - name: "Configure Yubikey passthrough to WSL"
-    import_tasks: "./windows/yubikey.yml"
-    tags:
-    - yubikey
-
   - name: "Clean up context menu items"
     import_tasks: "./windows/context-menu.yml"
     tags:
@@ -28,6 +23,11 @@
     tags:
     - basic
     - dev
+    - yubikey
+
+  - name: "Configure Yubikey passthrough to WSL"
+    import_tasks: "./windows/yubikey.yml"
+    tags:
     - yubikey
 
   - name: "Set up Powerline shell dependencies"
