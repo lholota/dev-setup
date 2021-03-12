@@ -9,4 +9,4 @@
     path: "%USERPROFILE%\\.gitconfig"
     insertafter: "\\[gpg\\]"
     regex: "^program"
-    line: "program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe"
+    line: "program = C:\\\\Program Files (x86)\\\\GnuPG\\\\bin\\\\gpg.exe"
