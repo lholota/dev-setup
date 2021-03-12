@@ -52,4 +52,4 @@
     dest: "/tmp/public.asc"
 
 - name: Import key(s)
-  command: "gpg --import /tmp/public.asc"
+  shell: "gpg --import /tmp/public.asc"
