@@ -1,0 +1,32 @@
+- name: Overwrite the root .gitconfig
+  copy:
+    force: yes
+    dest: "/home/{{ lookup('env', 'USER') }}/.gitconfig"
+    content: |
+      [includeIf "gitdir:{{ github_dir }}/"]
+      path = .gitconfig-github
+      [includeIf "gitdir:{{ work_dir }}/"]
+      path = .gitconfig-work
+
+- name: Create github config
+  copy:
+    force: yes
+    dest: "/home/{{ lookup('env', 'USER') }}/.gitconfig-github"
+    content: |
+      [user]
+        email = {{ github_email }}
+        name = {{ github_name }}
+        signingKey = {{ github_signing_key }}
+      [gpg]
+        program = gpg
+      [commit]
+        gpgSign = {{ github_force_sign | ternary("true", "false") }}
+
+- name: Create work config
+  copy:
+    force: yes
+    dest: "/home/{{ lookup('env', 'USER') }}/.gitconfig-work"
+    content: |
+      [user]
+        email = {{ work_email }}
+        name = {{ work_name }}

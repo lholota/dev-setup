@@ -1,8 +1,26 @@
 # Automated development workstation set up
 
-To avoid the hassle of re-installing all apps manually, I decided to maintain the development workstation set up using Ansible. Feel free to reuse :)
+To avoid the hassle of re-installing all apps manually, I decided to maintain the development workstation set up using Ansible.
 
 The general idea is to install as many packages as possible with Chocolatey which allows easy updates. The Windows should only keep UI applications and utilities required for daily routines. With the release of WSL2, most non-interactive tools I use are in a Ubuntu 20.x based WSL2 distro.
+
+> Note: this repo contains set up for what I need, it's not aimed to create a generic set up for any developer. Fork the repo for customizations.
+
+## What's in the box
+
+This set up will:
+
+- Enable WSL2 along with all required dependencies
+- Install basic apps - check the [yml file](./windows/util-packages.yml) for full list
+- Install development tools like VS Code, Docker desktop or Visual Studio - check the [yml file](./windows/dev-packages.yml) for full list
+- Set up [Powerline shell](https://github.com/b-ryan/powerline-shell) compatible fonts so you can use it in Windows Terminal or via `wsl.exe`
+- Set up YubiKey relay so that you can use your YubiKey as:
+    - an SSH key from WSL to connect to remote machines
+    - a GPG key for encryption from WSL, but also works from Windows via GPG4Win
+    - sign git commits when commiting from Windows via GitKraken or command line
+    - sign git commits when commiting from WSL bash
+- Configure Git so you can use it with multiple email addresses (work and private)
+- Install SDKs for Golang, Python (implied by Ansible), .NET Core and NodeJS (all in WSL)
 
 ## Set up guide
 > Note: this repository assumes you are running Windows 10 1903 or later running on x64 architecture.

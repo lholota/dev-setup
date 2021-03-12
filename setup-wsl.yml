@@ -31,3 +31,8 @@
     import_tasks: "./wsl/dev-dotnetcore.yml"
     tags:
     - dotnetcore
+
+  - name: "Configure git"
+    import_tasks: "./wsl/git.yml"
+    tags:
+    - git

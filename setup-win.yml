@@ -34,3 +34,8 @@
     import_tasks: "./windows/powerline-shell.yml"
     tags:
     - powerline
+
+  - name: "Configure git"
+    import_tasks: "./windows/git.yml"
+    tags:
+    - git

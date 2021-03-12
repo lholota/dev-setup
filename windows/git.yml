@@ -1,0 +1,32 @@
+- name: Overwrite the root .gitconfig
+  win_copy:
+    force: yes
+    dest: "%USERPROFILE%\\.gitconfig"
+    content: |
+      [includeIf "gitdir:{{ github_dir }}/"]
+      path = .gitconfig-github
+      [includeIf "gitdir:{{ work_dir }}/"]
+      path = .gitconfig-work
+
+- name: Create github config
+  win_copy:
+    force: yes
+    dest: "%USERPROFILE%\\.gitconfig-github"
+    content: |
+      [user]
+        email = {{ github_email }}
+        name = {{ github_name }}
+        signingKey = {{ github_signing_key }}
+      [gpg]
+        program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe
+      [commit]
+        gpgSign = {{ github_force_sign | ternary("true", "false") }}
+
+- name: Create work config
+  win_copy:
+    force: yes
+    dest: "%USERPROFILE%\\.gitconfig-work"
+    content: |
+      [user]
+        email = {{ work_email }}
+        name = {{ work_name }}
