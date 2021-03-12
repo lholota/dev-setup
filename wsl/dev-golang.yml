@@ -14,8 +14,8 @@
     content: 'PATH=$PATH:/usr/local/go/bin'
 
 - name: Create ~/go directory
+  become: no
   file:
     path: "/home/{{ lookup('env', 'USER') }}/go"
-    owner: "{{ lookup('env', 'USER') }}"
     mode: 0700
     state: directory
