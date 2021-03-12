@@ -8,13 +8,3 @@ all:
     win:
       hosts:
         localhost-win
-
-  vars:
-    github_email: l.holota@outlook.com
-    github_name: Lukas Holota
-    github_signing_key: 2D1D9C803F35BBC24014C3906601E1EB2454827F
-    github_force_sign: true
-    github_dir: gh
-    work_email: lholota@vistaprint.com
-    work_name: Lukas Holota
-    work_dir: gitlab

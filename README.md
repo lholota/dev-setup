@@ -16,10 +16,9 @@ This set up will:
 - Set up [Powerline shell](https://github.com/b-ryan/powerline-shell) compatible fonts so you can use it in Windows Terminal or via `wsl.exe`
 - Set up YubiKey relay so that you can use your YubiKey as:
     - an SSH key from WSL to connect to remote machines
-    - a GPG key for encryption from WSL, but also works from Windows via GPG4Win
-    - sign git commits when commiting from Windows via GitKraken or command line
-    - sign git commits when commiting from WSL bash
-- Configure Git so you can use it with multiple email addresses (work and private)
+    - an SSH key from WSL to connect to remote git origins
+    - a GPG key for encryption from both WSL and Windows (via GPG4Win)
+    - sign git commits when commiting from Windows via GitKraken
 - Install SDKs for Golang, Python (implied by Ansible), .NET Core and NodeJS (all in WSL)
 
 ## Set up guide
