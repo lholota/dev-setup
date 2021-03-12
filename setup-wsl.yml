@@ -9,6 +9,14 @@
     tags:
     - yubikey
 
+  - name: "Configure bash"
+    import_tasks: "./wsl/bash.yml"
+
+  - name: "Install Powerline shell"
+    tags:
+    - powerline
+    import_tasks: "./wsl/powerline-shell.yml"
+
   - name: "Install NodeJS development tools"
     import_tasks: "./wsl/dev-nodejs.yml"
     tags:
@@ -23,11 +31,3 @@
     import_tasks: "./wsl/dev-dotnetcore.yml"
     tags:
     - dotnetcore
-
-  - name: "Configure bash"
-    import_tasks: "./wsl/bash.yml"
-
-  - name: "Install Powerline shell"
-    tags:
-    - powerline
-    import_tasks: "./wsl/powerline-shell.yml"

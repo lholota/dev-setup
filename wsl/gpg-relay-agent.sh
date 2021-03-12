@@ -14,6 +14,9 @@
 GNUPGHOME="$HOME/.gnupg"
 PIDFILE="$GNUPGHOME/gpg-agent-relay.pid"
 
+# Was originally 5, but in some cases it timed out, better to wait a bit longer than having to restart it manually...
+STARTTIMEOUT=30
+
 die() {
   # shellcheck disable=SC2059
   printf "$1\n" >&2
@@ -21,10 +24,12 @@ die() {
 }
 
 main() {
+  mkdir -p "$GNUPGHOME"
+
   checkdeps
   case $1 in
   start)
-    if ! start-stop-daemon --pidfile "$PIDFILE" --background --notify-await --notify-timeout 5 --make-pidfile --exec "$0" --start -- foreground; then
+    if ! start-stop-daemon --pidfile "$PIDFILE" --background --notify-await --notify-timeout $STARTTIMEOUT --make-pidfile --exec "$0" --start -- foreground; then
       die 'Failed to start. Run `gpg-agent-relay foreground` to see output.'
     fi
     ;;
