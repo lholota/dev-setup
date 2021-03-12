@@ -1,7 +1,11 @@
 ---
-- name: Install socat
+- name: Install relay script dependencies
   package:
-    name: socat
+    name:
+      - socat
+      - lsof
+      - dpkg # for start-stop-daemon
+      - coreutils # for timeout
     state: present
 
 - name: Create the ~/.local/bin/ directory
