@@ -11,42 +11,43 @@
 - name: Create the ~/.local/bin/ directory
   file:
     path: "/home/{{ lookup('env', 'USER') }}/.local/bin"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
     mode: 0700
     state: directory
+    become: no
 
 - name: Create GPG agent relay script
   copy:
     dest: "/home/{{ lookup('env', 'USER') }}/.local/bin/gpg-agent-relay"
-    owner: "{{ lookup('env', 'USER') }}"
     mode: 0500
     content: "{{ lookup('file', 'gpg-agent-relay.sh') }}"
+    become: no
 
 - name: Update ~/.bashrc - start agent relay
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
     line: "$HOME/.local/bin/gpg-agent-relay start"
     insertbefore: '^export SSH_AUTH_SOCK'
+    become: no
 
 - name: Update ~/.bashrc - ssh authentication socket
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
     line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
     insertafter: '^\$HOME/.local/bin/gpg-agent-relay'
+    become: no
 
 - name: Create .gnupg directory
   file:
     path: "/home/{{ lookup('env', 'USER') }}/.gnupg"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
     mode: 0700
     state: directory
+    become: no
 
 #############################
 ### Import public key to gpg
 #############################
 - name: Download public GPG key(s)
+  become: no
   get_url:
     url: "{{ public_gpg_key_url }}"
     dest: "/tmp/public.asc"
