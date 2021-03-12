@@ -38,4 +38,4 @@
   file:
     path: "/home/{{ lookup('env', 'USER') }}/.gnupg"
     mode: 0700
-    type: directory
+    state: directory
