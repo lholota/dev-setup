@@ -8,3 +8,5 @@ all:
     win:
       hosts:
         localhost-win
+  vars:
+    public_gpg_key_url: https://keybase.io/lholota/pgp_keys.asc

@@ -42,3 +42,14 @@
     group: "{{ lookup('env', 'USER') }}"
     mode: 0700
     state: directory
+
+#############################
+### Import public key to gpg
+#############################
+- name: Download public GPG key(s)
+  get_url:
+    url: "{{ public_gpg_key_url }}"
+    dest: "/tmp/public.asc"
+
+- name: Import key(s)
+  command: "gpg --import /tmp/public.asc"

@@ -73,3 +73,14 @@
 - name: Restart computer if required
   ansible.windows.win_reboot:
   when: wsl_ssh_pageant.changed or gpg_agent.changed
+
+#############################
+### Import public key to gpg
+#############################
+- name: Download public GPG key(s)
+  win_get_url:
+    url: "{{ public_gpg_key_url }}"
+    dest: "%TEMP%\\public.asc"
+
+- name: Import key(s)
+  win_command: 'gpg --import "%TEMP%\public.asc"'
