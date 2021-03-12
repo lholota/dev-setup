@@ -12,6 +12,7 @@
   file:
     path: "/home/{{ lookup('env', 'USER') }}/.local/bin"
     owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
     mode: 0700
     state: directory
 
@@ -37,5 +38,7 @@
 - name: Create .gnupg directory
   file:
     path: "/home/{{ lookup('env', 'USER') }}/.gnupg"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
     mode: 0700
     state: directory
