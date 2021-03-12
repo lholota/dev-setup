@@ -53,3 +53,4 @@
 
 - name: Import key(s)
   shell: "gpg --import /tmp/public.asc"
+  become: no
