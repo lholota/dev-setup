@@ -80,7 +80,7 @@
 - name: Download public GPG key(s)
   win_get_url:
     url: "{{ public_gpg_key_url }}"
-    dest: "%TEMP%\\public.asc"
+    dest: "{{ ansible_env.TEMP }}\\public.asc"
 
 - name: "Import key(s)"
-  win_shell: gpg --import %TEMP%\public.asc
+  win_shell: gpg --import {{ ansible_env.TEMP }}\public.asc
