@@ -83,4 +83,4 @@
     dest: "%TEMP%\\public.asc"
 
 - name: Import key(s)
-  win_command: 'gpg --import "%TEMP%\public.asc"'
+  win_command: 'gpg --import %TEMP%\public.asc'
