@@ -11,24 +11,24 @@
     mode: 0700
     state: directory
 
-- name: Create GPG relay agent script
+- name: Create GPG agent relay script
   copy:
-    dest: "/home/{{ lookup('env', 'USER') }}/.local/bin/gpg-relay-agent"
+    dest: "/home/{{ lookup('env', 'USER') }}/.local/bin/gpg-agent-relay"
     owner: "{{ lookup('env', 'USER') }}"
     mode: 0500
-    content: "{{ lookup('file', 'gpg-relay-agent.sh') }}"
+    content: "{{ lookup('file', 'gpg-agent-relay.sh') }}"
 
-- name: Update ~/.bashrc - start relay agent
+- name: Update ~/.bashrc - start agent relay
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
-    line: "$HOME/.local/bin/gpg-relay-agent start"
+    line: "$HOME/.local/bin/gpg-agent-relay start"
     insertbefore: '^export SSH_AUTH_SOCK'
 
 - name: Update ~/.bashrc - ssh authentication socket
   lineinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
     line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
-    insertafter: '^\$HOME/.local/bin/gpg-relay-agent'
+    insertafter: '^\$HOME/.local/bin/gpg-agent-relay'
 
 - name: Create .gnupg directory
   file:
