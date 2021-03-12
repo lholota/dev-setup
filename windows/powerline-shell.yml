@@ -39,23 +39,8 @@
     patterns: "Microsoft.WindowsTerminal_*"
     file_type: "directory"
 
-- name: Check if Windows Terminal settings file exists
-  ansible.windows.win_stat:
-    path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
-  register: settings_file
-
-- name: "Configure terminal appearance"
-  when: settings_file.stat.exists
-  win_lineinfile:
-    path: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
-    line: '"fontFace": "Inconsolata-dz for Powerline","fontSize": 10,"colorScheme": "Campbell"'
-    insertafter: ".*// Put settings here that you want to apply to all profiles.*"
-    newline: unix
-
-- name: "Warn if settings file does not exist"
-  when: not settings_file.stat.exists
-  debug:
-    msg: |
-      The Windows Terminal settings file could not found. Probably because you have not started Windows Terminal yet.
-      Please make sure you select one of the Powerline fonts otherwise the glyphs will not be displayed properly.
-      Or rerun this playbook which will set the font automatically.
+- name: Copy Windows Terminal settings.json
+  win_copy:
+    dest: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
+    content: "{{ lookup('file', 'wt-settings.jsonc') }}"
+    force: no

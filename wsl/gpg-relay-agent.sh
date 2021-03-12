@@ -24,8 +24,6 @@ die() {
 }
 
 main() {
-  mkdir -p "$GNUPGHOME"
-
   checkdeps
   case $1 in
   start)

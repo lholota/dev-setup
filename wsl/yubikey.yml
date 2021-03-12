@@ -29,3 +29,9 @@
     path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
     line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
     insertafter: '^\$HOME/.local/bin/gpg-relay-agent'
+
+- name: Create .gnupg directory
+  file:
+    path: "/home/{{ lookup('env', 'USER') }}/.gnupg"
+    mode: 0700
+    type: directory
