@@ -1,78 +1,78 @@
-# ######################
-# ### GPG4Win
-# ######################
-# - name: Install GPG4Win
-#   win_chocolatey:
-#     name: gpg4win
-#     version: 3.1.14
-#     state: present
+######################
+### GPG4Win
+######################
+- name: Install GPG4Win
+  win_chocolatey:
+    name: gpg4win
+    version: 3.1.14
+    state: present
 
-# - name: Create gnupg directory if it doesn't exist
-#   win_file:
-#     path: '%APPDATA%\gnupg'
-#     state: directory
+- name: Create gnupg directory if it doesn't exist
+  win_file:
+    path: '%APPDATA%\gnupg'
+    state: directory
 
-# - name: Enable Putty support
-#   win_lineinfile:
-#     path: '%APPDATA%\gnupg\gpg-agent.conf'
-#     create: yes
-#     regex: '(^enable-putty-support)'
-#     line: 'enable-putty-support'
-#     newline: windows
+- name: Enable Putty support
+  win_lineinfile:
+    path: '%APPDATA%\gnupg\gpg-agent.conf'
+    create: yes
+    regex: '(^enable-putty-support)'
+    line: 'enable-putty-support'
+    newline: windows
 
-# - name: Enable SSH support
-#   win_lineinfile:
-#     path: '%APPDATA%\gnupg\gpg-agent.conf'
-#     create: yes
-#     regex: '(^enable-ssh-support)'
-#     line: 'enable-ssh-support'
-#     newline: windows
+- name: Enable SSH support
+  win_lineinfile:
+    path: '%APPDATA%\gnupg\gpg-agent.conf'
+    create: yes
+    regex: '(^enable-ssh-support)'
+    line: 'enable-ssh-support'
+    newline: windows
 
-# - name: Configure gpg-agent to start on Windows startup
-#   register: gpg_agent
-#   win_shortcut:
-#     src: '%PROGRAMFILES(X86)%\GnuPG\bin\gpg-connect-agent.exe'
-#     arguments: '/bye'
-#     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
-#     windowstyle: minimized
+- name: Configure gpg-agent to start on Windows startup
+  register: gpg_agent
+  win_shortcut:
+    src: '%PROGRAMFILES(X86)%\GnuPG\bin\gpg-connect-agent.exe'
+    arguments: '/bye'
+    dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG-Agent.lnk'
+    windowstyle: minimized
 
-# ######################
-# ### npiperelay
-# ######################
-# - name: Create npiperelay directory
-#   win_file:
-#     path: "%APPDATA%\\npiperelay"
-#     state: directory
+######################
+### npiperelay
+######################
+- name: Create npiperelay directory
+  win_file:
+    path: "%APPDATA%\\npiperelay"
+    state: directory
 
-# - name: Download npiperelay executable
-#   win_get_url:
-#     url: https://github.com/NZSmartie/npiperelay/releases/download/v0.1/npiperelay.exe
-#     dest: "%APPDATA%\\npiperelay\\npiperelay.exe"
+- name: Download npiperelay executable
+  win_get_url:
+    url: https://github.com/NZSmartie/npiperelay/releases/download/v0.1/npiperelay.exe
+    dest: "%APPDATA%\\npiperelay\\npiperelay.exe"
 
-# ######################
-# ### WSL SSH pageant
-# ######################
-# - name: Create wsl-ssh-pageant directory
-#   win_file:
-#     path: "%APPDATA%\\wsl-ssh-pageant"
-#     state: directory
+######################
+### WSL SSH pageant
+######################
+- name: Create wsl-ssh-pageant directory
+  win_file:
+    path: "%APPDATA%\\wsl-ssh-pageant"
+    state: directory
 
-# - name: Download wsl-ssh-pageant executable
-#   win_get_url: # Gui version is used because at time of writing the playbook, the non-gui version was falsely detected as virus by win defender
-#     url: https://github.com/benpye/wsl-ssh-pageant/releases/download/20201121.2/wsl-ssh-pageant-amd64-gui.exe
-#     dest: "%APPDATA%\\wsl-ssh-pageant\\wsl-ssh-pageant.exe"
+- name: Download wsl-ssh-pageant executable
+  win_get_url: # Gui version is used because at time of writing the playbook, the non-gui version was falsely detected as virus by win defender
+    url: https://github.com/benpye/wsl-ssh-pageant/releases/download/20201121.2/wsl-ssh-pageant-amd64-gui.exe
+    dest: "%APPDATA%\\wsl-ssh-pageant\\wsl-ssh-pageant.exe"
 
-# - name: Configure wsl-ssh-pageant to start on Windows startup
-#   register: wsl_ssh_pageant
-#   win_shortcut:
-#     src: "powershell"
-#     arguments: "-c \"Start-Process -NoNewWindow \\\"${Env:AppData}\\wsl-ssh-pageant\\wsl-ssh-pageant.exe\\\" \\\"--winssh ssh-pageant\\\""
-#     dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
-#     windowstyle: minimized
+- name: Configure wsl-ssh-pageant to start on Windows startup
+  register: wsl_ssh_pageant
+  win_shortcut:
+    src: "powershell"
+    arguments: "-c \"Start-Process -NoNewWindow \\\"${Env:AppData}\\wsl-ssh-pageant\\wsl-ssh-pageant.exe\\\" \\\"--winssh ssh-pageant\\\""
+    dest: '%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\WSL-SSH-Pageant.lnk'
+    windowstyle: minimized
 
-# - name: Restart computer if required
-#   ansible.windows.win_reboot:
-#   when: wsl_ssh_pageant.changed or gpg_agent.changed
+- name: Restart computer if required
+  ansible.windows.win_reboot:
+  when: wsl_ssh_pageant.changed or gpg_agent.changed
 
 #############################
 ### Import public key to gpg
