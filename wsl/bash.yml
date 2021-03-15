@@ -1,5 +1,0 @@
-- name: Configure start directory to home
-  become: no
-  lineinfile:
-    line: "cd ~"
-    path: "/home/{{ lookup('env', 'USER') }}/.bashrc"

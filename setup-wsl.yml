@@ -9,9 +9,6 @@
     tags:
     - yubikey
 
-  - name: "Configure bash"
-    import_tasks: "./wsl/bash.yml"
-
   - name: "Install Powerline shell"
     tags:
     - powerline
