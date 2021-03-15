@@ -9,39 +9,39 @@
     state: present
 
 - name: Create the ~/.local/bin/ directory
+  become: no
   file:
-    path: "/home/{{ lookup('env', 'USER') }}/.local/bin"
+    path: "~/.local/bin"
     mode: 0700
     state: directory
-    become: no
 
 - name: Create GPG agent relay script
+  become: no
   copy:
-    dest: "/home/{{ lookup('env', 'USER') }}/.local/bin/gpg-agent-relay"
+    dest: "~/.local/bin/gpg-agent-relay"
     mode: 0500
     content: "{{ lookup('file', 'gpg-agent-relay.sh') }}"
-    become: no
 
 - name: Update ~/.bashrc - start agent relay
+  become: no
   lineinfile:
-    path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
+    path: "~/.bashrc"
     line: "$HOME/.local/bin/gpg-agent-relay start"
     insertbefore: '^export SSH_AUTH_SOCK'
-    become: no
 
 - name: Update ~/.bashrc - ssh authentication socket
+  become: no
   lineinfile:
-    path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
+    path: "~/.bashrc"
     line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
     insertafter: '^\$HOME/.local/bin/gpg-agent-relay'
-    become: no
 
 - name: Create .gnupg directory
+  become: no
   file:
-    path: "/home/{{ lookup('env', 'USER') }}/.gnupg"
+    path: "~/.gnupg"
     mode: 0700
     state: directory
-    become: no
 
 #############################
 ### Import public key to gpg
