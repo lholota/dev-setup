@@ -10,7 +10,16 @@
       - recuva
       - vlc
       - spotify
+    state: present
+
+# Chrome package does not support proper versioning and when a new version of Chrome is released
+# the package contains a hash of the old version but downloads a new version so temporarily, the
+# checksums are disabled for this package
+- name: Install Chrome
+  win_chocolatey:
+    name: 
       - googlechrome
+    ignore_checksums: yes 
     state: present
     
 - name: Install collaboration apps
