@@ -8,10 +8,10 @@ The general idea is to install as many packages as possible with Chocolatey whic
 
 ## What's in the box
 
-This set up will:
+The scripts and playbooks:
 
 - Enable WSL2 along with all required dependencies
-- Install basic apps - check the [yml file](./windows/util-packages.yml) for full list
+- Install basic apps - check the [yml file](./windows/util-packages.yml) for full list (chrome, 7-zip etc.)
 - Install development tools like VS Code, Docker desktop or Visual Studio - check the [yml file](./windows/dev-packages.yml) for full list
 - Set up [Powerline shell](https://github.com/b-ryan/powerline-shell) compatible fonts so you can use it in Windows Terminal or via `wsl.exe`
 - Set up YubiKey relay so that you can use your YubiKey as:
@@ -28,10 +28,9 @@ This set up will:
     - Enables Hyper-V
     - Enables WSL
     - Downloads and creates an Ubuntu 20.04 LTS distro
-    - Enables Windows Remoting (so that Ansible playbook used in subsequent steps can talk to Windows host)
-1. Prepare WSL distribution using the `sudo ./Init-Ubuntu.sh` bash command. The script must be run with sudo privileges. The script:
-    - Adds Ansible repository
-    - Installs latest version of Ansible
+    - Enables Windows Remoting (so that Ansible playbook used in subsequent steps can talk to Windows host). Feel free to disable the remoting after the configuration has been completed.
+1. Prepare WSL distribution using the `sudo ./Init-Ubuntu.sh` bash command. The script must be run with sudo privileges. (the script adds Ansible repository and installs latest version of Ansible). If you have an older version of Ansible already installed, make sure you uninstall it first.
+1. Install dependencies with `ansible-galaxy install -r requirements.yml`
 1. Apply the Windows playbook using `ansible-playbook -i inventory.yml -u <username> -k setup-win.yml`
     - Replace `<username>` for your Windows username. If it's a domain account, enter it in `user@domain` format.
     - Ansible will ask you for `SSH Password` which is a bit unfortunate phrasing, it's actually asking for your Windows password.
