@@ -3,9 +3,9 @@
     name: powerline-shell
 
 - name: "Add to ~/.bashrc"
+  become: no
   blockinfile:
-    path: "/home/{{ lookup('env', 'USER') }}/.bashrc"
-    become: no
+    path: "~/.bashrc"
     block: |
       function _update_ps1() {
           PS1=$(powerline-shell $?)
