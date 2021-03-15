@@ -1,0 +1,38 @@
+- name: "Configure WSL Linux distro"
+  hosts: wsl
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+  - name: "Configure Yubikey passthrough to WSL"
+    import_tasks: "./wsl/yubikey.yml"
+    tags:
+    - yubikey
+
+  - name: "Configure bash"
+    import_tasks: "./wsl/bash.yml"
+
+  - name: "Install Powerline shell"
+    tags:
+    - powerline
+    import_tasks: "./wsl/powerline-shell.yml"
+
+  - name: "Install NodeJS development tools"
+    import_tasks: "./wsl/dev-nodejs.yml"
+    tags:
+    - nodejs
+
+  - name: "Install Go development tools"
+    import_tasks: "./wsl/dev-golang.yml"
+    tags:
+    - golang
+
+  - name: "Install .NET Core development tools"
+    import_tasks: "./wsl/dev-dotnetcore.yml"
+    tags:
+    - dotnetcore
+
+  - name: "Configure git"
+    import_tasks: "./wsl/git.yml"
+    tags:
+    - git

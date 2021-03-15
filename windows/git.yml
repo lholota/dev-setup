@@ -1,0 +1,12 @@
+- name: Ensure gpg section
+  win_lineinfile:
+    create: yes
+    path: "%USERPROFILE%\\.gitconfig"
+    line: "[gpg]"
+
+- name: Set path to gpg
+  win_lineinfile:
+    path: "%USERPROFILE%\\.gitconfig"
+    insertafter: "\\[gpg\\]"
+    regex: "^program"
+    line: "program = C:\\\\Program Files (x86)\\\\GnuPG\\\\bin\\\\gpg.exe"

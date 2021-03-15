@@ -1,0 +1,21 @@
+- name: Download golang
+  get_url:
+    url: "https://dl.google.com/go/go{{ golang_version | default('1.16') }}.linux-amd64.tar.gz"
+    dest: "/tmp/go{{ golang_version | default('1.16') }}.linux-amd64.tar.gz"
+
+- name: Extract golang
+  unarchive:
+    src: "/tmp/go{{ golang_version | default('1.16') }}.linux-amd64.tar.gz"
+    dest: /usr/local
+
+- name: Add go to system-wide $PATH.
+  copy:
+    dest: /etc/profile.d/golang.sh
+    content: 'PATH=$PATH:/usr/local/go/bin'
+
+- name: Create ~/go directory
+  become: no
+  file:
+    path: "/home/{{ lookup('env', 'USER') }}/go"
+    mode: 0700
+    state: directory

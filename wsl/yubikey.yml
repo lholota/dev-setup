@@ -1,0 +1,57 @@
+---
+- name: Install relay script dependencies
+  package:
+    name:
+      - socat
+      - lsof
+      - dpkg # for start-stop-daemon
+      - coreutils # for timeout
+    state: present
+
+- name: Create the ~/.local/bin/ directory
+  become: no
+  file:
+    path: "~/.local/bin"
+    mode: 0700
+    state: directory
+
+- name: Create GPG agent relay script
+  become: no
+  copy:
+    dest: "~/.local/bin/gpg-agent-relay"
+    mode: 0500
+    content: "{{ lookup('file', 'gpg-agent-relay.sh') }}"
+
+- name: Update ~/.bashrc - start agent relay
+  become: no
+  lineinfile:
+    path: "~/.bashrc"
+    line: "$HOME/.local/bin/gpg-agent-relay start"
+    insertbefore: '^export SSH_AUTH_SOCK'
+
+- name: Update ~/.bashrc - ssh authentication socket
+  become: no
+  lineinfile:
+    path: "~/.bashrc"
+    line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
+    insertafter: '^\$HOME/.local/bin/gpg-agent-relay'
+
+- name: Create .gnupg directory
+  become: no
+  file:
+    path: "~/.gnupg"
+    mode: 0700
+    state: directory
+
+#############################
+### Import public key to gpg
+#############################
+- name: Download public GPG key(s)
+  become: no
+  get_url:
+    url: "{{ public_gpg_key_url }}"
+    dest: "/tmp/public.asc"
+
+- name: Import key(s)
+  shell: "gpg --import /tmp/public.asc"
+  become: no

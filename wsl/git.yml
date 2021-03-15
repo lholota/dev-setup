@@ -1,0 +1,14 @@
+- name: Ensure gpg section
+  become: no
+  lineinfile:
+    create: yes
+    path: "/home/{{ lookup('env', 'USER') }}/.gitconfig"
+    line: "[gpg]"
+
+- name: Set path to gpg
+  become: no
+  lineinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.gitconfig"
+    insertafter: "\\[gpg\\]"
+    regex: "^program"
+    line: "program = gpg"

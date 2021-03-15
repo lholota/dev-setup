@@ -1,0 +1,41 @@
+- name: "Configure Windows host"
+  hosts: win
+  tasks:
+  - name: "Install basic utilities"
+    import_tasks: "./windows/util-packages.yml"
+    tags:
+    - basic
+
+  - name: "Install Development tools"
+    import_tasks: "./windows/dev-packages.yml"
+    tags:
+    - dev
+
+  - name: "Clean up context menu items"
+    import_tasks: "./windows/context-menu.yml"
+    tags:
+    - basic
+    - dev
+    - yubikey
+
+  - name: "Clean up desktop shortcuts"
+    import_tasks: "./windows/desktop-icons.yml"
+    tags:
+    - basic
+    - dev
+    - yubikey
+
+  - name: "Configure Yubikey passthrough to WSL"
+    import_tasks: "./windows/yubikey.yml"
+    tags:
+    - yubikey
+
+  - name: "Set up Powerline shell dependencies"
+    import_tasks: "./windows/powerline-shell.yml"
+    tags:
+    - powerline
+
+  - name: "Configure git"
+    import_tasks: "./windows/git.yml"
+    tags:
+    - git

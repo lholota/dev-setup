@@ -1,0 +1,46 @@
+## Fonts
+- name: "Download Powerline fonts"
+  win_get_url:
+    url: https://github.com/powerline/fonts/archive/master.zip
+    dest: "%TEMP%\\PowerlineFonts.zip"
+    
+- name: "Extract Powerline fonts"
+  win_unzip:
+    src: "%TEMP%\\PowerlineFonts.zip"
+    dest: "%TEMP%"
+
+- name: "Find font files"
+  register: powerline_fonts
+  win_find:
+    paths: 
+      - "{{ ansible_env.TEMP }}\\fonts-master"
+    patterns: [ '*.otf', '*.ttf' ]
+    recurse: yes
+
+- name: "Copy fonts"
+  win_copy:
+    src: "{{ item.path }}"
+    remote_src: yes
+    dest: "%SYSTEMROOT%\\fonts\\{{ item.path | win_basename }}"
+  loop: "{{ powerline_fonts.files }}"
+
+- name: "Create registry entries"
+  win_regedit:
+    path: "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts"
+    name: "{{ item.path | win_basename }}"
+    data: "{{ item.path | win_basename }}"
+  loop: "{{ powerline_fonts.files }}"
+
+## Windows Terminal Options
+- name: "Find Windows Terminal AppData Directory"
+  register: terminal_appdata
+  win_find:
+    paths: "{{ ansible_env.LOCALAPPDATA }}\\Packages"
+    patterns: "Microsoft.WindowsTerminal_*"
+    file_type: "directory"
+
+- name: Copy Windows Terminal settings.json
+  win_copy:
+    dest: "{{ terminal_appdata.files[0].path }}\\LocalState\\settings.json"
+    content: "{{ lookup('file', 'wt-settings.jsonc') }}"
+    force: no
