@@ -1,0 +1,10 @@
+- name: Ensure sudo is installed
+  package:
+    name: sudo
+    state: present
+
+- name: Enable passwordless sudo for current user
+  lineinfile:
+    path: /etc/sudoers
+    regexp: "^{{ lookup('env', 'USER') }} .*$"
+    line: "{{ lookup('env', 'USER') }} ALL=(ALL) NOPASSWD:ALL"
