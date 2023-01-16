@@ -1,0 +1,30 @@
+- name: Install Age
+  win_chocolatey:
+    name:
+      - age.portable
+    state: present
+
+- name: Download Age Yubikey plugin
+  ansible.windows.win_get_url:
+    url: https://github.com/str4d/age-plugin-yubikey/releases/download/v0.3.2/age-plugin-yubikey-v0.3.2-x86_64-windows.zip
+    dest: "%TEMP%\\age-plugin-yubikey.zip"
+    force: true
+
+- name: Extract Age Yubikey plugin
+  community.windows.win_unzip:
+    src: "%TEMP%\\age-plugin-yubikey.zip"
+    dest: "C:\\ProgramData\\chocolatey\\bin\\age-plugin-yubikey-tmp"
+
+- name: Copy Age Yubikey plugin to bin directory
+  ansible.windows.win_copy:
+    src: "C:\\ProgramData\\chocolatey\\bin\\age-plugin-yubikey-tmp\\age-plugin-yubikey\\age-plugin-yubikey.exe"
+    dest: "C:\\ProgramData\\chocolatey\\bin\\age-plugin-yubikey.exe"
+    remote_src: yes
+
+- name: Delete temp files
+  win_file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+  - "%TEMP%\\age-plugin-yubikey.zip"
+  - "C:\\ProgramData\\chocolatey\\bin\\age-plugin-yubikey-tmp"

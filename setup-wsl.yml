@@ -14,6 +14,12 @@
     tags:
     - yubikey
 
+  - name: Install age encryption
+    import_tasks: ./wsl/age.yml
+    tags:
+    - yubikey
+    - age
+
   - name: Install Powerline shell
     tags:
     - powerline

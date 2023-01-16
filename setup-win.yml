@@ -30,6 +30,12 @@
     tags:
     - yubikey
 
+  - name: "Install age encryption"
+    import_tasks: "./windows/age.yml"
+    tags:
+    - yubikey
+    - age
+
   - name: "Set up Powerline shell dependencies"
     import_tasks: "./windows/powerline-shell.yml"
     tags:
