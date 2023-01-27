@@ -6,36 +6,56 @@
       - lsof
       - dpkg # for start-stop-daemon
       - coreutils # for timeout
+      - wslu # wsl utilities for path translations and variable expansions
     state: present
 
-- name: Create the ~/.local/bin/ directory
-  become: no
-  file:
-    path: "~/.local/bin"
-    mode: 0700
-    state: directory
-
 - name: Create GPG agent relay script
-  become: no
   copy:
-    dest: "~/.local/bin/gpg-agent-relay"
-    mode: 0500
+    dest: /usr/local/bin/gpg-agent-relay
     content: "{{ lookup('file', 'gpg-agent-relay.sh') }}"
+    mode: 0555
+    owner: root
+    group: root
 
-- name: Update ~/.bashrc - start agent relay
+- name: Update ~/.bashrc - add SSH_AUTH_SOCK variable
   become: no
   lineinfile:
     path: "~/.bashrc"
-    line: "$HOME/.local/bin/gpg-agent-relay start"
-    insertbefore: '^export SSH_AUTH_SOCK'
+    #line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh" # TODO: Use the one returned by gpgconf
+    line: "export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)"
 
-- name: Update ~/.bashrc - ssh authentication socket
-  become: no
-  lineinfile:
-    path: "~/.bashrc"
-    line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh"
-    insertafter: '^\$HOME/.local/bin/gpg-agent-relay'
+- name: Remove default gpg-agent service
+  file:
+    # TODO: Confirm path
+    path: /lib/systemd/user/gpg-agent.service
+    state: absent
 
+- name: Create systemd unit file
+  copy:
+    dest: "/lib/systemd/system/gpg-agent-{{ lookup('env','USER') }}.service"
+    content: |
+      [Unit]
+      Description=GPG agent relay for {{ lookup('env','USER') }}
+
+      [Service]
+      ExecStart=bash gpg-agent-relay
+      User={{ lookup('env','USER') }}
+
+      [Install]
+      WantedBy=multi-user.target
+    owner: root
+    group: root
+    mode: 0555
+
+- name: Start systemd service
+  systemd:
+    daemon_reload: true
+    name: "gpg-agent-{{ lookup('env','USER') }}"
+    state: started
+
+#############################
+### Import public key to gpg
+#############################
 - name: Create .gnupg directory
   become: no
   file:
@@ -43,9 +63,6 @@
     mode: 0700
     state: directory
 
-#############################
-### Import public key to gpg
-#############################
 - name: Download public GPG key(s)
   become: no
   get_url:

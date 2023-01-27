@@ -41,7 +41,7 @@ The scripts and playbooks:
 
 ## Development
 
-Changes should be testing using an Azure VM which supports nested virtualization with Windows 10 Pro/Enterprise:
+Changes should be testing using an Azure VM which supports nested virtualization with Windows 11 Pro/Enterprise:
 - Provision VM
 - Copy repo/developed branch (e.g. download as zip from GitHub)
 - Follow the guide above

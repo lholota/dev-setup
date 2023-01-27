@@ -1,0 +1,22 @@
+- name: Enable systemd in wsl.conf
+  blockinfile:
+    path: /etc/wsl.conf
+    owner: root
+    group: root
+    mode: 0664
+    create: true
+    block: |
+      [boot]
+      systemd=true
+
+- name: Try systemctl command
+  failed_when: false
+  changed_when: false
+  register: systemd_test_command
+  command: systemctl
+
+- name: Test distro has been booted with systemd
+  assert:
+    that:
+      - "systemd_test_command.rc == 0"
+    msg: "systemd has been now enabled but the distro has not been booted with systemd. Please restart the wsl distro by running 'wsl --shutdown' in windows powershell."
