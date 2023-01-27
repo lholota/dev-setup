@@ -21,12 +21,10 @@
   become: no
   lineinfile:
     path: "~/.bashrc"
-    #line: "export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh" # TODO: Use the one returned by gpgconf
     line: "export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)"
 
 - name: Remove default gpg-agent service
   file:
-    # TODO: Confirm path
     path: /lib/systemd/user/gpg-agent.service
     state: absent
 
