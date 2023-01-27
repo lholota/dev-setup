@@ -9,6 +9,12 @@
     tags:
     - sudo
 
+  - name: Enable systemd
+    import_tasks: ./wsl/systemd.yml
+    tags:
+    - systemd
+    - yubikey
+
   - name: Configure Yubikey passthrough to WSL
     import_tasks: ./wsl/yubikey.yml
     tags:
