@@ -1,0 +1,16 @@
+- name: Download apt key
+  ansible.builtin.get_url:
+    url: https://apt.releases.hashicorp.com/gpg
+    dest: /etc/apt/keyrings/hashicorp-archive-keyring.asc
+
+- name: Add Hashicorp repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/hashicorp-archive-keyring.asc] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
+    state: present
+
+- name: Install Terraform
+  ansible.builtin.apt:
+    update_cache: true
+    name:
+      - terraform
+    state: present

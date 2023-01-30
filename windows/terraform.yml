@@ -1,0 +1,5 @@
+- name: Install Terraform
+  win_chocolatey:
+    name:
+      - terraform
+    state: present

@@ -52,6 +52,11 @@
     - age
     - sops
 
+  - name: Install Terraform
+    import_tasks: ./wsl/terraform.yml
+    tags:
+    - terraform
+
   - name: Install SOPS
     import_tasks: ./wsl/sops.yml
     tags:
