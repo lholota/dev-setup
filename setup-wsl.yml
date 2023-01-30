@@ -15,16 +15,10 @@
     - systemd
     - yubikey
 
-  - name: Configure Yubikey passthrough to WSL
-    import_tasks: ./wsl/yubikey.yml
+  - name: Install Docker
+    import_tasks: ./wsl/docker.yml
     tags:
-    - yubikey
-
-  - name: Install age encryption
-    import_tasks: ./wsl/age.yml
-    tags:
-    - yubikey
-    - age
+    - docker
 
   - name: Install Powerline shell
     tags:
@@ -45,6 +39,29 @@
     import_tasks: ./wsl/dev-dotnetcore.yml
     tags:
     - dotnetcore
+
+  - name: Configure Yubikey passthrough to WSL
+    import_tasks: ./wsl/yubikey.yml
+    tags:
+    - yubikey
+
+  - name: Install age encryption
+    import_tasks: ./wsl/age.yml
+    tags:
+    - yubikey
+    - age
+    - sops
+
+  - name: Install SOPS
+    import_tasks: ./wsl/sops.yml
+    tags:
+    - sops
+
+  - name: Install kubernetes tools
+    import_tasks: ./wsl/kubernetes.yml
+    tags:
+    - kubernetes
+    - k8s
 
   - name: Configure git
     import_tasks: ./wsl/git.yml
