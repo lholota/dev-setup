@@ -37,6 +37,11 @@
     - age
     - sops
 
+  - name: "Install Terraform"
+    import_tasks: "./windows/terraform.yml"
+    tags:
+    - terraform
+
   - name: "Install SOPS"
     import_tasks: "./windows/sops.yml"
     tags:
