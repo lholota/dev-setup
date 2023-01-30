@@ -35,6 +35,18 @@
     tags:
     - yubikey
     - age
+    - sops
+
+  - name: "Install SOPS"
+    import_tasks: "./windows/sops.yml"
+    tags:
+    - sops
+
+  - name: "Install Kubernetes tools"
+    import_tasks: "./windows/kubernetes.yml"
+    tags:
+    - kubernetes
+    - k8s
 
   - name: "Set up Powerline shell dependencies"
     import_tasks: "./windows/powerline-shell.yml"

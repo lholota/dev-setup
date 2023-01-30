@@ -1,0 +1,4 @@
+- name: Install SOPS
+  package:
+    name: sops
+    state: present
