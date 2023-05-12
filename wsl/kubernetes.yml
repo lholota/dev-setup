@@ -26,13 +26,18 @@
     name: geerlingguy.helm
 
 # Helm secrets
+- name: Check if helm secrets are already installed
+  register: helm_plugins
+  ansible.builtin.command: helm plugin list
+
 - name: Install helm secrets
+  when: "'secrets' not in helm_plugins.stdout"
   ansible.builtin.command: helm plugin install https://github.com/jkroepke/helm-secrets
 
 # Kubescape
 - name: Fetch kubescape checksum
   ansible.builtin.uri:
-    url: https://github.com/kubescape/kubescape/releases/latest/download/kubescape-ubuntu-latest-sha256
+    url: https://github.com/kubescape/kubescape/releases/latest/download/kubescape-ubuntu-latest.sha256
     return_content: true
   register: kubescape_checksum
 

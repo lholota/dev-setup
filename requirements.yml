@@ -1,3 +1,6 @@
 ---
+roles:
+- name: geerlingguy.helm
+
 collections:
 - name: community.general

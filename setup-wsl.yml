@@ -72,3 +72,8 @@
     import_tasks: ./wsl/git.yml
     tags:
     - git
+
+  - name: Install Ansible tools
+    import_tasks: ./wsl/ansible.yml
+    tags:
+    - ansible
