@@ -1,9 +1,0 @@
-- name: Download latest release version
-  ansible.builtin.uri:
-    url: https://github.com/balena-io/etcher/releases/latest/download/latest-linux.yml
-    return_content: yes
-  register: etcher_latest_version
-
-- name: Install package
-  ansible.builtin.apt:
-    deb: "https://github.com/balena-io/etcher/releases/download/v{{ (etcher_latest_version.content | from_yaml).version }}/balena-etcher_{{ (etcher_latest_version.content | from_yaml).version }}_amd64.deb"

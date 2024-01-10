@@ -12,17 +12,40 @@
       - spotify-client
       - default-jre # JRE
       - softmaker-freeoffice-2021
-      # From downloaded file - create a new partial to avoid downloading the installer each time
-      # zoom
-      # slack
-      # PDF reader - foxit alternative ?
-      # Krita (drawing)
-
-  #  - Diff package - ???
-  #  - Notepad++ (alternative ?)
+      - notepadqq
+      - krita
+      - krita-l10n
+      - okular
+      - cloudflare-warp
     state: present
 
 - name: Install etcher
   ansible.builtin.include_tasks:
-    file: utils-etcher.yaml
+    file: ./reusable/install-from-gh-release.yaml
+  vars:
+    gh_release_latest_version_url: https://github.com/balena-io/etcher/releases/latest/download/latest-linux.yml
+    gh_release_deb_package_url: https://github.com/balena-io/etcher/releases/download/v$version/balena-etcher_$version_amd64.deb
   when: "'balena-etcher-electron' not in ansible_facts.packages"
+
+- name: Install draw.io
+  ansible.builtin.include_tasks:
+    file: ./reusable/install-from-gh-release.yaml
+  vars:
+    gh_release_latest_version_url: https://github.com/jgraph/drawio-desktop/releases/latest/download/latest-linux.yml
+    gh_release_deb_package_url: https://github.com/jgraph/drawio-desktop/releases/download/v$version/drawio-amd64-$version.deb
+  when: "'drawio' not in ansible_facts.packages"
+
+- name: Install Slack
+  ansible.builtin.apt:
+    deb: "https://downloads.slack-edge.com/releases/linux/4.35.131/prod/x64/slack-desktop-4.35.131-amd64.deb"
+  when: "'slack-desktop' not in ansible_facts.packages"
+
+- name: Install Zoom
+  ansible.builtin.apt:
+    deb: "https://zoom.us/client/5.17.1.1840/zoom_amd64.deb"
+  when: "'zoom' not in ansible_facts.packages"
+
+- name: Install Duo Desktop
+  ansible.builtin.apt:
+    deb: "https://desktop.pkg.duosecurity.com/duo-desktop-latest.amd64.deb"
+  when: "'duo-desktop' not in ansible_facts.packages"

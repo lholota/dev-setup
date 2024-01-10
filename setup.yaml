@@ -3,10 +3,23 @@
   become: yes
   become_method: sudo
   become_user: root
+  vars:
+    gpg_public_key_url: https://keybase.io/lholota/pgp_keys.asc
+  handlers:
+  - name: Update apt cache
+    ansible.builtin.apt:
+      update_cache: yes
   tasks:
   - name: Gather the package facts
     ansible.builtin.package_facts:
       manager: auto
+    tags: [ always ]
+
+  - name: Load related Ubuntu release name
+    ansible.builtin.shell:
+      cmd: cat /etc/os-release | grep UBUNTU_CODENAME | cut -d= -f2
+    register: ubuntu_release_name
+    changed_when: false
     tags: [ always ]
       
   - name: Add third party repositories
@@ -16,6 +29,10 @@
   - name: Clean up pre-installed pakcages
     import_tasks: ./tasks/cleanup.yaml
     tags: [ cleanup ]
+
+  - name: Install and configure Yubikey related tools
+    import_tasks: ./tasks/yubikey.yaml
+    tags: [ yubikey ]
 
   - name: Install standard tools and utils 
     import_tasks: ./tasks/utils.yaml

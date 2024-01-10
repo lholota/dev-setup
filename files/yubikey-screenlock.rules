@@ -1,0 +1,1 @@
+ACTION=="remove", ENV{ID_VENDOR}=="Yubico", RUN+="/usr/local/bin/yubikey-removed-script"

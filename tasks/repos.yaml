@@ -50,6 +50,15 @@
       - repo: deb [signed-by=/etc/apt/trusted.gpg.d/softmaker.asc] https://shop.softmaker.com/repo/apt stable non-free
         filename: softmaker
 
-- name: Update apt cache
-  ansible.builtin.apt:
-    update_cache: yes
+- name: Add Cloudflare repository
+  ansible.builtin.include_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://pkg.cloudflareclient.com/pubkey.gpg
+    apt_key_dest: /etc/apt/trusted.gpg.d/cloudflare.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/cloudflare.asc] https://pkg.cloudflareclient.com/ {{ ubuntu_release_name.stdout }} main"
+        filename: cloudflare
+
+- name: Force all notified handlers to run at this point, not waiting for normal sync points
+  ansible.builtin.meta: flush_handlers

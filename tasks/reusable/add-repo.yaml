@@ -4,6 +4,7 @@
     dest: "{{ apt_key_dest }}"
 
 - name: Add repository
+  notify: Update apt cache
   ansible.builtin.apt_repository:
     repo: "{{ item.repo }}"
     filename: "{{ item.filename }}"

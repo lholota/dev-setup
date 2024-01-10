@@ -1,0 +1,10 @@
+- name: Download latest release version
+  ansible.builtin.uri:
+    url: "{{ gh_release_latest_version_url }}"
+    return_content: yes
+  register: latest_version
+
+- name: Install package
+  ansible.builtin.apt:
+    deb: "{{ gh_release_deb_package_url | replace('$version', (latest_version.content | from_yaml).version) }}"
+  # https://github.com/{{ gh_release_repo_slug }}/releases/download/v{{ (latest_version.content | from_yaml).version }}/balena-etcher_{{ (etcher_latest_version.content | from_yaml).version }}_amd64.deb

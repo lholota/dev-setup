@@ -1,3 +1,25 @@
+## Full disk encryption unlock with YubiKey
+The playbook will only install the required packages, given that the configuration depends on the disk layout it is not configured automatically by design. The general steps are (inspired by https://github.com/cornelinux/yubikey-luks) 
+- Enable challenge/response mode if not enabled already: ykpersonalize -2 -ochal-resp -ochal-hmac -ohmac-lt64 -oserial-api-visible
+    Note: slot 2 selected by design, requires hlding the yubikey which is ok during the start
+- Enroll yubikey-luks into the keystore: yubikey-luks-enroll -s 1 -d /dev/nvme0n1p2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Automated development workstation set up
 
 To avoid the hassle of re-installing all apps manually, I decided to maintain the development workstation set up using Ansible.
