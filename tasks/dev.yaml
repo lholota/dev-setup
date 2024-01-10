@@ -1,0 +1,9 @@
+- name: Install development tools
+  ansible.builtin.apt:
+    name:
+      - code
+      # .NET SDK
+      # Node
+      # Yarn
+      # Golang
+    state: present

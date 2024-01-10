@@ -1,0 +1,5 @@
+- name: Uninstall undesired packages
+  ansible.builtin.apt:
+    name: 
+        - libreoffice*
+    state: absent

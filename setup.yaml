@@ -1,0 +1,30 @@
+- name: "Configure development workstation"
+  hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
+  tasks:
+  - name: Gather the package facts
+    ansible.builtin.package_facts:
+      manager: auto
+    tags: [ always ]
+      
+  - name: Add third party repositories
+    import_tasks: ./tasks/repos.yaml
+    tags: [ always ]
+
+  - name: Clean up pre-installed pakcages
+    import_tasks: ./tasks/cleanup.yaml
+    tags: [ cleanup ]
+
+  - name: Install standard tools and utils 
+    import_tasks: ./tasks/utils.yaml
+    tags: [ utils ]
+
+  - name: Install development tools
+    import_tasks: ./tasks/dev.yaml
+    tags: [ dev, development ]
+
+  - name: Install (dev)ops tools
+    import_tasks: ./tasks/ops.yaml
+    tags: [ ops ]

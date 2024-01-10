@@ -1,0 +1,55 @@
+- name: Add Microsoft VS Code repository
+  ansible.builtin.include_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://packages.microsoft.com/keys/microsoft.asc
+    apt_key_dest: /etc/apt/trusted.gpg.d/packages.microsoft.asc 
+    apt_repos:
+      - repo: deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/repos/code stable main
+        filename: microsoft-vscode
+      - repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/repos/edge stable main
+        filename: microsoft-edge
+
+- name: Add Google Chrome repository
+  ansible.builtin.include_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+    apt_key_dest: /etc/apt/keyrings/google.pub
+    apt_repos:
+      - repo: deb [arch=amd64 signed-by=/etc/apt/keyrings/google.pub] http://dl.google.com/linux/chrome/deb/ stable main
+        filename: google-chrome
+
+- name: Add Vivaldi repository
+  ansible.builtin.include_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://repo.vivaldi.com/archive/linux_signing_key.pub
+    apt_key_dest: /etc/apt/trusted.gpg.d/vivaldi.pub
+    apt_repos:
+      - repo: deb [arch=amd64,armhf signed-by=/etc/apt/trusted.gpg.d/vivaldi.pub] https://repo.vivaldi.com/archive/deb stable main
+        filename: vivaldi
+
+- name: Add Spotify repository
+  ansible.builtin.include_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg
+    apt_key_dest: /etc/apt/trusted.gpg.d/spotify.asc
+    apt_repos:
+      - repo: deb [signed-by=/etc/apt/trusted.gpg.d/spotify.asc] http://repository.spotify.com stable non-free
+        filename: spotify
+
+- name: Add SoftMaker repository
+  ansible.builtin.include_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://shop.softmaker.com/repo/linux-repo-public.key
+    apt_key_dest: /etc/apt/trusted.gpg.d/softmaker.asc
+    apt_repos:
+      - repo: deb [signed-by=/etc/apt/trusted.gpg.d/softmaker.asc] https://shop.softmaker.com/repo/apt stable non-free
+        filename: softmaker
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
