@@ -60,5 +60,11 @@
       - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/cloudflare.asc] https://pkg.cloudflareclient.com/ {{ ubuntu_release_name.stdout }} main"
         filename: cloudflare
 
+- name: Add Yubico repository
+  notify: Update apt cache
+  ansible.builtin.apt_repository:
+    repo: ppa:yubico/stable
+    codename: "{{ ubuntu_release_name.stdout }}"
+
 - name: Force all notified handlers to run at this point, not waiting for normal sync points
   ansible.builtin.meta: flush_handlers
