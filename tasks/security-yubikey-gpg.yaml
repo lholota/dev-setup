@@ -56,6 +56,7 @@
 
 - name: Get SSH agent path
   become: false
+  changed_when: false
   ansible.builtin.shell:
     cmd: "gpgconf --list-dirs | grep ssh | cut -d: -f2"
   register: ssh_agent_path

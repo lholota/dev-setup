@@ -12,7 +12,7 @@
     path: /var/lib/mfa
     owner: root
     group: root
-    mode: 0750
+    mode: 0751
     state: directory
 
 - name: Create directory for current's user authenticator state
@@ -30,6 +30,10 @@
 - name: Configure sign in with Google OTP
   ansible.builtin.include_tasks:
     file: security-signin-google-otp.yaml
+
+- name: Configure sign in with Yubikey
+  ansible.builtin.include_tasks:
+    file: security-signin-yubikey.yaml
 
 # TODO: Sign in with Yubikey
 

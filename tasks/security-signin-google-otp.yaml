@@ -12,7 +12,7 @@
   ansible.builtin.fail:
     msg: |
       Please do not forget to set up google authenticator for your user account using the command below:
-      google-authenticator --secret="/var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
+      google-authenticator --secret=/var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
   when: not google_otp.stat.exists
 
 
