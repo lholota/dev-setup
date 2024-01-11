@@ -1,0 +1,13 @@
+# # TODO: Test after restart
+# - name: Create scripts for locking the screen when YubiKey is removed
+#   ansible.builtin.copy:
+#     dest: "{{ item.dest }}"
+#     content: "{{ lookup('ansible.builtin.file', item.src) }}"
+#     owner: root
+#     group: root
+#     mode: 0775
+#   loop:
+#     - src: yubikey-removed-script
+#       dest: /usr/local/bin/yubikey-removed-script
+#     - src: yubikey-screenlock.rules
+#       dest: /etc/udev/rules.d/yubikey-screenlock.rules
