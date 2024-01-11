@@ -16,13 +16,17 @@
       pamu2fcfg > /var/lib/mfa/{{ lookup('env', 'USER') }}/.u2f_keys
   when: not u2f_keys.stat.exists
 
+# Options 
+# - with PIN it could be used as a single factor - preferable
+# - without PIN it can be used as a second factor
+
 # - name: Add Yubikey requirement for sign in
 #   ansible.builtin.lineinfile:
 #     path: /etc/pam.d/common-password
 #     create: false
 #     # Required for out-of-home secret storage
 #     # null ok may be skipped depending on a variable
-#     line: "auth sufficient pam_u2f.so cue authfile=/var/lib/mfa/${USER}/.u2f_keys nouserok"
+#     line: "auth            sufficient                      pam_u2f.so expand authfile=/var/lib/mfa/%u/.u2f_keys nouserok interactive=1 pinverification=1 debug debug_file=/tmp/u2f.log"
 
 
 # # TODO: Test after restart
