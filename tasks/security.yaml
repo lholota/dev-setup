@@ -19,10 +19,12 @@
 
 - name: Configure using YubiKey as SSH and GPG key
   ansible.builtin.include_tasks:
-    file: yubikey-gpg.yaml
+    file: security-yubikey-gpg.yaml
 
-- name: Configure using YubiKey as a sign in and lock method
+- name: Configure sign in with Google OTP
   ansible.builtin.include_tasks:
-    file: yubikey-signin.yaml
+    file: security-signin-google-otp.yaml
+
+# TODO: Sign in with Yubikey
 
 # TODO: Sign in with fingerprint - must be set up on newer laptop

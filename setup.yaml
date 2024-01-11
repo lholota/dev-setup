@@ -36,8 +36,8 @@
     tags: [ cleanup ]
 
   - name: Install and configure Yubikey related tools
-    import_tasks: ./tasks/yubikey.yaml
-    tags: [ yubikey ]
+    import_tasks: ./tasks/security.yaml
+    tags: [ security ]
 
   - name: Install and configure SSH
     import_tasks: ./tasks/ssh.yaml
