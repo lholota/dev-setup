@@ -1,0 +1,13 @@
+- name: Add apt key
+  ansible.builtin.get_url:
+    url: "{{ apt_key_url }}"
+    dest: "{{ apt_key_dest }}"
+
+- name: Add repository
+  notify: Update apt cache
+  ansible.builtin.apt_repository:
+    repo: "{{ item.repo }}"
+    filename: "{{ item.filename }}"  
+    update_cache: false
+    state: present
+  loop: "{{ apt_repos }}"

@@ -2,7 +2,11 @@
   debug:
     msg: Please do not forget to set up google authenticator for your user account
 
-
+- name: Add Google TOTP requirement when signing in with a password
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/common-password
+    create: false
+    line: "auth required pam_google_authenticator.so"
 
 
 # # TODO: Test after restart
