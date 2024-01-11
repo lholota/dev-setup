@@ -1,0 +1,25 @@
+- name: Install SSH
+  ansible.builtin.apt:
+    name: ssh
+
+- name: Configure ssh pam to allow using 2nd factors
+  notify: Restart sshd
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/sshd
+    line: "{{ item }}"
+    create: false
+  loop:
+    - "auth required pam_google_authenticator.so nullok"
+    - "auth required pam_permit.so"
+
+- name: Configure sshd to allow using 2nd factors
+  notify: Restart sshd
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regex: "{{ item.regex }}"
+    line: "{{ item.line }}"
+  loop:
+    - regex: "^ChallengeResponseAuthentication "
+      line: "ChallengeResponseAuthentication yes"
+    - regex: "^AuthenticationMethods "
+      line: "AuthenticationMethods publickey,keyboard-interactive"

@@ -2,4 +2,5 @@
   ansible.builtin.apt:
     name: 
         - libreoffice*
+        - timeshift
     state: absent

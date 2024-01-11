@@ -1,7 +1,9 @@
 - name: Install required packages
   ansible.builtin.apt:
     name: 
+      - ssh
       - libpam-yubico
+      - libpam-google-authenticator
       - yubikey-manager
       - yubikey-manager-qt
       - yubico-piv-tool
@@ -15,90 +17,12 @@
       - scdaemon
       - pcscd
 
-# # TODO: Test after restart
-# - name: Create scripts for locking the screen when YubiKey is removed
-#   ansible.builtin.copy:
-#     dest: "{{ item.dest }}"
-#     content: "{{ lookup('ansible.builtin.file', item.src) }}"
-#     owner: root
-#     group: root
-#     mode: 0775
-#   loop:
-#     - src: yubikey-removed-script
-#       dest: /usr/local/bin/yubikey-removed-script
-#     - src: yubikey-screenlock.rules
-#       dest: /etc/udev/rules.d/yubikey-screenlock.rules
+- name: Configure using YubiKey as SSH and GPG key
+  ansible.builtin.include_tasks:
+    file: yubikey-gpg.yaml
 
-- name: Enable using YubiKey as SSH and GPG key
-  block:
-    - name: Create .gnupg directory
-      ansible.builtin.file:
-        path: "/home/{{ lookup('env', 'USER') }}/.gnupg"
-        owner: "{{ lookup('env', 'USER') }}"
-        group: "{{ lookup('env', 'USER') }}"
-        mode: 0700
-        state: directory
-
-    - name: Configure scdaemon
-      ansible.builtin.copy:
-        dest: "/home/{{ lookup('env', 'USER') }}/.gnupg/scdaemon.conf"
-        owner: "{{ lookup('env', 'USER') }}"
-        group: "{{ lookup('env', 'USER') }}"
-        mode: 0600
-        content: |
-          disable-ccid
-          pcsc-driver /usr/lib/x86_64-linux-gnu/libpcsclite.so.1
-          card-timeout 1
-
-          # Always try to use yubikey as the first reader
-          # even when other smart card readers are connected
-          # Name of the reader can be found using the pcsc_scan command
-          # If you have problems with gpg not recognizing the Yubikey
-          # then make sure that the string here matches exacly pcsc_scan
-          # command output. Also check journalctl -f for errors.
-          reader-port Yubico YubiKey
-
-    - name: Configure gpg
-      ansible.builtin.lineinfile:
-        dest: "/home/{{ lookup('env', 'USER') }}/.gnupg/gpg.conf"
-        owner: "{{ lookup('env', 'USER') }}"
-        group: "{{ lookup('env', 'USER') }}"
-        create: true
-        mode: 0600
-        regexp: '^trust-model'
-        line: trust-model tofu+pgp
-        state: present
-
-    - name: Download public key
-      become: false
-      ansible.builtin.get_url:
-        url: "{{ gpg_public_key_url }}"
-        dest: /tmp/public.asc
-        force: true
-
-    - name: Import public key into GPG
-      become: false
-      ansible.builtin.command:
-        cmd: gpg --import /tmp/public.asc
-
-    - name: Get SSH agent path
-      become: false
-      ansible.builtin.shell:
-        cmd: "gpgconf --list-dirs | grep ssh | cut -d: -f2"
-      register: ssh_agent_path
-
-    - name: Set the SSH agent path to bashrc variable
-      ansible.builtin.lineinfile:
-        path: "{{ lookup('env', 'HOME') }}/.bashrc"
-        create: false
-        regex: "^SSH_AUTH_SOCK="
-        line: "SSH_AUTH_SOCK={{ ssh_agent_path.stdout }}"
-
-
-
-
-# TODO: Initialize OTP slot 1 in YK
-# TODO: Luks - 1FA with stored challenge
-# TODO: System sign in with YK
+- name: Configure using YubiKey as a sign in and lock method
+  ansible.builtin.include_tasks:
+    file: yubikey-signin.yaml
 
 # TODO: Sign in with fingerprint - must be set up on newer laptop

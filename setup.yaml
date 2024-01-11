@@ -9,6 +9,11 @@
   - name: Update apt cache
     ansible.builtin.apt:
       update_cache: yes
+
+  - name: Restart sshd
+    ansible.builtin.service:
+      name: sshd
+      state: restarted
   tasks:
   - name: Gather the package facts
     ansible.builtin.package_facts:
@@ -26,13 +31,17 @@
     import_tasks: ./tasks/repos.yaml
     tags: [ always ]
 
-  - name: Clean up pre-installed pakcages
+  - name: Clean up pre-installed packages
     import_tasks: ./tasks/cleanup.yaml
     tags: [ cleanup ]
 
   - name: Install and configure Yubikey related tools
     import_tasks: ./tasks/yubikey.yaml
     tags: [ yubikey ]
+
+  - name: Install and configure SSH
+    import_tasks: ./tasks/ssh.yaml
+    tags: [ ssh ]
 
   - name: Install standard tools and utils 
     import_tasks: ./tasks/utils.yaml
