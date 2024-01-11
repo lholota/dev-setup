@@ -1,32 +1,27 @@
-- name: Create directory for authenticator state
-  ansible.builtin.file:
-    path: /var/lib/google-authenticator
-    owner: root
-    group: root
-    mode: 0774
-    state: directory
+- name: Install required packages
+  ansible.builtin.apt:
+    name: 
+      - libpam-google-authenticator
 
-- name: Create directory for current's user authenticator state
-  ansible.builtin.file:
-    path: "/var/lib/google-authenticator/{{ lookup('env', 'USER') }}"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
-    mode: 0770
-    state: directory
+- name: Check if user has an u2f key set up
+  ansible.builtin.stat:
+      path: /var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
+  register: google_otp
 
 - name: Notify user to set up google authenticator
-  debug:
+  ansible.builtin.fail:
     msg: |
       Please do not forget to set up google authenticator for your user account using the command below:
-      google-authenticator --secret=/var/lib/google-authenticator/{{ lookup('env', 'USER') }}/secret
+      google-authenticator --secret="/var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
+  when: not google_otp.stat.exists
 
 
 # test if sufficient works with multiple factors or a substack is required
 
-# - name: Add Google TOTP requirement when signing in with a password
+# - name: Add Google TOTP requirement for sign in
 #   ansible.builtin.lineinfile:
 #     path: /etc/pam.d/common-password
 #     create: false
 #     # Required for out-of-home secret storage
 #     # null ok may be skipped depending on a variable
-#     line: "auth sufficient pam_google_authenticator.so secret=/var/lib/google-authenticator/${USER}/secret nullok"
+#     line: "auth sufficient pam_google_authenticator.so secret=/var/lib/mfa/${USER}/.google-authenticator nullok"

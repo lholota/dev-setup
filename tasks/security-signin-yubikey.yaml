@@ -1,3 +1,30 @@
+- name: Install required packages
+  ansible.builtin.apt:
+    name: 
+      - libpam-u2f
+      - pamu2fcfg
+
+- name: Check if user has an u2f key set up
+  ansible.builtin.stat:
+      path: /var/lib/mfa/{{ lookup('env', 'USER') }}/.u2f_keys
+  register: u2f_keys
+
+- name: Fail if the user has no u2f keys set up
+  ansible.builtin.fail:
+    msg: |
+      Please do not forget to set save mapping of your u2f key to your profile with the following command:
+      pamu2fcfg > /var/lib/mfa/{{ lookup('env', 'USER') }}/.u2f_keys
+  when: not u2f_keys.stat.exists
+
+- name: Add Yubikey requirement for sign in
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/common-password
+    create: false
+    # Required for out-of-home secret storage
+    # null ok may be skipped depending on a variable
+    line: "auth sufficient pam_u2f.so cue authfile=/var/lib/mfa/${USER}/.u2f_keys nouserok"
+
+
 # # TODO: Test after restart
 # - name: Create scripts for locking the screen when YubiKey is removed
 #   ansible.builtin.copy:

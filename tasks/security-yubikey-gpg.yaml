@@ -1,3 +1,9 @@
+- name: Install required packages
+  ansible.builtin.apt:
+    name: 
+      - scdaemon
+      - pcscd
+
 - name: Create .gnupg directory
   ansible.builtin.file:
     path: "/home/{{ lookup('env', 'USER') }}/.gnupg"

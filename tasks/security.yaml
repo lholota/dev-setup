@@ -1,21 +1,27 @@
-- name: Install required packages
+- name: Install Yubikey utilities
   ansible.builtin.apt:
     name: 
-      - ssh
-      - libpam-yubico
-      - libpam-google-authenticator
       - yubikey-manager
       - yubikey-manager-qt
       - yubico-piv-tool
       - yubikey-personalization-gui
       - yubioath-desktop
-      # For disk encryption
-      - yubikey-luks
-      # For screen lock when YK removed
-      - finger
-      # For SSH
-      - scdaemon
-      - pcscd
+
+- name: Create directory for mfa state
+  ansible.builtin.file:
+    path: /var/lib/mfa
+    owner: root
+    group: root
+    mode: 0750
+    state: directory
+
+- name: Create directory for current's user authenticator state
+  ansible.builtin.file:
+    path: "/var/lib/mfa/{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0700
+    state: directory
 
 - name: Configure using YubiKey as SSH and GPG key
   ansible.builtin.include_tasks:
