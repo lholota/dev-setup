@@ -21,11 +21,11 @@
       google-authenticator --secret=/var/lib/google-authenticator/{{ lookup('env', 'USER') }}/secret
 
 
-# - name: Add Google TOTP requirement when signing in with a password
-#   ansible.builtin.lineinfile:
-#     path: /etc/pam.d/common-password
-#     create: false
-#     line: "auth sufficient pam_google_authenticator.so nullok"
+- name: Add Google TOTP requirement when signing in with a password
+  ansible.builtin.lineinfile:
+    path: /etc/pam.d/common-password
+    create: false
+    line: "auth sufficient pam_google_authenticator.so nullok"
 
 
 # # TODO: Test after restart
