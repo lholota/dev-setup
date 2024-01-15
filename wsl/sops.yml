@@ -1,7 +1,0 @@
-- name: Download SOPS
-  ansible.builtin.get_url:
-    url: https://github.com/mozilla/sops/releases/download/v3.7.3/sops-v3.7.3.linux.amd64
-    dest: /usr/local/bin/sops
-    mode: 0555
-    owner: root
-    group: root
