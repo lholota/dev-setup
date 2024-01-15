@@ -5,6 +5,9 @@ if ! env | grep DEVNAME; then
   exit 0;
 fi
 
+LOCKER="cinnamon-screensaver"
+LOCKER_COMMAND="${LOCKER}-command"
+
 getXuser() {
   user=`finger | grep -m1 ":$displaynum " | awk '{print $1}'`
   if [ x"$user" = x"" ]; then
@@ -18,37 +21,26 @@ getXuser() {
   fi
 }
 
-if [ -z "$(lsusb | grep Yubico)" ] ; then
-  for x in /tmp/.X11-unix/*; do
-      displaynum=`echo $x | sed s#/tmp/.X11-unix/X## | sed s#/##`
-      getXuser
-      if [ x"$XAUTHORITY" != x"" ]; then
-          # extract current state
-          export DISPLAY=":$displaynum"
-      fi
-  done
+for x in /tmp/.X11-unix/*; do
+    displaynum=`echo $x | sed s#/tmp/.X11-unix/X## | sed s#/##`
+    getXuser
+    if [ x"$XAUTHORITY" != x"" ]; then
+        # extract current state
+        export DISPLAY=":$displaynum"
+    fi
+done
 
-  enable_timer=true
+enable_timer=true
 
-  if [ "${enable_timer}" == "true" ]; then
-    for i in {1..5}; do
-      sleep 1;
-      echo $(( $i*20 ));
-    done | zenity --title "Yubikey removed" --text "Locking the screen\n(Press Escape to cancel)" --width 400 --progress --no-cancel --auto-close
-    answer=$?
-  fi
+if [ "${enable_timer}" == "true" ]; then
+  for i in {1..5}; do
+    sleep 1;
+    echo $(( $i*20 ));
+  done | zenity --title "Yubikey removed" --text "Locking the screen\n(Press Escape to cancel)" --width 400 --progress --no-cancel --auto-close
+  answer=$?
+fi
 
-  LOCKER="light-locker"
-  LOCKER_COMMAND="${LOCKER}-command"
-  if [ -z "$(which ${LOCKER_COMMAND})" ]; then
-    LOCKER="gnome-screensaver"
-    LOCKER_COMMAND="${LOCKER}-command"
-  fi
-
-  if [[ "${enable_timer}" != "true" ]] || [[ ${answer} -eq 0 ]]; then
-    export grep -z DBUS_SESSION_BUS_ADDRESS /proc/$(pidof ${LOCKER})/environ
-    logger "YubiKey Removed - Locking Workstation"
-    su $user -c "/usr/bin/${LOCKER_COMMAND} -l"
-  fi
-
+if [[ "${enable_timer}" != "true" ]] || [[ ${answer} -eq 0 ]]; then
+  logger "YubiKey Removed - Locking Workstation"
+  su $user -c "/usr/bin/${LOCKER_COMMAND} -l"
 fi

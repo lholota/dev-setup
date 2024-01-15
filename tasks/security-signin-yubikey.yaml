@@ -16,7 +16,7 @@
       pamu2fcfg > /var/lib/mfa/{{ lookup('env', 'USER') }}/.u2f_keys
   when: not u2f_keys.stat.exists
 
-# Options 
+# Options
 # - with PIN it could be used as a single factor - preferable
 # - without PIN it can be used as a second factor
 
@@ -27,18 +27,21 @@
 #     # Required for out-of-home secret storage
 #     # null ok may be skipped depending on a variable
 #     line: "auth            sufficient                      pam_u2f.so expand authfile=/var/lib/mfa/%u/.u2f_keys nouserok interactive=1 pinverification=1 debug debug_file=/tmp/u2f.log"
+# This only works as a second factor how to add it as the first one ???
 
 
-# # TODO: Test after restart
-- name: Create scripts for locking the screen when YubiKey is removed
+- name: Create script for locking the screen when YubiKey is removed
   ansible.builtin.copy:
-    dest: "{{ item.dest }}"
-    content: "{{ lookup('ansible.builtin.file', item.src) }}"
+    dest: "/usr/local/bin/yubikey-removed-script"
+    content: "{{ lookup('ansible.builtin.file', 'yubikey-removed-script') }}"
+    owner: root
+    group: root
+    mode: 0775
+
+- name: Create udev rule for locking the screen when YubiKey is removed
+  ansible.builtin.copy:
+    dest: "/etc/udev/rules.d/yubikey-screenlock.rules"
+    content: "{{ lookup('ansible.builtin.file', 'yubikey-screenlock.rules') }}"
     owner: root
     group: root
     mode: 0664
-  loop:
-    - src: yubikey-removed-script
-      dest: /usr/local/bin/yubikey-removed-script
-    - src: yubikey-screenlock.rules
-      dest: /etc/udev/rules.d/yubikey-screenlock.rules
