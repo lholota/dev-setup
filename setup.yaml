@@ -4,6 +4,7 @@
   become_method: sudo
   become_user: root
   vars:
+    nodejs_version: 20.x
     gpg_public_key_url: https://keybase.io/lholota/pgp_keys.asc
   handlers:
   - name: Update apt cache
@@ -20,11 +21,15 @@
       manager: auto
     tags: [ always ]
 
-  - name: Load related Ubuntu release name
-    ansible.builtin.shell:
-      cmd: cat /etc/os-release | grep UBUNTU_CODENAME | cut -d= -f2
-    register: ubuntu_release_name
-    changed_when: false
+  - name: Load lsb-release for upstream ubuntu
+    slurp:
+      src: /etc/upstream-release/lsb-release
+    register: ubuntu_lsb_release_file
+    tags: [ always ]
+
+  - name: Parse lsb-release into facts
+    set_fact:
+      ubuntu_lsb_release: "{{ ('{' + (ubuntu_lsb_release_file.content | b64decode).split('\n') | select | map('regex_replace', '([^=]*)=\"?([^\"]*)\"?', '\"\\1\": \"\\2\"') | join(',') + '}') | from_json }}"
     tags: [ always ]
       
   - name: Add third party repositories

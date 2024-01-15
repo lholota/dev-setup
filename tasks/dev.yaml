@@ -2,8 +2,11 @@
   ansible.builtin.apt:
     name:
       - code
+      - nodejs
       # .NET SDK
-      # Node
-      # Yarn
-      # Golang
     state: present
+
+- name: Install Yarn
+  community.general.npm:
+    name: yarn
+    global: true
