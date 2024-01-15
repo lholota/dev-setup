@@ -1,4 +1,7 @@
 - name: Install 
   ansible.builtin.apt:
     name: 
+      - kubectl
+      - helm
+      - lens
     state: present

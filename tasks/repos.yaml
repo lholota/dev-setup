@@ -1,5 +1,6 @@
-- name: Add Microsoft VS Code repository
-  ansible.builtin.include_tasks:
+- name: Add Microsoft repositories
+  tags: [ dev, utils ]
+  ansible.builtin.import_tasks:
     file: ./reusable/add-repo.yaml
   vars:
     apt_key_url: https://packages.microsoft.com/keys/microsoft.asc
@@ -11,7 +12,8 @@
         filename: microsoft-edge
 
 - name: Add Google Chrome repository
-  ansible.builtin.include_tasks:
+  tags: [ utils ]
+  ansible.builtin.import_tasks:
     file: ./reusable/add-repo.yaml
   vars:
     apt_key_url: https://dl-ssl.google.com/linux/linux_signing_key.pub
@@ -21,7 +23,8 @@
         filename: google-chrome
 
 - name: Add Vivaldi repository
-  ansible.builtin.include_tasks:
+  tags: [ utils ]
+  ansible.builtin.import_tasks:
     file: ./reusable/add-repo.yaml
   vars:
     apt_key_url: https://repo.vivaldi.com/archive/linux_signing_key.pub
@@ -31,7 +34,8 @@
         filename: vivaldi
 
 - name: Add Spotify repository
-  ansible.builtin.include_tasks:
+  tags: [ utils ]
+  ansible.builtin.import_tasks:
     file: ./reusable/add-repo.yaml
   vars:
     apt_key_url: https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg
@@ -41,7 +45,8 @@
         filename: spotify
 
 - name: Add SoftMaker repository
-  ansible.builtin.include_tasks:
+  tags: [ utils ]
+  ansible.builtin.import_tasks:
     file: ./reusable/add-repo.yaml
   vars:
     apt_key_url: https://shop.softmaker.com/repo/linux-repo-public.key
@@ -51,7 +56,8 @@
         filename: softmaker
 
 - name: Add Cloudflare repository
-  ansible.builtin.include_tasks:
+  tags: [ utils ]
+  ansible.builtin.import_tasks:
     file: ./reusable/add-repo.yaml
   vars:
     apt_key_url: https://pkg.cloudflareclient.com/pubkey.gpg
@@ -60,11 +66,49 @@
       - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/cloudflare.asc] https://pkg.cloudflareclient.com/ {{ ubuntu_release_name.stdout }} main"
         filename: cloudflare
 
-- name: Add Yubico repository
-  notify: Update apt cache
-  ansible.builtin.apt_repository:
-    repo: ppa:yubico/stable
-    codename: "{{ ubuntu_release_name.stdout }}"
+- name: Add Kubernetes repository
+  tags: [ ops ]
+  ansible.builtin.import_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key
+    apt_key_dest: /etc/apt/trusted.gpg.d/kubernetes.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/kubernetes.asc] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /"
+        filename: kubernetes
 
+- name: Add Helm repository
+  tags: [ ops ]
+  ansible.builtin.import_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://baltocdn.com/helm/signing.asc
+    apt_key_dest: /etc/apt/trusted.gpg.d/helm.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/helm.asc] https://baltocdn.com/helm/stable/debian/ all main"
+        filename: helm
+
+- name: Add Lens repository
+  tags: [ ops ]
+  ansible.builtin.import_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://downloads.k8slens.dev/keys/gpg
+    apt_key_dest: /etc/apt/trusted.gpg.d/lens.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/lens.asc] https://downloads.k8slens.dev/apt/debian stable main"
+        filename: lens
+
+- name: Add Yubico repository
+  tags: [ security ]
+  ansible.builtin.import_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: http://keyserver.ubuntu.com/pks/lookup?search=0x3653E21064B19D134466702E43D5C49532CBA1A9&fingerprint=on&exact=on&options=mr&op=get
+    apt_key_dest: /etc/apt/trusted.gpg.d/yubico.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/yubico.asc] http://ppa.launchpad.net/yubico/stable/ubuntu {{ ubuntu_release_name.stdout }} main"
+        filename: yubico
+        
 - name: Force all notified handlers to run at this point, not waiting for normal sync points
   ansible.builtin.meta: flush_handlers
