@@ -14,14 +14,3 @@
       Please do not forget to set up google authenticator for your user account using the command below:
       google-authenticator --secret=/var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
   when: not google_otp.stat.exists
-
-
-# test if sufficient works with multiple factors or a substack is required
-
-# - name: Add Google TOTP requirement for sign in
-#   ansible.builtin.lineinfile:
-#     path: /etc/pam.d/common-password
-#     create: false
-#     # Required for out-of-home secret storage
-#     # null ok may be skipped depending on a variable
-#     line: "auth sufficient pam_google_authenticator.so secret=/var/lib/mfa/${USER}/.google-authenticator nullok"

@@ -1,0 +1,5 @@
+- name: Install required packages
+  ansible.builtin.apt:
+    name: 
+      - fprintd
+      - libpam-fprintd

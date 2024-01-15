@@ -16,20 +16,6 @@
       pamu2fcfg > /var/lib/mfa/{{ lookup('env', 'USER') }}/.u2f_keys
   when: not u2f_keys.stat.exists
 
-# Options
-# - with PIN it could be used as a single factor - preferable
-# - without PIN it can be used as a second factor
-
-# - name: Add Yubikey requirement for sign in
-#   ansible.builtin.lineinfile:
-#     path: /etc/pam.d/common-password
-#     create: false
-#     # Required for out-of-home secret storage
-#     # null ok may be skipped depending on a variable
-#     line: "auth            sufficient                      pam_u2f.so expand authfile=/var/lib/mfa/%u/.u2f_keys nouserok interactive=1 pinverification=1 debug debug_file=/tmp/u2f.log"
-# This only works as a second factor how to add it as the first one ???
-
-
 - name: Create script for locking the screen when YubiKey is removed
   ansible.builtin.copy:
     dest: "/usr/local/bin/yubikey-removed-script"

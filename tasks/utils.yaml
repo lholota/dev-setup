@@ -21,18 +21,18 @@
 
 - name: Install etcher
   ansible.builtin.include_tasks:
-    file: ./reusable/install-from-gh-release.yaml
+    file: ./reusable/install-latest-gh-release.yaml
   vars:
-    gh_release_latest_version_url: https://github.com/balena-io/etcher/releases/latest/download/latest-linux.yml
-    gh_release_deb_package_url: https://github.com/balena-io/etcher/releases/download/v$version/balena-etcher_$version_amd64.deb
+    gh_release_repo_slug: balena-io/etcher
+    gh_release_package_file_pattern: balena-etcher_(.*)_amd64\.deb
   when: "'balena-etcher-electron' not in ansible_facts.packages"
 
 - name: Install draw.io
   ansible.builtin.include_tasks:
-    file: ./reusable/install-from-gh-release.yaml
+    file: ./reusable/install-latest-gh-release.yaml
   vars:
-    gh_release_latest_version_url: https://github.com/jgraph/drawio-desktop/releases/latest/download/latest-linux.yml
-    gh_release_deb_package_url: https://github.com/jgraph/drawio-desktop/releases/download/v$version/drawio-amd64-$version.deb
+    gh_release_repo_slug: jgraph/drawio-desktop
+    gh_release_package_file_pattern: drawio-amd64-(.*)\.deb
   when: "'drawio' not in ansible_facts.packages"
 
 - name: Install Slack

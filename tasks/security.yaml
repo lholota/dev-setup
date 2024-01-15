@@ -35,6 +35,6 @@
   ansible.builtin.include_tasks:
     file: security-signin-yubikey.yaml
 
-# TODO: Sign in with Yubikey
-
-# TODO: Sign in with fingerprint - must be set up on newer laptop
+- name: Configure sign in with fingerprints
+  ansible.builtin.include_tasks:
+    file: security-signin-fingerprint.yaml

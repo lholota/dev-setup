@@ -1,0 +1,27 @@
+- name: "Configure development workstation"
+  hosts: localhost
+  become: yes
+  become_method: sudo
+  become_user: root
+  vars:
+    github_release_repo_slug: jgraph/drawio-desktop
+    github_release_package_file_pattern: "(.*)drawio-amd64-(.*)\\.deb"
+  tasks:
+  - name: Get latest version
+    ansible.builtin.uri:
+      url: "https://api.github.com/repos/{{ github_release_repo_slug }}/releases/latest"
+      return_content: yes
+    register: latest_version
+
+  - name: Get matching files
+    ansible.builtin.set_fact:
+      latest_version_matching_files: "{{ (latest_version.content | from_json).assets | map(attribute='browser_download_url') | map('regex_search',github_release_package_file_pattern) | select('string') | list }}"
+
+  - name: Verify exactly one file matches the pattern
+    ansible.builtin.fail:
+      msg: "Exactly one file must match the file pattern. Found matches: {{ latest_version_matching_files }}"
+    when: (latest_version_matching_files | count) != 1
+
+  - name: Install package
+    ansible.builtin.apt:
+      deb: "{{ latest_version_matching_files | first }}"
