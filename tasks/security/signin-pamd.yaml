@@ -1,7 +1,0 @@
-# TODO: Update pam.d configuration
-
-# # TODO: Decide whether it's preferable to use U2F pin over password given rotation frequence
-# auth    [success=2 default=ignore]   pam_u2f.so expand cue authfile=/var/lib/mfa/%u/.u2f_keys nouserok interactive=0 pinverification=1
-# auth    [success=ok default=ignore]        pam_unix.so nullok debug
-# auth    [success=2 default=ignore]        pam_fprintd.so
-# auth    [success=1 default=ignore]        pam_google_authenticator.so secret=/var/lib/mfa/${USER}/.google-authenticator debug nullok
