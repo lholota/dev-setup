@@ -1,0 +1,11 @@
+- name: Install required packages
+  ansible.builtin.apt:
+    name: 
+      - libpam-google-authenticator
+
+- name: Notify user to set up google authenticator
+  ansible.builtin.wait_for module:
+    file: /var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
+    msg:
+      - "Please do not forget to set up google authenticator for your user account using the command below:"
+      - "google-authenticator --secret=/var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator"

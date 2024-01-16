@@ -1,0 +1,14 @@
+- name: Install development tools
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose-plugin
+    state: present
+
+- name: Add current user to docker group
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    append: true
+    groups: docker
+    

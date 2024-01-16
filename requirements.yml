@@ -1,6 +1,6 @@
 ---
 roles:
-- name: geerlingguy.helm
+- name: geerlingguy.security
 
 collections:
 - name: community.general

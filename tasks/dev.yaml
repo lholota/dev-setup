@@ -2,11 +2,26 @@
   ansible.builtin.apt:
     name:
       - code
-      - nodejs
-      # .NET SDK
     state: present
 
-- name: Install Yarn
-  community.general.npm:
-    name: yarn
-    global: true
+- name: Install .NET SDKs
+  ansible.builtin.include_tasks:
+    file: ./dev/dotnet.yaml
+  vars:
+    dotnet_sdk_url: "{{ item.url }}"
+    dotnet_sdk_version: "{{ item.version }}"
+  loop:
+    - url: https://download.visualstudio.microsoft.com/download/pr/1d2007d3-da35-48ad-80cc-a39cbc726908/1f3555baa8b14c3327bb4eaa570d7d07/dotnet-sdk-6.0.403-linux-x64.tar.gz
+      version: 6.0.403
+    - url: https://download.visualstudio.microsoft.com/download/pr/5202b091-2406-445c-b40a-68a5b97c882b/b509f2a7a0eb61aea145b990b40b6d5b/dotnet-sdk-7.0.405-linux-x64.tar.gz
+      version: 7.0.405
+    - url: https://download.visualstudio.microsoft.com/download/pr/9454f7dc-b98e-4a64-a96d-4eb08c7b6e66/da76f9c6bc4276332b587b771243ae34/dotnet-sdk-8.0.101-linux-x64.tar.gz
+      version: 8.0.101
+
+- name: Install Docker
+  ansible.builtin.include_tasks:
+    file: ./dev/docker.yaml
+
+- name: Install nodejs
+  ansible.builtin.include_tasks:
+    file: ./dev/nodejs.yaml

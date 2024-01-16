@@ -25,16 +25,16 @@
 
 - name: Configure using YubiKey as SSH and GPG key
   ansible.builtin.include_tasks:
-    file: security-yubikey-gpg.yaml
+    file: ./security/yubikey-gpg.yaml
 
 - name: Configure sign in with Google OTP
   ansible.builtin.include_tasks:
-    file: security-signin-google-otp.yaml
+    file: ./security/signin-google-otp.yaml
 
 - name: Configure sign in with Yubikey
   ansible.builtin.include_tasks:
-    file: security-signin-yubikey.yaml
+    file: ./security/signin-yubikey.yaml
 
 - name: Configure sign in with fingerprints
   ansible.builtin.include_tasks:
-    file: security-signin-fingerprint.yaml
+    file: ./security/signin-fingerprint.yaml

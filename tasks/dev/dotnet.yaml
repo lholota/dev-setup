@@ -1,0 +1,49 @@
+- name: Create dotnet directory
+  ansible.builtin.file:
+    path: /usr/share/dotnet
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
+
+- name: Add dotnet directory to PATH variable
+  ansible.builtin.lineinfile:
+    dest: /etc/environment
+    create: false
+    state: present
+    backrefs: true
+    regexp: 'PATH=(["]*)((?!.*?/usr/share/dotnet).*?)(["]*)$'
+    line: "PATH=\\1\\2:/usr/share/dotnet\\3"
+
+- name: Test whether any dotnet sdk is installed
+  ignore_errors: true
+  changed_when: false
+  ansible.builtin.command:
+    cmd: which dotnet
+  environment:
+    PATH: "{{ lookup('env', 'PATH') }}:/usr/share/dotnet"
+  register: dotnet_exec_path
+
+- name: Test whether dotnet sdk is already installed
+  when: dotnet_exec_path.stdout != ""
+  ansible.builtin.shell:
+    cmd: /usr/share/dotnet/dotnet --list-sdks | cut -d" " -f1
+  register: dotnet_installed_sdks
+
+- name: Download tarball
+  when: dotnet_exec_path.stdout == "" or dotnet_sdk_version not in dotnet_installed_sdks.stdout
+  ansible.builtin.get_url:
+    url: "{{ dotnet_sdk_url }}"
+    dest: "/tmp/dotnet-sdk-{{ dotnet_sdk_version }}.tar.gz"
+
+- name: Extract sdk
+  when: dotnet_exec_path.stdout == "" or dotnet_sdk_version not in dotnet_installed_sdks.stdout
+  ansible.builtin.unarchive:
+    src: "/tmp/dotnet-sdk-{{ dotnet_sdk_version }}.tar.gz"
+    dest: /usr/share/dotnet
+
+- name: Delete tmp files
+  when: dotnet_exec_path.stdout == "" or dotnet_sdk_version not in dotnet_installed_sdks.stdout
+  ansible.builtin.file:
+    path: "/tmp/dotnet-sdk-{{ dotnet_sdk_version }}.tar.gz"
+    state: absent

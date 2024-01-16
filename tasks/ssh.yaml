@@ -2,24 +2,26 @@
   ansible.builtin.apt:
     name: ssh
 
-- name: Configure ssh pam to allow using 2nd factors
-  notify: Restart sshd
-  ansible.builtin.lineinfile:
-    path: /etc/pam.d/sshd
-    line: "{{ item }}"
-    create: false
-  loop:
-    - "auth required pam_google_authenticator.so nullok"
-    - "auth required pam_permit.so"
+- name: Add authorized ssh keys
+  no_log: true
+  ansible.posix.authorized_key:
+    user: "{{ lookup('env', 'USER') }}"
+    state: present
+    key: "{{ item }}"
+  with_items: "{{ ssh_public_keys }}"
 
-- name: Configure sshd to allow using 2nd factors
-  notify: Restart sshd
-  ansible.builtin.lineinfile:
-    path: /etc/ssh/sshd_config
-    regex: "{{ item.regex }}"
-    line: "{{ item.line }}"
-  loop:
-    - regex: "^ChallengeResponseAuthentication "
-      line: "ChallengeResponseAuthentication yes"
-    - regex: "^AuthenticationMethods "
-      line: "AuthenticationMethods publickey,keyboard-interactive"
+- name: Configure SSH security
+  ansible.builtin.include_role:
+    name: geerlingguy.security
+  vars:
+    security_ssh_password_authentication: "no"
+    security_ssh_permit_root_login: "no"
+    security_ssh_usedns: "no"
+    security_ssh_permit_empty_password: "no"
+    security_ssh_challenge_response_auth: "no"
+    security_ssh_gss_api_authentication: "no"
+    security_ssh_x11_forwarding: "no"
+    security_ssh_allowed_users:
+      - "{{ lookup('env', 'USER') }}"
+
+# TODO: Define a GUFW rule at /etc/gufw/Home.profile

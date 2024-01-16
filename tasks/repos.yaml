@@ -10,8 +10,43 @@
         filename: microsoft-vscode
       - repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/repos/edge stable main
         filename: microsoft-edge
-      - repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/ubuntu/{{ ubuntu_lsb_release["DISTRIB_RELEASE"] }}/prod {{ ubuntu_lsb_release["DISTRIB_CODENAME"] }} main
-        filename: microsoft-dotnet
+      # - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/ubuntu/{{ ubuntu_lsb_release.DISTRIB_RELEASE }}/prod {{ ubuntu_lsb_release.DISTRIB_CODENAME }} main"
+      #   filename: microsoft-dotnet
+
+# - name: Configure preferences for official repositories
+#   ansible.builtin.shell:
+#     cmd: cat /etc/apt/sources.list.d/official-package-repositories.list | grep "deb " | cut -d" " -f2 | sort | uniq
+#   register: official_repos
+
+# - name: Configure apt to install dotnet only from Microsoft repos
+#   notify: Update apt cache
+#   ansible.builtin.blockinfile:
+#     path: /etc/apt/preferences.d/microsoft-dotnet.pref
+#     create: true
+#     owner: root
+#     group: root
+#     mode: 0664
+#     marker: "# {mark} Official repos"
+#     block: |
+#       Package: dotnet* aspnet* netstandard*
+#       Pin: origin "https://packages.microsoft.com/ubuntu/{{ ubuntu_lsb_release.DISTRIB_RELEASE }}/prod"
+#       Pin-Priority: 32000
+
+# - name: Configure apt to install dotnet only from Microsoft repos
+#   notify: Update apt cache
+#   ansible.builtin.blockinfile:
+#     path: /etc/apt/preferences.d/microsoft-dotnet.pref
+#     create: true
+#     owner: root
+#     group: root
+#     mode: 0664
+#     marker: "# {mark} {{ item }}"
+#     block: |
+#       Package: dotnet* aspnet* netstandard*
+#       Pin: origin "{{ item }}"
+#       Pin-Priority: -10
+#   loop: "{{ official_repos.stdout_lines }}"
+
 
 - name: Add Google Chrome repository
   tags: [ utils ]
@@ -65,7 +100,7 @@
     apt_key_url: https://pkg.cloudflareclient.com/pubkey.gpg
     apt_key_dest: /etc/apt/trusted.gpg.d/cloudflare.asc
     apt_repos:
-      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/cloudflare.asc] https://pkg.cloudflareclient.com/ {{ ubuntu_lsb_release["DISTRIB_CODENAME"] }} main"
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/cloudflare.asc] https://pkg.cloudflareclient.com/ {{ ubuntu_lsb_release.DISTRIB_CODENAME }} main"
         filename: cloudflare
 
 - name: Add Kubernetes repository
@@ -109,7 +144,7 @@
     apt_key_url: http://keyserver.ubuntu.com/pks/lookup?search=0x3653E21064B19D134466702E43D5C49532CBA1A9&fingerprint=on&exact=on&options=mr&op=get
     apt_key_dest: /etc/apt/trusted.gpg.d/yubico.asc
     apt_repos:
-      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/yubico.asc] http://ppa.launchpad.net/yubico/stable/ubuntu {{ ubuntu_lsb_release["DISTRIB_CODENAME"] }} main"
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/yubico.asc] http://ppa.launchpad.net/yubico/stable/ubuntu {{ ubuntu_lsb_release.DISTRIB_CODENAME }} main"
         filename: yubico
         
 - name: Add NodeSource repository
@@ -121,6 +156,17 @@
     apt_key_dest: /etc/apt/trusted.gpg.d/nodesource.asc
     apt_repos:
       - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/nodesource.asc] https://deb.nodesource.com/node_{{ nodejs_version }} nodistro main"
+        filename: nodesource
+
+- name: Add Docker repository
+  tags: [ dev ]
+  ansible.builtin.import_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://download.docker.com/linux/ubuntu/gpg
+    apt_key_dest: /etc/apt/trusted.gpg.d/docker.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc] https://download.docker.com/linux/ubuntu {{ ubuntu_lsb_release.DISTRIB_CODENAME }} stable"
         filename: nodesource
 
 - name: Force all notified handlers to run at this point, not waiting for normal sync points

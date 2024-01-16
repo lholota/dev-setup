@@ -1,0 +1,10 @@
+- name: Install nodejs
+  ansible.builtin.apt:
+    name:
+      - nodejs
+    state: present
+
+- name: Install Yarn
+  community.general.npm:
+    name: yarn
+    global: true

@@ -1,0 +1,13 @@
+- name: Uninstall ufw
+  ansible.builtin.apt:
+    name:
+      - ufw
+      - gufw
+    state: absent
+
+- name: Install firewalld
+  ansible.builtin.apt:
+    name:
+      - firewalld
+      - firewall-config
+    state: present
