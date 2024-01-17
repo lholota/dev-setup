@@ -68,3 +68,7 @@
   - name: Install (dev)ops tools
     import_tasks: ./tasks/ops.yaml
     tags: [ ops ]
+
+  - name: Configure backups
+    import_tasks: ./tasks/backup.yaml
+    tags: [ backup ]

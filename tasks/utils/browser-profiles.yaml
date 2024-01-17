@@ -1,0 +1,68 @@
+- name: Create user data directories
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/{{ browser_name | lower }}-{{ item.name | lower }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0700
+    state: directory
+  loop: "{{ browser_profiles }}"
+
+- name: Copy profile icons
+  ansible.builtin.copy:
+    src: "icons/{{ item.icon }}"
+    dest: "{{ lookup('env', 'HOME') }}/.config/{{ browser_name | lower }}-{{ item.name | lower }}/icon.png"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0744
+  loop: "{{ browser_profiles }}"
+
+- name: Create desktop files
+  ansible.builtin.copy:
+    src: "/usr/share/applications/{{ browser_default_desktop_file }}"
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/applications/{{ browser_name | lower }}-{{ item.name | lower }}.desktop"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0744
+    remote_src: true
+  loop: "{{ browser_profiles }}"
+
+- name: Update name
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/applications/{{ browser_name | lower }}-{{ item.name | lower }}.desktop"
+    create: false
+    firstmatch: true
+    insertafter: "^\\[Desktop.*"
+    regex: "^Name=.*"
+    line: "Name={{ browser_name }} ({{ item.name }})"
+  loop: "{{ browser_profiles }}"
+
+- name: Update exec command
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/applications/{{ browser_name | lower }}-{{ item.name | lower }}.desktop"
+    create: false
+    firstmatch: true
+    insertafter: "^\\[Desktop.*"
+    regex: "^Exec=(.*)"
+    backrefs: true
+    line: "Exec=\\1 --class={{ browser_name | lower }}.{{ item.name | lower }} --user-data-dir={{ lookup('env', 'HOME') }}/.config/{{ browser_name | lower }}-{{ item.name | lower }}"
+  loop: "{{ browser_profiles }}"
+
+- name: Update icon
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/applications/{{ browser_name | lower }}-{{ item.name | lower }}.desktop"
+    create: false
+    firstmatch: true
+    insertafter: "^\\[Desktop.*"
+    regex: "^Icon=(.*)"
+    line: "Icon={{ lookup('env', 'HOME') }}/.config/{{ browser_name | lower }}-{{ item.name | lower }}/icon.png"
+  loop: "{{ browser_profiles }}"
+
+- name: Update WM class
+  ansible.builtin.lineinfile:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/applications/{{ browser_name | lower }}-{{ item.name | lower }}.desktop"
+    create: false
+    firstmatch: true
+    insertbefore: "^\\[Desktop Action.*"
+    regex: "^StartupWMClass=(.*)"
+    line: "StartupWMClass={{ browser_name | lower }}.{{ item.name | lower }}"
+  loop: "{{ browser_profiles }}"

@@ -1,0 +1,8 @@
+- name: Install zfs-auto-snapshot
+  ansible.builtin.apt:
+    name:
+      - zfs-auto-snapshot
+    state: present
+
+# install rclone
+# configure rclone - requires secrets
