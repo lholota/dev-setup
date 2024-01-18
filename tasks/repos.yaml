@@ -143,6 +143,17 @@
       - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/kopia.asc] http://packages.kopia.io/apt/ stable main"
         filename: kopia
 
+- name: Add OneDrive repo
+  tags: [ onedrive ]
+  ansible.builtin.import_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/Release.key
+    apt_key_dest: /etc/apt/trusted.gpg.d/onedrive.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/onedrive.asc] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/ ./"
+        filename: onedrive
+
 - name: Force all notified handlers to run at this point, not waiting for normal sync points
   ansible.builtin.meta: flush_handlers
   tags: [ always ]

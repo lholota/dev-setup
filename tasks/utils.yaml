@@ -35,7 +35,7 @@
 
 - name: Install etcher
   ansible.builtin.include_tasks:
-    file: ./reusable/install-latest-gh-release.yaml
+    file: ./reusable/install-latest-gh-release-deb.yaml
   vars:
     gh_release_repo_slug: balena-io/etcher
     gh_release_package_file_pattern: balena-etcher_(.*)_amd64\.deb
@@ -43,7 +43,7 @@
 
 - name: Install draw.io
   ansible.builtin.include_tasks:
-    file: ./reusable/install-latest-gh-release.yaml
+    file: ./reusable/install-latest-gh-release-deb.yaml
   vars:
     gh_release_repo_slug: jgraph/drawio-desktop
     gh_release_package_file_pattern: drawio-amd64-(.*)\.deb
@@ -63,3 +63,7 @@
   ansible.builtin.apt:
     deb: "https://desktop.pkg.duosecurity.com/duo-desktop-latest.amd64.deb"
   when: "'duo-desktop' not in ansible_facts.packages"
+
+- name: Install OneDrive
+  ansible.builtin.include_tasks:
+    file: ./utils/onedrive.yaml

@@ -1,0 +1,57 @@
+- name: Install OneDrive
+  ansible.builtin.apt:
+    name: onedrive
+    install_recommends: false
+
+- name: Create directory for app images
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.local/bin"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0700
+    state: directory
+
+- name: Check if OneDrive GUI already installed
+  ansible.builtin.stat:
+    path: "{{ lookup('env', 'HOME') }}/.local/bin/OneDriveGUI.AppImage"
+  register: onedrive_gui
+
+- name: Get OneDrive GUI download url
+  ansible.builtin.include_tasks:
+    file: ./reusable/latest-gh-release-files.yaml
+  vars:
+    gh_release_repo_slug: bpozdena/OneDriveGUI
+    gh_release_package_file_pattern: OneDriveGUI-\d+\.\d+\.\d+-x86_64.AppImage 
+  when: not onedrive_gui.stat.exists
+
+- name: Download app image
+  ansible.builtin.get_url:
+    url: "{{ latest_version_matching_files | first }}"
+    dest: "{{ lookup('env', 'HOME') }}/.local/bin/OneDriveGUI.AppImage"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0750
+  when: not onedrive_gui.stat.exists
+
+- name: Copy icon
+  ansible.builtin.copy:
+    src: "icons/onedrive.png"
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/icons/onedrive.png"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0744
+
+- name: Create desktop file
+  ansible.builtin.copy:
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/applications/onedrive.desktop"
+    force: true
+    content: |
+      [Desktop Entry]
+      Name=OneDrive
+      Exec={{ lookup('env', 'HOME') }}/.local/bin/OneDriveGUI.AppImage
+      Icon={{ lookup('env', 'HOME') }}/.local/share/icons/onedrive.png
+      comment=OneDrive Client GUI
+      Type=Application
+      Terminal=false
+      Encoding=UTF-8
+      Categories=Utility;

@@ -12,7 +12,3 @@
   ansible.builtin.fail:
     msg: "Exactly one file must match the file pattern. Found matches: {{ latest_version_matching_files }}"
   when: (latest_version_matching_files | count) != 1
-
-- name: Install package
-  ansible.builtin.apt:
-    deb: "{{ latest_version_matching_files | first }}"

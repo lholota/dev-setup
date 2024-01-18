@@ -9,7 +9,7 @@
 
 - name: Install SOPS
   ansible.builtin.include_tasks:
-    file: ./reusable/install-latest-gh-release.yaml
+    file: ./reusable/install-latest-gh-release-deb.yaml
   vars:
     gh_release_repo_slug: getsops/sops
     gh_release_package_file_pattern: sops_(.*)_amd64\.deb

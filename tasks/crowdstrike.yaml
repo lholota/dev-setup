@@ -1,0 +1,15 @@
+- name: Install crowdstrike falcon sensor
+  ansible.builtin.apt:
+    deb: "{{ crowdstrike_falcon_url }}"
+  when: "'falcon-sensor' not in ansible_facts.packages"
+  register: falcon_sensor_apt
+
+- name: Configure CID
+  ansible.builtin.command:
+    cmd: "/opt/CrowdStrike/falconctl -s --cid={{ crowdstrike_falcon_cid }}"
+  when: falcon_sensor_apt.changed
+
+- name: Start daemon
+  ansible.builtin.service:
+    name: falcon-sensor
+    state: started

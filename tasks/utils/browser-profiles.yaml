@@ -10,7 +10,7 @@
 - name: Copy profile icons
   ansible.builtin.copy:
     src: "icons/{{ item.icon }}"
-    dest: "{{ lookup('env', 'HOME') }}/.config/{{ browser_name | lower }}-{{ item.name | lower }}/icon.png"
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/icons/{{ browser_name | lower }}-{{ item.name | lower }}.png"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
     mode: 0744
@@ -54,7 +54,7 @@
     firstmatch: true
     insertafter: "^\\[Desktop.*"
     regex: "^Icon=(.*)"
-    line: "Icon={{ lookup('env', 'HOME') }}/.config/{{ browser_name | lower }}-{{ item.name | lower }}/icon.png"
+    line: "Icon={{ lookup('env', 'HOME') }}/.local/share/icons/{{ browser_name | lower }}-{{ item.name | lower }}.png"
   loop: "{{ browser_profiles }}"
 
 - name: Update WM class

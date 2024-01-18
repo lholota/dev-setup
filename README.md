@@ -5,7 +5,7 @@ The playbook will only install the required packages, given that the configurati
 - Enroll yubikey-luks into the keystore: yubikey-luks-enroll -s 1 -d /dev/nvme0n1p2
 
 
-
+# Before running - copy password to key file
 
 
 ## Manual steps post running the runbook

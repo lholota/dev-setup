@@ -3,13 +3,6 @@
   become: yes
   become_method: sudo
   become_user: root
-  vars:
-    nodejs_version: 20.x
-    gpg_public_key_url: https://keybase.io/lholota/pgp_keys.asc
-    ssh_public_keys:
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC3pB3TCUmH11RBDQWIV76eU1Q67yCrgLe4qUY4Ry2KE1lyX4T2xoDtEpFk2Zl4w9fO7ZqmHXAiF/+CdGIopeTOR95h30RJvqgBUuI2HJafJlhpA8YRrhaRldMPPPN/smMW3iFOXO3gGKxCLFv0O3labaYr0P60XA0PCjmpVt46sROp8jPtbmVrLZNvuLhoJvBPY/GQWJbYiU3cKEeAvKKJUCAdfjVMGGq/SOhR339Bh/DotvZkwt4vIBHQWub58VpUznLEOKjc1A3+CyYvs4bHc9SyLvbKr17gu/QWX+mkz2EZWxzuLob6zDt6X5xCCWcWsgvjUs+cXowRec0g+TQSuqVGg3gLHXSDQrTe56SmSxH50jAGMSOG3sKpnTyVrEMnjJrZfd1hpo5g/4xZFhCKEgfHF1ES1FBmH5NG5Q8IziY/y4jzblQl+p6T7tf4XfwUiItDjOQTXDYVb2rB5uHJUmsWL5arLuJk6mKPA4lxcUU3q3YYiPrKPz5AwgQTYc6o/7BmC1dguzkyJTD9zplG3cIBqAdzhuTr5PU0QLjqWM8cIwQnkMioZWZWmLIq7NxZ5pkj2F2KKQmurMwS5C/m7jrSja1u7S60XjiGEmXqErzIT61iZLeuZ/yw/2ipxhG7JxwO5a2HFglogAXbd9VOAqGsIUhYY3TYSchVIrzpcQ==
-      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDLF7Dth6neD6Pii4FgHZEID2LVElvxxjwRfIhC9ldfmW0L+mH6CoYOOwfe3mU36GE4OqMusqpUCBCjrxmQ1SkfY0/H3c0lZC1yVmYU5hzEbUbiYAbahG2UdyW6k1i4Exlm498jPeszsAuGjJUgySesLyo7eCJD7UdmzAyLGU4sqri15vmO3Vok2YpVFrYDYO8mZyNCU95cI1avfDwx+6sAcGmt/U0XhpIejuYKm8JZkUfFwIjl3KlfKPh4NiS9nNxwl+1s2s/IQIac/dGXr4Jn3JyS3uiUrO3rhaom0SSsRzxXKuEPlSHzl0bE+HHA5Rc1+IoCxIK21tm25czzcV18/x2hEa3wGawOCvrItqbpM97Qr0iX9RF17B15udwMNp3ZElZ4TCZtJBFALJwjXihZMi2p7ZfP5+g0TSwho8oS/CkLNuNq2IaJgQ75idAvMDIflgAePuvkqQAhSul+8RKmr/SJC7T1mLPQjcO/Mra5ObrKtQ3m6qFB5Xlcyn52CD++sCyYtap3uhftPDywK4WXuqHEwyaULjk6opnCEOFpV2TWpgacfFFDm98BcDHBhX0TMwyapA7OOsX7rN9K0/OV2QpPvKE4zBMUNwQIrRHdf/dfdPjzydDbFVlv0NErLaaQUHI8YuuMO5i6VZzoTUJwr6HwETO67vCz4PNOqT5tEQ== me@lholota.com
-
   handlers:
   - name: Update apt cache
     ansible.builtin.apt:
@@ -49,6 +42,10 @@
   - name: Install and configure security and yubikey related tools
     import_tasks: ./tasks/security.yaml
     tags: [ security ]
+
+  - name: Install and configure crowdstrike falcon sensor
+    import_tasks: ./tasks/crowdstrike.yaml
+    tags: [ crowdstrike ]
 
   - name: Install and configure SSH
     import_tasks: ./tasks/ssh.yaml
