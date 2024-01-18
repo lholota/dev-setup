@@ -10,43 +10,6 @@
         filename: microsoft-vscode
       - repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/repos/edge stable main
         filename: microsoft-edge
-      # - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/ubuntu/{{ ubuntu_lsb_release.DISTRIB_RELEASE }}/prod {{ ubuntu_lsb_release.DISTRIB_CODENAME }} main"
-      #   filename: microsoft-dotnet
-
-# - name: Configure preferences for official repositories
-#   ansible.builtin.shell:
-#     cmd: cat /etc/apt/sources.list.d/official-package-repositories.list | grep "deb " | cut -d" " -f2 | sort | uniq
-#   register: official_repos
-
-# - name: Configure apt to install dotnet only from Microsoft repos
-#   notify: Update apt cache
-#   ansible.builtin.blockinfile:
-#     path: /etc/apt/preferences.d/microsoft-dotnet.pref
-#     create: true
-#     owner: root
-#     group: root
-#     mode: 0664
-#     marker: "# {mark} Official repos"
-#     block: |
-#       Package: dotnet* aspnet* netstandard*
-#       Pin: origin "https://packages.microsoft.com/ubuntu/{{ ubuntu_lsb_release.DISTRIB_RELEASE }}/prod"
-#       Pin-Priority: 32000
-
-# - name: Configure apt to install dotnet only from Microsoft repos
-#   notify: Update apt cache
-#   ansible.builtin.blockinfile:
-#     path: /etc/apt/preferences.d/microsoft-dotnet.pref
-#     create: true
-#     owner: root
-#     group: root
-#     mode: 0664
-#     marker: "# {mark} {{ item }}"
-#     block: |
-#       Package: dotnet* aspnet* netstandard*
-#       Pin: origin "{{ item }}"
-#       Pin-Priority: -10
-#   loop: "{{ official_repos.stdout_lines }}"
-
 
 - name: Add Google Chrome repository
   tags: [ utils ]
@@ -169,5 +132,17 @@
       - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc] https://download.docker.com/linux/ubuntu {{ ubuntu_lsb_release.DISTRIB_CODENAME }} stable"
         filename: nodesource
 
+- name: Add Kopia repository
+  tags: [ backup ]
+  ansible.builtin.import_tasks:
+    file: ./reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://kopia.io/signing-key
+    apt_key_dest: /etc/apt/trusted.gpg.d/kopia.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/kopia.asc] http://packages.kopia.io/apt/ stable main"
+        filename: kopia
+
 - name: Force all notified handlers to run at this point, not waiting for normal sync points
   ansible.builtin.meta: flush_handlers
+  tags: [ always ]

@@ -4,5 +4,9 @@
       - zfs-auto-snapshot
     state: present
 
-# install rclone
-# configure rclone - requires secrets
+- name: Install Kopia
+  ansible.builtin.apt:
+    name:
+      - kopia
+      - kopia-ui
+    state: present

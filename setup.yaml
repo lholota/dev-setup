@@ -39,6 +39,7 @@
   - name: Add third party repositories
     ansible.builtin.include_tasks:
       file: ./tasks/repos.yaml
+    tags: [ always ]
 
   - name: Clean up pre-installed packages
     ansible.builtin.import_tasks:

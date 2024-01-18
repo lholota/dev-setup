@@ -6,8 +6,12 @@ The playbook will only install the required packages, given that the configurati
 
 
 
+
+
 ## Manual steps post running the runbook
 - set up google TOTP
+- set up U2f key registration
+- configure kopia
 
 
 

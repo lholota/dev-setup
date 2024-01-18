@@ -10,7 +10,7 @@
     name: 
       - vlc
       - spotify-client
-      - default-jre # JRE
+      - default-jre
       - softmaker-freeoffice-2021
       - notepadqq
       - krita

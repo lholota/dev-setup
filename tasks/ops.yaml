@@ -4,6 +4,7 @@
       - kubectl
       - helm
       - lens
+      - virt-manager
     state: present
 
 - name: Install SOPS
