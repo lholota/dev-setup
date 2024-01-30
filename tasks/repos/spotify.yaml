@@ -1,0 +1,10 @@
+- name: Add Spotify repository
+  tags: [ utils ]
+  ansible.builtin.import_tasks:
+    file: ../reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
+    apt_key_dest: /etc/apt/trusted.gpg.d/spotify.asc
+    apt_repos:
+      - repo: deb [signed-by=/etc/apt/trusted.gpg.d/spotify.asc] http://repository.spotify.com stable non-free
+        filename: spotify

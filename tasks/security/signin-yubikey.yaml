@@ -9,12 +9,18 @@
       path: /var/lib/mfa/{{ lookup('env', 'USER') }}/.u2f_keys
   register: u2f_keys
 
-- name: Notify user to set up u2f keys
-  ansible.builtin.wait_for module:
-    file: /var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
+- name: Notify user to configure u2f keys
+  when: not u2f_keys.stat.exists
+  ansible.builtin.debug:
     msg:
       - "Please do not forget to set save mapping of your u2f key to your profile with the following command:"
       - "pamu2fcfg > /var/lib/mfa/{{ lookup('env', 'USER') }}/.u2f_keys"
+
+- name: Wait until u2f keys configured
+  when: not u2f_keys.stat.exists
+  ansible.builtin.wait_for:
+    path: /var/lib/mfa/{{ lookup('env', 'USER') }}/.u2f_keys
+    msg: "U2F keys not configured, cannot continue"
 
 - name: Create script for locking the screen when YubiKey is removed
   ansible.builtin.copy:

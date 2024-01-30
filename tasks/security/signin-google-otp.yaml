@@ -3,9 +3,20 @@
     name: 
       - libpam-google-authenticator
 
-- name: Notify user to set up google authenticator
-  ansible.builtin.wait_for module:
-    file: /var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
+- name: Check if user has otp set up
+  ansible.builtin.stat:
+      path: /var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
+  register: google_authenticator
+
+- name: Notify user to configure google authenticator
+  when: not google_authenticator.stat.exists
+  ansible.builtin.debug:
     msg:
       - "Please do not forget to set up google authenticator for your user account using the command below:"
       - "google-authenticator --secret=/var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator"
+
+- name: Notify user to set up google authenticator
+  when: not google_authenticator.stat.exists
+  ansible.builtin.wait_for:
+    path: /var/lib/mfa/{{ lookup('env', 'USER') }}/.google-authenticator
+    msg: "Google authenticator not configured, cannot continue"

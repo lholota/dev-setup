@@ -3,4 +3,5 @@
     name: 
         - libreoffice*
         - timeshift
+        - nautilus
     state: absent

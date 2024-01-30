@@ -33,6 +33,10 @@
       - name: Vista
         icon: vivaldi_vp.png
 
+- name: Install nemo
+  ansible.builtin.include_tasks:
+    file: ./utils/nemo.yaml
+
 - name: Install etcher
   ansible.builtin.include_tasks:
     file: ./reusable/install-latest-gh-release-deb.yaml

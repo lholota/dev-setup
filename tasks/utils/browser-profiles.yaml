@@ -7,6 +7,14 @@
     state: directory
   loop: "{{ browser_profiles }}"
 
+- name: Create icons directory
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/icons"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0700
+    state: directory
+
 - name: Copy profile icons
   ansible.builtin.copy:
     src: "icons/{{ item.icon }}"

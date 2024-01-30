@@ -1,0 +1,18 @@
+- name: Add Microsoft repositories
+  tags: [ dev, utils ]
+  ansible.builtin.import_tasks:
+    file: ../reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://packages.microsoft.com/keys/microsoft.asc
+    apt_key_dest: /etc/apt/trusted.gpg.d/packages.microsoft.asc
+    apt_repos:
+      - repo: deb [arch=amd64,arm64,armhf signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/repos/code stable main
+        filename: microsoft-vscode
+      - repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/repos/edge stable main
+        filename: microsoft-edge
+
+- name: Delete the automatically created vscode.list file
+  tags: [ dev, utils ]
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/vscode.list
+    state: absent

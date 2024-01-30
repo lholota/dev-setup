@@ -1,8 +1,6 @@
-- name: Get latest version:
+- name: Get latest version
   ansible.builtin.include_tasks:
-    file: latest-gh-release.yaml
-  vars:
-    gh_release_package_file_pattern: "{{ gh_release_package_file_pattern }}"
+    file: ./latest-gh-release-files.yaml
 
 - name: Install package
   ansible.builtin.apt:

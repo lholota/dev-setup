@@ -18,7 +18,7 @@
 
 - name: Get OneDrive GUI download url
   ansible.builtin.include_tasks:
-    file: ./reusable/latest-gh-release-files.yaml
+    file: ../reusable/latest-gh-release-files.yaml
   vars:
     gh_release_repo_slug: bpozdena/OneDriveGUI
     gh_release_package_file_pattern: OneDriveGUI-\d+\.\d+\.\d+-x86_64.AppImage 

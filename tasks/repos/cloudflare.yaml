@@ -1,0 +1,10 @@
+- name: Add Cloudflare repository
+  tags: [ utils ]
+  ansible.builtin.import_tasks:
+    file: ../reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://pkg.cloudflareclient.com/pubkey.gpg
+    apt_key_dest: /etc/apt/trusted.gpg.d/cloudflare.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/cloudflare.asc] https://pkg.cloudflareclient.com/ {{ ubuntu_lsb_release.UBUNTU_CODENAME }} main"
+        filename: cloudflare

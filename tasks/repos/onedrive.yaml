@@ -1,0 +1,10 @@
+- name: Add OneDrive repo
+  tags: [ onedrive ]
+  ansible.builtin.import_tasks:
+    file: ../reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/Release.key
+    apt_key_dest: /etc/apt/trusted.gpg.d/onedrive.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/onedrive.asc] https://download.opensuse.org/repositories/home:/npreining:/debian-ubuntu-onedrive/xUbuntu_22.04/ ./"
+        filename: onedrive

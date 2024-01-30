@@ -1,0 +1,10 @@
+- name: Add SoftMaker repository
+  tags: [ utils ]
+  ansible.builtin.import_tasks:
+    file: ../reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://shop.softmaker.com/repo/linux-repo-public.key
+    apt_key_dest: /etc/apt/trusted.gpg.d/softmaker.asc
+    apt_repos:
+      - repo: deb [signed-by=/etc/apt/trusted.gpg.d/softmaker.asc] https://shop.softmaker.com/repo/apt stable non-free
+        filename: softmaker

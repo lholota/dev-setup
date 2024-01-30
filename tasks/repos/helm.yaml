@@ -1,0 +1,10 @@
+- name: Add Helm repository
+  tags: [ ops ]
+  ansible.builtin.import_tasks:
+    file: ../reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://baltocdn.com/helm/signing.asc
+    apt_key_dest: /etc/apt/trusted.gpg.d/helm.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/helm.asc] https://baltocdn.com/helm/stable/debian/ all main"
+        filename: helm

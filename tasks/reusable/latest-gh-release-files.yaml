@@ -2,7 +2,7 @@
   ansible.builtin.uri:
     url: "https://api.github.com/repos/{{ gh_release_repo_slug }}/releases/latest"
     return_content: yes
-  register: latest_version
+  register: latest_version    
 
 - name: Get matching files
   ansible.builtin.set_fact:

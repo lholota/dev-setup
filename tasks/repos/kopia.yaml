@@ -1,0 +1,10 @@
+- name: Add Kopia repository
+  tags: [ backup ]
+  ansible.builtin.import_tasks:
+    file: ../reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://kopia.io/signing-key
+    apt_key_dest: /etc/apt/trusted.gpg.d/kopia.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/kopia.asc] http://packages.kopia.io/apt/ stable main"
+        filename: kopia
