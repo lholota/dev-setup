@@ -11,6 +11,12 @@
       - repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/packages.microsoft.asc] https://packages.microsoft.com/repos/edge stable main
         filename: microsoft-edge
 
+- name: Delete the automatically created vscode.list file
+  tags: [ dev, utils ]
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/vscode.list
+    state: absent
+
 - name: Add Google Chrome repository
   tags: [ utils ]
   ansible.builtin.import_tasks:
@@ -63,7 +69,7 @@
     apt_key_url: https://pkg.cloudflareclient.com/pubkey.gpg
     apt_key_dest: /etc/apt/trusted.gpg.d/cloudflare.asc
     apt_repos:
-      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/cloudflare.asc] https://pkg.cloudflareclient.com/ {{ ubuntu_lsb_release.DISTRIB_CODENAME }} main"
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/cloudflare.asc] https://pkg.cloudflareclient.com/ {{ ubuntu_lsb_release.UBUNTU_CODENAME }} main"
         filename: cloudflare
 
 - name: Add Kubernetes repository
@@ -107,7 +113,7 @@
     apt_key_url: http://keyserver.ubuntu.com/pks/lookup?search=0x3653E21064B19D134466702E43D5C49532CBA1A9&fingerprint=on&exact=on&options=mr&op=get
     apt_key_dest: /etc/apt/trusted.gpg.d/yubico.asc
     apt_repos:
-      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/yubico.asc] http://ppa.launchpad.net/yubico/stable/ubuntu {{ ubuntu_lsb_release.DISTRIB_CODENAME }} main"
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/yubico.asc] http://ppa.launchpad.net/yubico/stable/ubuntu {{ ubuntu_lsb_release.UBUNTU_CODENAME }} main"
         filename: yubico
         
 - name: Add NodeSource repository
@@ -129,7 +135,7 @@
     apt_key_url: https://download.docker.com/linux/ubuntu/gpg
     apt_key_dest: /etc/apt/trusted.gpg.d/docker.asc
     apt_repos:
-      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc] https://download.docker.com/linux/ubuntu {{ ubuntu_lsb_release.DISTRIB_CODENAME }} stable"
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/docker.asc] https://download.docker.com/linux/ubuntu {{ ubuntu_lsb_release.UBUNTU_CODENAME }} stable"
         filename: nodesource
 
 - name: Add Kopia repository

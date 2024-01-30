@@ -1,6 +1,0 @@
----
-roles:
-- name: geerlingguy.security
-
-collections:
-- name: community.general

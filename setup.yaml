@@ -12,19 +12,20 @@
     ansible.builtin.service:
       name: sshd
       state: restarted
+
   tasks:
   - name: Gather the package facts
     ansible.builtin.package_facts:
       manager: auto
     tags: [ always ]
 
-  - name: Load lsb-release for upstream ubuntu
+  - name: Load os-release for upstream ubuntu
     slurp:
-      src: /etc/upstream-release/lsb-release
+      src: /etc/os-release
     register: ubuntu_lsb_release_file
     tags: [ always ]
 
-  - name: Parse lsb-release into facts
+  - name: Parse os-release into facts
     set_fact:
       ubuntu_lsb_release: "{{ ('{' + (ubuntu_lsb_release_file.content | b64decode).split('\n') | select | map('regex_replace', '([^=]*)=\"?([^\"]*)\"?', '\"\\1\": \"\\2\"') | join(',') + '}') | from_json }}"
     tags: [ always ]
