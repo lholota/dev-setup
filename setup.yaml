@@ -45,6 +45,7 @@
     tags: [ security ]
 
   - name: Install and configure crowdstrike falcon sensor
+    when: workstation_type == 'work'
     import_tasks: ./tasks/crowdstrike.yaml
     tags: [ crowdstrike ]
 
