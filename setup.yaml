@@ -29,6 +29,10 @@
     set_fact:
       ubuntu_lsb_release: "{{ ('{' + (ubuntu_lsb_release_file.content | b64decode).split('\n') | select | map('regex_replace', '([^=]*)=\"?([^\"]*)\"?', '\"\\1\": \"\\2\"') | join(',') + '}') | from_json }}"
     tags: [ always ]
+
+  - name: Create directories
+    import_tasks: ./tasks/directories.yaml
+    tags: [ always ]  
       
   - name: Add third party repositories
     ansible.builtin.include_tasks:
@@ -63,7 +67,7 @@
 
   - name: Install development tools
     import_tasks: ./tasks/dev.yaml
-    tags: [ dev, development ]
+    tags: [ dev ]
 
   - name: Install (dev)ops tools
     import_tasks: ./tasks/ops.yaml
@@ -72,3 +76,4 @@
   - name: Configure backups
     import_tasks: ./tasks/backup.yaml
     tags: [ backup ]
+

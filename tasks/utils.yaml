@@ -64,6 +64,12 @@
     deb: "https://zoom.us/client/5.17.1.1840/zoom_amd64.deb"
   when: "'zoom' not in ansible_facts.packages"
 
+  # bluemail installed directly because flathub version does not work with Google account with MFA correctly
+- name: Install bluemail
+  ansible.builtin.apt:
+    deb: "https://download.bluemail.me/BlueMail/deb/BlueMail.deb"
+  when: "'bluemail' not in ansible_facts.packages"
+
 - name: Install Duo Desktop
   ansible.builtin.apt:
     deb: "https://desktop.pkg.duosecurity.com/duo-desktop-latest.amd64.deb"

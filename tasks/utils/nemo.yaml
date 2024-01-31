@@ -4,10 +4,11 @@
       - nemo
     state: present
 
-# - name: Use nemo to draw desktop icons
-#   ansible.builtin.command:
-#     cmd: "gsettings set org.gnome.desktop.background show-desktop-icons false"
-
-# - name: Use nemo as default file manager
-#   ansible.builtin.command:
-#     cmd: "xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search"
+- name: Make nemo default file manager
+  become: false
+  ansible.builtin.command:
+    cmd: "{{ item }}"
+  loop:
+    - xdg-mime default nemo.desktop inode/directory application/x-gnome-saved-search
+    - gsettings set org.nemo.desktop show-desktop-icons true
+    - gsettings set org.gnome.desktop.background show-desktop-icons false

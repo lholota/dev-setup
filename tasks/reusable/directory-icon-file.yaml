@@ -1,0 +1,3 @@
+- become: false
+  ansible.builtin.command:
+    cmd: "gio set {{ dir.path }} \"metadata::custom-icon\" \"file://{{ dir.icon_file }}\""

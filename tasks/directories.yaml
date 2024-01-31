@@ -1,0 +1,46 @@
+- name: Create home subdirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0700
+    state: directory
+  loop:
+    - "{{ lookup('env', 'HOME') }}/Code"
+    - "{{ lookup('env', 'HOME') }}/Code/Github"
+    - "{{ lookup('env', 'HOME') }}/Code/Gitlab"
+    - "{{ lookup('env', 'HOME') }}/Code/PoC"
+    - "{{ lookup('env', 'HOME') }}/.local/share/icons"
+
+- name: Copy custom icons
+  ansible.builtin.copy:
+    src: "icons/{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.local/share/icons/{{ item }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0744
+  loop:
+    - gitlab.png
+    - github.png
+
+- name: Set named directory icons
+  ansible.builtin.include_tasks:
+    file: ./reusable/directory-icon-named.yaml
+  vars:
+    dir: "{{ item }}"
+  loop:
+    - path: "{{ lookup('env', 'HOME') }}/Code"
+      icon_name: folder-git
+    - path: "{{ lookup('env', 'HOME') }}/Code/PoC"
+      icon_name: builder
+
+- name: Set custom directory icons
+  ansible.builtin.include_tasks:
+    file: ./reusable/directory-icon-file.yaml
+  vars:
+    dir: "{{ item }}"
+  loop:
+    - path: "{{ lookup('env', 'HOME') }}/Code/Github"
+      icon_file: "{{ lookup('env', 'HOME') }}/.local/share/icons/github.png"
+    - path: "{{ lookup('env', 'HOME') }}/Code/Gitlab"
+      icon_file: "{{ lookup('env', 'HOME') }}/.local/share/icons/gitlab.png"
