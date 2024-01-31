@@ -5,7 +5,19 @@
       - helm
       - lens
       - virt-manager
+      - terraform
     state: present
+
+- name: Start libvirtd
+  ansible.builtin.service:
+    name: libvirtd
+    state: started
+
+- name: Add current user to libvirt group
+  ansible.builtin.user:
+    name: "{{ lookup('env', 'USER') }}"
+    append: true
+    groups: libvirt
 
 - name: Install SOPS
   ansible.builtin.include_tasks:

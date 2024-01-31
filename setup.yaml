@@ -32,8 +32,8 @@
 
   - name: Create directories
     import_tasks: ./tasks/directories.yaml
-    tags: [ always ]  
-      
+    tags: [ always ]
+
   - name: Add third party repositories
     ansible.builtin.include_tasks:
       file: ./tasks/repos.yaml

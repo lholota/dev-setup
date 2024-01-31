@@ -7,6 +7,7 @@
 - ansible.builtin.import_tasks: "./repos/kubernetes.yaml"
 - ansible.builtin.import_tasks: "./repos/helm.yaml"
 - ansible.builtin.import_tasks: "./repos/lens.yaml"
+- ansible.builtin.import_tasks: "./repos/hashicorp.yaml"
 - ansible.builtin.import_tasks: "./repos/yubico.yaml"
 - ansible.builtin.import_tasks: "./repos/docker.yaml"
 - ansible.builtin.import_tasks: "./repos/nodesource.yaml"

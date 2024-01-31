@@ -14,8 +14,8 @@
 
 # here are the per-package modules (the "Primary" block)
 auth    required                    pam_unix.so nullok
-auth    [success=3 default=ignore]	pam_u2f.so expand cue authfile=/var/lib/mfa/%u/.u2f_keys nouserok interactive=0 pinverification=0
-auth    [success=2 default=ignore]      pam_fprintd.so
+auth    [success=3 default=ignore]      pam_fprintd.so nullok
+auth    [success=2 default=ignore]	pam_u2f.so expand cue authfile=/home/%u/.u2f_keys nouserok interactive=0 pinverification=0
 auth    [success=1 default=ignore]      pam_google_authenticator.so secret=/var/lib/mfa/${USER}/.google-authenticator debug nullok
 # here's the fallback if no module succeeds
 auth	requisite			pam_deny.so

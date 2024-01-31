@@ -1,0 +1,10 @@
+- name: Add Hashicorp repository
+  tags: [ ops ]
+  ansible.builtin.import_tasks:
+    file: ../reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://apt.releases.hashicorp.com/gpg
+    apt_key_dest: /etc/apt/trusted.gpg.d/hashicorp.asc
+    apt_repos:
+      - repo: "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/hashicorp.asc] https://apt.releases.hashicorp.com {{ ubuntu_lsb_release.UBUNTU_CODENAME }} main"
+        filename: hashicorp

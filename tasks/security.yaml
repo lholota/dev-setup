@@ -7,22 +7,6 @@
       - yubikey-personalization-gui
       - yubioath-desktop
 
-- name: Create directory for mfa state
-  ansible.builtin.file:
-    path: /var/lib/mfa
-    owner: root
-    group: root
-    mode: 0751
-    state: directory
-
-- name: Create directory for current's user authenticator state
-  ansible.builtin.file:
-    path: "/var/lib/mfa/{{ lookup('env', 'USER') }}"
-    owner: "{{ lookup('env', 'USER') }}"
-    group: "{{ lookup('env', 'USER') }}"
-    mode: 0700
-    state: directory
-
 - name: Configure using YubiKey as SSH and GPG key
   ansible.builtin.include_tasks:
     file: ./security/yubikey-gpg.yaml
