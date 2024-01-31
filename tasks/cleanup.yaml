@@ -3,5 +3,10 @@
     name: 
         - libreoffice*
         - timeshift
-        - nautilus
+        - snapd
     state: absent
+
+- name: Disable snaps from installing back
+  ansible.builtin.dpkg_selections:
+    name: snapd
+    selection: hold

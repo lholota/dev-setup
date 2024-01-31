@@ -20,7 +20,7 @@
     state: present
 
 - name: Configure browser for multiple profiles
-  when: workstation_type == 'work'
+  when: workstation_type is defined and workstation_type == 'work'
   ansible.builtin.include_tasks:
     file: ./utils/browser-profiles.yaml
   vars:
