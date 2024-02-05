@@ -60,12 +60,11 @@
   when: "'slack-desktop' not in ansible_facts.packages"
 
 - name: Install Zoom
-  ansible.builtin.apt:
-    deb: "https://zoom.us/client/5.17.1.1840/zoom_amd64.deb"
-  when: "'zoom' not in ansible_facts.packages"
+  ansible.builtin.include_tasks:
+    file: ./utils/zoom.yaml
 
   # bluemail installed directly because flathub version does not work with Google account with MFA correctly
-- name: Install bluemail
+- name: Install BlueMail
   ansible.builtin.apt:
     deb: "https://download.bluemail.me/BlueMail/deb/BlueMail.deb"
   when: "'bluemail' not in ansible_facts.packages"

@@ -1,0 +1,11 @@
+- name: Add Microsoft repositories
+  tags: [ dev, utils ]
+  ansible.builtin.import_tasks:
+    file: ../reusable/add-repo.yaml
+  vars:
+    apt_key_url: https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
+    apt_key_dest: /etc/apt/trusted.gpg.d/vscodium.asc
+    apt_repos:
+      - repo: deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/vscodium.asc] https://download.vscodium.com/debs vscodium main
+        filename: vscodium
+

@@ -1,4 +1,5 @@
 - ansible.builtin.import_tasks: "./repos/microsoft.yaml"
+- ansible.builtin.import_tasks: "./repos/vscodium.yaml"
 - ansible.builtin.import_tasks: "./repos/google.yaml"
 - ansible.builtin.import_tasks: "./repos/vivaldi.yaml"
 - ansible.builtin.import_tasks: "./repos/spotify.yaml"
@@ -12,6 +13,10 @@
 - ansible.builtin.import_tasks: "./repos/docker.yaml"
 - ansible.builtin.import_tasks: "./repos/nodesource.yaml"
 - ansible.builtin.import_tasks: "./repos/kopia.yaml"
+
+- ansible.builtin.import_tasks:
+    file: "./repos/onedrive.yaml"
+  tags: [ utils ]
 
 - name: Force all notified handlers to run at this point, not waiting for normal sync points
   ansible.builtin.meta: flush_handlers

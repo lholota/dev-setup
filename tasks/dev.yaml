@@ -1,7 +1,7 @@
 - name: Install development tools
   ansible.builtin.apt:
     name:
-      - code
+      - codium
     state: present
 
 - name: Install .NET SDKs

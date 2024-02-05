@@ -16,9 +16,15 @@
     mode: 0744
   loop: "{{ browser_profiles }}"
 
+- name: Divert the original desktop file
+  community.general.dpkg_divert:
+    path: /usr/share/applications/{{ browser_default_desktop_file }}
+    divert: /usr/share/applications/{{ browser_default_desktop_file }}.distrib
+    rename: true
+
 - name: Create desktop files
   ansible.builtin.copy:
-    src: "/usr/share/applications/{{ browser_default_desktop_file }}"
+    src: "/usr/share/applications/{{ browser_default_desktop_file }}.distrib"
     dest: "{{ lookup('env', 'HOME') }}/.local/share/applications/{{ browser_name | lower }}-{{ item.name | lower }}.desktop"
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
@@ -66,3 +72,8 @@
     regex: "^StartupWMClass=(.*)"
     line: "StartupWMClass={{ browser_name | lower }}.{{ item.name | lower }}"
   loop: "{{ browser_profiles }}"
+
+- name: Install junction app selector
+  community.general.flatpak:
+    name: re.sonny.Junction
+    state: present

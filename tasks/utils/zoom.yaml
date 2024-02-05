@@ -1,0 +1,30 @@
+- name: Install Zoom
+  ansible.builtin.apt:
+    deb: "https://zoom.us/client/5.17.1.1840/zoom_amd64.deb"
+  when: "'zoom' not in ansible_facts.packages"
+
+- name: Create wrapper script to switch bluetooth headset to HFP/HSP profile automatically
+  ansible.builtin.copy:
+    dest: /opt/zoom/ZoomLauncher.wrapper
+    owner: root
+    group: root
+    mode: 0755
+    force: true
+    content: |
+      #!/bin/bash
+      ZOOM="/opt/zoom/ZoomLauncher.distrib"
+      ##### exec /usr/bin/env PULSE_PROP_media.role=phone "$BASH" -c 'exec -a "${0%.*}" "$0" "$@"' "$ZOOM" "$@"
+      export PULSE_PROP_media.role=phone
+      exec -a "${0%.*}" "$ZOOM" "$@"
+
+- name: Divert the executable from debian package
+  community.general.dpkg_divert:
+    path: /opt/zoom/ZoomLauncher
+    divert: /opt/zoom/ZoomLauncher.distrib
+    rename: true
+
+- name: Create symlink in place of the original binary
+  ansible.builtin.file:
+    src: /opt/zoom/ZoomLauncher.wrapper
+    dest: /opt/zoom/ZoomLauncher
+    state: link

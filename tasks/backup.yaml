@@ -1,3 +1,12 @@
+  # Workaround for grub bug https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/2041739
+  # which makes system unbootable
+- name: Exclude boot pools from auto snapshots
+  community.general.zfs:
+    name: bpool
+    state: present
+    extra_zfs_properties:
+      "com.sun:auto-snapshot": false
+
 - name: Install zfs-auto-snapshot
   ansible.builtin.apt:
     name:
