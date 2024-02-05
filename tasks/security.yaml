@@ -19,6 +19,13 @@
   ansible.builtin.include_tasks:
     file: ./security/signin-fingerprint.yaml
 
+- name: Configure password max age
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regex: "^PASS_MAX_DAYS.*"
+    line: "PASS_MAX_DAYS  {{ password_max_age_days }}"
+    create: false
+
 - name: Update pam.d to support new authentication factors
   ansible.builtin.copy:
     dest: /etc/pam.d/common-auth
