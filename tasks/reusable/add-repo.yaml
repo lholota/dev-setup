@@ -1,4 +1,7 @@
 - name: Add apt key
+  retries: 5
+  register: apt_key_get_url
+  until: (apt_key_get_url.status_code >= 200 and apt_key_get_url.status_code < 300) or apt_key_get_url.status_code == 304
   ansible.builtin.get_url:
     url: "{{ apt_key_url }}"
     dest: "{{ apt_key_dest }}"

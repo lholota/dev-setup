@@ -1,3 +1,4 @@
+#
 # /etc/pam.d/common-auth - authentication settings common to all services
 #
 # This file is included from other service-specific PAM config files,
@@ -13,16 +14,16 @@
 # pam-auth-update(8) for details.
 
 # here are the per-package modules (the "Primary" block)
-auth    required                    pam_unix.so nullok
-auth    [success=3 default=ignore]      pam_fprintd.so nullok
-auth    [success=2 default=ignore]	pam_u2f.so expand cue authfile=/home/%u/.u2f_keys nouserok interactive=0 pinverification=0
-auth    [success=1 default=ignore]      pam_google_authenticator.so secret=/var/lib/mfa/${USER}/.google-authenticator debug nullok
+auth    [success=4 default=ignore]      pam_fprintd.so nullok
+auth    [success=3 default=ignore]      pam_unix.so nullok
+auth    [success=2 default=ignore]      pam_u2f.so expand cue authfile=/home/%u/.u2f_keys nouserok interactive=0 pinverification=1
+auth    [success=1 default=ignore]      pam_sss.so use_first_pass
 # here's the fallback if no module succeeds
-auth	requisite			pam_deny.so
+auth    requisite                       pam_deny.so
 # prime the stack with a positive return value if there isn't one already;
 # this avoids us returning an error just because nothing sets a success code
 # since the modules above will each just jump around
-auth	required			pam_permit.so
+auth    required                        pam_permit.so
 # and here are more per-package modules (the "Additional" block)
-auth	optional			pam_cap.so 
+auth    optional                        pam_cap.so
 # end of pam-auth-update config

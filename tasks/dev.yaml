@@ -1,3 +1,10 @@
+- name: Configure git
+  ansible.builtin.include_tasks:
+    file: ./dev/git-profile.yaml
+  loop: "{{ git_profiles }}"
+  loop_control:
+    loop_var: "git_profile"
+
 - name: Install development tools
   ansible.builtin.apt:
     name:

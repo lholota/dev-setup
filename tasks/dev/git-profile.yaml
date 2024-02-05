@@ -1,0 +1,23 @@
+- name: Create profile gitconfig file
+  ansible.builtin.copy:
+    dest: "{{ lookup('env', 'HOME') }}/.gitconfig-{{ git_profile.name }}"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    mode: 0664
+    force: true
+    content: |
+      [user]
+      name = {{ git_profile.user_name }}
+      email = {{ git_profile.user_email }}
+
+- name: Include profile in the root .gitconfig
+  ansible.builtin.blockinfile:
+    dest: "{{ lookup('env', 'HOME') }}/.gitconfig"
+    owner: "{{ lookup('env', 'USER') }}"
+    group: "{{ lookup('env', 'USER') }}"
+    marker: "# {mark} Ansible managed profile ({{ git_profile.name }})"
+    mode: 0664
+    create: true
+    block: |
+      [includeIf "gitdir:{{ git_profile.path }}"]
+      path = .gitconfig-{{ git_profile.name }}

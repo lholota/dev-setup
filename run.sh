@@ -31,7 +31,7 @@ case $1 in
         ansible-playbook -i inventory.yaml setup.yaml --extra-vars "workstation_type=work" --vault-password-file vault.key ${@:2}
       ;;
     edit-vars)
-        ansible-vault edit ./host_vars/localhost.yaml
+        ansible-vault edit ./host_vars/localhost.yaml --vault-password-file vault.key ${@:2}
       ;;
     help)
       writeCommands

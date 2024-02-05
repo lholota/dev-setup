@@ -19,21 +19,6 @@
       - cloudflare-warp
     state: present
 
-- name: Configure browser for multiple profiles
-  when: workstation_type is defined and workstation_type == 'work'
-  ansible.builtin.include_tasks:
-    file: ./utils/browser-profiles.yaml
-  vars:
-    browser_name: Vivaldi
-    browser_default_desktop_file: vivaldi-stable.desktop
-    browser_profiles:
-      - name: Private
-        icon: vivaldi_private.png
-      - name: Cimpress
-        icon: vivaldi_ct.png
-      - name: Vista
-        icon: vivaldi_vp.png
-
 - name: Install nemo
   ansible.builtin.include_tasks:
     file: ./utils/nemo.yaml
