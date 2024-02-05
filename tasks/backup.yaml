@@ -5,7 +5,7 @@
     name: bpool
     state: present
     extra_zfs_properties:
-      "com.sun:auto-snapshot": false
+      "com.sun:auto-snapshot": "false"
 
 - name: Install zfs-auto-snapshot
   ansible.builtin.apt:

@@ -11,23 +11,23 @@
   ansible.builtin.include_tasks:
     file: ./security/yubikey-gpg.yaml
 
-- name: Configure sign in with Google OTP
-  ansible.builtin.include_tasks:
-    file: ./security/signin-google-otp.yaml
+#- name: Configure sign in with Google OTP
+#  ansible.builtin.include_tasks:
+#    file: ./security/signin-google-otp.yaml
 
-- name: Configure sign in with Yubikey
-  ansible.builtin.include_tasks:
-    file: ./security/signin-yubikey.yaml
+#- name: Configure sign in with Yubikey
+#  ansible.builtin.include_tasks:
+#    file: ./security/signin-yubikey.yaml
 
-- name: Configure sign in with fingerprints
-  ansible.builtin.include_tasks:
-    file: ./security/signin-fingerprint.yaml
+#- name: Configure sign in with fingerprints
+#  ansible.builtin.include_tasks:
+#    file: ./security/signin-fingerprint.yaml
 
-- name: Update pam.d to support new authentication factors
-  ansible.builtin.copy:
-    dest: /etc/pam.d/common-auth
-    force: true
-    owner: root
-    group: root
-    mode: 0644
-    content: "{{ lookup('ansible.builtin.file', 'pamd-common-authentication') }}"
+#- name: Update pam.d to support new authentication factors
+#  ansible.builtin.copy:
+#    dest: /etc/pam.d/common-auth
+#    force: true
+#    owner: root
+#    group: root
+#    mode: 0644
+#    content: "{{ lookup('ansible.builtin.file', 'pamd-common-authentication') }}"
