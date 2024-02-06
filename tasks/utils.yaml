@@ -48,11 +48,9 @@
   ansible.builtin.include_tasks:
     file: ./utils/zoom.yaml
 
-  # bluemail installed directly because flathub version does not work with Google account with MFA correctly
-- name: Install BlueMail
-  ansible.builtin.apt:
-    deb: "https://download.bluemail.me/BlueMail/deb/BlueMail.deb"
-  when: "'bluemail' not in ansible_facts.packages"
+- name: Install Bluemail
+  ansible.builtin.include_tasks:
+    file: ./utils/bluemail.yaml
 
 - name: Install Duo Desktop
   ansible.builtin.apt:

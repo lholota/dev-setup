@@ -22,18 +22,3 @@
     path: "{{ lookup('env', 'HOME') }}/.u2f_keys"
     msg: "U2F keys not configured, cannot continue"
 
-- name: Create script for locking the screen when YubiKey is removed
-  ansible.builtin.copy:
-    dest: "/usr/local/bin/yubikey-removed-script"
-    content: "{{ lookup('ansible.builtin.file', 'yubikey-removed-script') }}"
-    owner: root
-    group: root
-    mode: 0775
-
-- name: Create udev rule for locking the screen when YubiKey is removed
-  ansible.builtin.copy:
-    dest: "/etc/udev/rules.d/yubikey-screenlock.rules"
-    content: "{{ lookup('ansible.builtin.file', 'yubikey-screenlock.rules') }}"
-    owner: root
-    group: root
-    mode: 0664

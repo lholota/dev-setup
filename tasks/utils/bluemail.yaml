@@ -1,0 +1,13 @@
+  # bluemail installed directly because flathub version does not work with Google account with MFA correctly
+- name: Install BlueMail
+  ansible.builtin.apt:
+    deb: "https://download.bluemail.me/BlueMail/deb/BlueMail.deb"
+  when: "'bluemail' not in ansible_facts.packages"
+
+- name: Add flags to desktop file
+  ansible.builtin.lineinfile:
+    path: /usr/share/applications/bluemail.desktop
+    create: false
+    backrefs: true
+    regex: "^Exec=(.*)"
+    line: "Exec=\\1 --disable-gpu-sandbox"

@@ -1,5 +1,4 @@
 - ansible.builtin.import_tasks: "./repos/microsoft.yaml"
-- ansible.builtin.import_tasks: "./repos/vscodium.yaml"
 - ansible.builtin.import_tasks: "./repos/google.yaml"
 - ansible.builtin.import_tasks: "./repos/vivaldi.yaml"
 - ansible.builtin.import_tasks: "./repos/spotify.yaml"

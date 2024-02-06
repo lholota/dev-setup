@@ -14,9 +14,9 @@
 # pam-auth-update(8) for details.
 
 # here are the per-package modules (the "Primary" block)
-auth    [success=4 default=ignore]      pam_fprintd.so nullok
-auth    [success=3 default=ignore]      pam_unix.so nullok
+auth    [success=4 default=ignore]      pam_fprintd.so nullok max-tries=1 timeout=3 # debug
 auth    [success=2 default=ignore]      pam_u2f.so expand cue authfile=/home/%u/.u2f_keys nouserok interactive=0 pinverification=1
+auth    [success=3 default=ignore]      pam_unix.so nullok
 auth    [success=1 default=ignore]      pam_sss.so use_first_pass
 # here's the fallback if no module succeeds
 auth    requisite                       pam_deny.so
