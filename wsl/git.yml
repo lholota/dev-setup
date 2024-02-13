@@ -1,14 +1,39 @@
 - name: Ensure gpg section
   become: no
-  lineinfile:
+  blockinfile:
     create: yes
+    marker: "# GPG"
     path: "/home/{{ lookup('env', 'USER') }}/.gitconfig"
-    line: "[gpg]"
+    block: |
+      [gpg]
+      program = gpg
 
-- name: Set path to gpg
+- name: Set default name and e-mail
   become: no
-  lineinfile:
+  blockinfile:
     path: "/home/{{ lookup('env', 'USER') }}/.gitconfig"
-    insertafter: "\\[gpg\\]"
-    regex: "^program"
-    line: "program = gpg"
+    marker: "# Profile - Default"
+    block: |
+      [user]
+        email = {{ git_default_profile.user_email }}
+        name = {{ git_default_profile.user_name }}
+
+- name: Create conditional profiles configs
+  become: no
+  copy:
+    dest: "/home/{{ lookup('env', 'USER') }}/.gitconfig-{{ item.name }}"
+    content: |
+      [user]
+        email = {{ item.user_email }}
+        name = {{ item.user_name }}
+  loop: "{{ git_profiles }}"
+
+- name: Import conditional profiles configs
+  become: no
+  blockinfile:
+    path: "/home/{{ lookup('env', 'USER') }}/.gitconfig"
+    marker: "# Profile {{ item.name }}"
+    block: |
+      [includeIf "gitdir:{{ item.path }}"]
+        path = /home/{{ lookup('env', 'USER') }}/.gitconfig-{{ item.name }}
+  loop: "{{ git_profiles }}"

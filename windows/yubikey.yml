@@ -28,6 +28,14 @@
     line: 'enable-ssh-support'
     newline: windows
 
+- name: Configure scdaemon
+  win_lineinfile:
+    path: '%APPDATA%\gnupg\scdaemon.conf'
+    create: yes
+    regex: '(^reader-port)'
+    line: 'reader-port Yubico YubiKey OTP+FIDO+CCID 0'
+    newline: windows
+
 - name: Configure gpg-agent to start on Windows startup
   register: gpg_agent
   win_shortcut:

@@ -1,0 +1,7 @@
+- name: "Set EDITOR variable"
+  become: no
+  lineinfile:
+    path: "~/.bashrc"
+    create: false
+    line: "export EDITOR='code --wait'"
+    

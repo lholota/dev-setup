@@ -73,6 +73,11 @@
     tags:
     - git
 
+  - name: Configure bash
+    import_tasks: ./wsl/bash.yml
+    tags:
+    - bash
+
   - name: Install Ansible tools
     import_tasks: ./wsl/ansible.yml
     tags:
